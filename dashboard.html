@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダッシュボード - Love Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            touch-action: manipulation;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+        }
+        .card {
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        @media (max-width: 768px) {
+            .grid {
+                gap: 1rem;
+            }
+            .card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- ナビゲーションバー -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-pink-500">Love Match</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="messages.html" class="text-gray-600 hover:text-pink-500">メッセージ</a>
+                    <a href="matching.html" class="text-gray-600 hover:text-pink-500">マッチング</a>
+                    <a href="profile-edit.html" class="text-gray-600 hover:text-pink-500">プロフィール</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
+        <!-- プロフィールサマリー -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" alt="プロフィール" class="w-32 h-32 rounded-full object-cover">
+                <div class="flex-1">
+                    <h1 class="text-2xl font-bold mb-2">ようこそ、ゆきさん</h1>
+                    <p class="text-gray-600 mb-4">プロフィールの完成度: 85%</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">写真追加済み</span>
+                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">自己紹介完了</span>
+                        <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">興味・趣味を追加しよう</span>
+                    </div>
+                </div>
+                <a href="profile-edit.html" class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition duration-300">
+                    プロフィールを編集
+                </a>
+            </div>
+        </div>
+
+        <!-- アクティビティグリッド -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- 新しいマッチング -->
+            <div class="bg-white rounded-lg shadow-lg p-6 card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold">新しいマッチング</h2>
+                    <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">3人</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80" alt="さくら" class="w-12 h-12 rounded-full object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-bold">さくら</h3>
+                            <p class="text-sm text-gray-600">趣味：カフェ巡り、読書</p>
+                        </div>
+                        <a href="messages.html" class="text-pink-500 hover:text-pink-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80" alt="みき" class="w-12 h-12 rounded-full object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-bold">みき</h3>
+                            <p class="text-sm text-gray-600">趣味：映画鑑賞、アート</p>
+                        </div>
+                        <a href="messages.html" class="text-pink-500 hover:text-pink-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80" alt="はるか" class="w-12 h-12 rounded-full object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-bold">はるか</h3>
+                            <p class="text-sm text-gray-600">趣味：旅行、スポーツ</p>
+                        </div>
+                        <a href="messages.html" class="text-pink-500 hover:text-pink-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 今日のイベント -->
+            <div class="bg-white rounded-lg shadow-lg p-6 card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold">今日のイベント</h2>
+                    <a href="create-event.html" class="text-pink-500 hover:text-pink-600">イベントを作成</a>
+                </div>
+                <div class="space-y-4">
+                    <div class="border rounded-lg p-4">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80" alt="カフェ会" class="w-full h-32 object-cover rounded-lg mb-4">
+                        <h3 class="font-bold mb-2">渋谷でカフェ会</h3>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>19:00〜</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>渋谷</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- おすすめのユーザー -->
+            <div class="bg-white rounded-lg shadow-lg p-6 card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold">おすすめのユーザー</h2>
+                    <a href="matching.html" class="text-pink-500 hover:text-pink-600">もっと見る</a>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80" alt="なな" class="w-16 h-16 rounded-full object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-bold">なな</h3>
+                            <p class="text-sm text-gray-600">趣味が似ています</p>
+                            <div class="flex space-x-2 mt-2">
+                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">カフェ巡り</span>
+                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">音楽</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80" alt="れい" class="w-16 h-16 rounded-full object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-bold">れい</h3>
+                            <p class="text-sm text-gray-600">近くにいます</p>
+                            <div class="flex space-x-2 mt-2">
+                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">映画</span>
+                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">旅行</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最近のアクティビティ -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-lg font-bold mb-4">最近のアクティビティ</h2>
+            <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                    <div class="flex-1">
+                        <p class="text-gray-600">さくらさんがあなたにいいねを送りました</p>
+                        <p class="text-sm text-gray-500">2時間前</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                    <div class="flex-1">
+                        <p class="text-gray-600">みきさんとマッチングしました</p>
+                        <p class="text-sm text-gray-500">4時間前</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                    <div class="flex-1">
+                        <p class="text-gray-600">カフェ会のイベントに3人が参加しました</p>
+                        <p class="text-sm text-gray-500">6時間前</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

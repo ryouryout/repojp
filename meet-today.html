@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日会える - Love Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+        }
+        .user-card {
+            transition: transform 0.3s ease;
+        }
+        .user-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- ナビゲーションバー（共通） -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="dashboard.html" class="text-2xl font-bold text-pink-500">Love Match</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-pink-500">ダッシュボード</a>
+                    <a href="messages.html" class="text-gray-600 hover:text-pink-500">メッセージ</a>
+                    <a href="matching.html" class="text-gray-600 hover:text-pink-500">マッチング</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
+        <h1 class="text-2xl font-bold mb-6">今日会える人</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- ユーザーカード1 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80" alt="カフェで読書する女性" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <h3 class="font-bold">まりこ</h3>
+                        <span class="text-sm text-gray-600">28歳</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">渋谷・原宿エリア</p>
+                    <p class="text-sm mb-4">今日の夜、カフェでお茶しませんか？</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-pink-500">19:00〜可能</span>
+                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600">
+                            メッセージを送る
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ユーザーカード2 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80" alt="レストランでくつろぐ女性" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <h3 class="font-bold">あやか</h3>
+                        <span class="text-sm text-gray-600">25歳</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">新宿エリア</p>
+                    <p class="text-sm mb-4">ディナーご一緒しませんか？</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-pink-500">20:00〜可能</span>
+                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600">
+                            メッセージを送る
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ユーザーカード3 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80" alt="公園でリラックスする女性" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <h3 class="font-bold">ゆきこ</h3>
+                        <span class="text-sm text-gray-600">24歳</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">池袋エリア</p>
+                    <p class="text-sm mb-4">休日に公園でピクニックはいかがですか？</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-pink-500">14:00〜可能</span>
+                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600">
+                            メッセージを送る
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- フィルター -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="distance">
+                        検索範囲
+                    </label>
+                    <select id="distance" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                        <option value="1">1km以内</option>
+                        <option value="3">3km以内</option>
+                        <option value="5" selected>5km以内</option>
+                        <option value="10">10km以内</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="time">
+                        希望時間
+                    </label>
+                    <select id="time" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                        <option value="now">今すぐ</option>
+                        <option value="1">1時間以内</option>
+                        <option value="3">3時間以内</option>
+                        <option value="today">今日中</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="activity">
+                        アクティビティ
+                    </label>
+                    <select id="activity" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                        <option value="cafe">カフェ</option>
+                        <option value="meal">食事</option>
+                        <option value="walk">散歩</option>
+                        <option value="any" selected>なんでも</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 位置情報の注意事項 -->
+        <div class="mt-8 bg-blue-50 rounded-lg p-4">
+            <h3 class="font-bold text-blue-800 mb-2">位置情報について</h3>
+            <ul class="list-disc list-inside text-sm text-blue-700 space-y-1">
+                <li>位置情報は自動的に更新されます</li>
+                <li>表示される距離は概算です</li>
+                <li>プライバシー保護のため、正確な位置は表示されません</li>
+            </ul>
+        </div>
+
+        <!-- 安全に関する注意事項 -->
+        <div class="mt-4 bg-yellow-50 rounded-lg p-4">
+            <h3 class="font-bold text-yellow-800 mb-2">安全にご利用いただくために</h3>
+            <ul class="list-disc list-inside text-sm text-yellow-700 space-y-1">
+                <li>初対面の方との待ち合わせは、必ず人通りの多い公共の場所を選びましょう</li>
+                <li>個人情報の交換は慎重に行いましょう</li>
+                <li>不審に感じた場合は、すぐにサポートまでご連絡ください</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html> 

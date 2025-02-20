@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント作成 - Love Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- ナビゲーションバー（共通） -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="dashboard.html" class="text-2xl font-bold text-pink-500">Love Match</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-pink-500">ダッシュボード</a>
+                    <a href="messages.html" class="text-gray-600 hover:text-pink-500">メッセージ</a>
+                    <a href="matching.html" class="text-gray-600 hover:text-pink-500">マッチング</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- イベント作成フォーム -->
+            <div class="md:col-span-2">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h1 class="text-2xl font-bold mb-6">イベントを作成</h1>
+                    <form>
+                        <div class="space-y-6">
+                            <!-- イベント画像アップロード -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">イベント画像</label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+                                    <div class="space-y-1 text-center">
+                                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80" alt="イベントの例" class="mx-auto h-48 w-full object-cover rounded-lg mb-4">
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-pink-600 hover:text-pink-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-pink-500">
+                                                <span>画像をアップロード</span>
+                                                <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                            </label>
+                                            <p class="pl-1">またはドラッグ＆ドロップ</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- イベント情報入力 -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="title">
+                                        イベントタイトル
+                                    </label>
+                                    <input type="text" id="title" name="title" required
+                                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                                        placeholder="例：渋谷でカフェ巡り">
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="description">
+                                        イベント詳細
+                                    </label>
+                                    <textarea id="description" name="description" rows="4" required
+                                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                                        placeholder="イベントの詳細を記入してください"></textarea>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2" for="date">
+                                            開催日
+                                        </label>
+                                        <input type="date" id="date" name="date" required
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2" for="time">
+                                            開催時間
+                                        </label>
+                                        <input type="time" id="time" name="time" required
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="location">
+                                        開催場所
+                                    </label>
+                                    <input type="text" id="location" name="location" required
+                                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                                        placeholder="例：渋谷駅前ハチ公口">
+                                </div>
+                            </div>
+
+                            <!-- イベント設定 -->
+                            <div class="space-y-4">
+                                <h2 class="text-xl font-bold text-gray-800">イベント設定</h2>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2" for="capacity">
+                                            参加人数上限
+                                        </label>
+                                        <select id="capacity" name="capacity" required
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                                            <option value="2">2人</option>
+                                            <option value="4">4人</option>
+                                            <option value="6">6人</option>
+                                            <option value="8">8人</option>
+                                            <option value="10">10人</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2" for="age_range">
+                                            年齢制限
+                                        </label>
+                                        <select id="age_range" name="age_range" required
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                                            <option value="none">制限なし</option>
+                                            <option value="20s">20代のみ</option>
+                                            <option value="30s">30代のみ</option>
+                                            <option value="20s-30s">20代〜30代</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2">
+                                        参加条件
+                                    </label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center space-x-2">
+                                            <input type="checkbox" name="conditions[]" value="profile_photo" class="text-pink-500">
+                                            <span>プロフィール写真必須</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2">
+                                            <input type="checkbox" name="conditions[]" value="self_introduction" class="text-pink-500">
+                                            <span>自己紹介文必須</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2">
+                                            <input type="checkbox" name="conditions[]" value="identity_verified" class="text-pink-500">
+                                            <span>本人確認済みのみ</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 注意事項 -->
+                            <div class="bg-pink-50 rounded-lg p-4">
+                                <h3 class="font-bold text-pink-800 mb-2">注意事項</h3>
+                                <ul class="list-disc list-inside text-sm text-pink-700 space-y-1">
+                                    <li>イベントは開催日の24時間前までキャンセル可能です</li>
+                                    <li>参加者が集まらない場合、自動的にキャンセルとなります</li>
+                                    <li>不適切な内容のイベントは予告なく削除される場合があります</li>
+                                </ul>
+                            </div>
+
+                            <!-- 送信ボタン -->
+                            <div class="flex justify-end space-x-4">
+                                <button type="button" class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-100 transition duration-300">
+                                    キャンセル
+                                </button>
+                                <button type="submit" class="px-6 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition duration-300">
+                                    イベントを作成
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- イベントプレビュー -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-bold mb-4">イベントプレビュー</h2>
+                    <div class="space-y-4">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80" alt="イベントプレビュー" class="w-full h-48 object-cover rounded-lg">
+                        <h3 class="font-bold text-lg">カフェでお茶会</h3>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>2024年4月1日 14:00</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>渋谷カフェ</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span>参加者：0/4人</span>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            おしゃれなカフェでお茶会を開催します。趣味や興味について話しましょう。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- おすすめイベント -->
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-6">おすすめのイベント</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- イベントカード1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="カフェミーティング" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">朝活カフェ会</h3>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+                            <span>4月2日 8:00</span>
+                            <span>・</span>
+                            <span>新宿</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">朝からモーニングを楽しみながら交流しましょう。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">参加者：3/6人</span>
+                            <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600">
+                                参加する
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- イベントカード2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=800&q=80" alt="ピクニック" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">休日ピクニック</h3>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+                            <span>4月3日 12:00</span>
+                            <span>・</span>
+                            <span>代々木公園</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">お弁当を持ち寄って、公園でピクニックを楽しみましょう。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">参加者：5/8人</span>
+                            <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600">
+                                参加する
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- イベントカード3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="ディナー" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">グルメディナー</h3>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+                            <span>4月4日 19:00</span>
+                            <span>・</span>
+                            <span>銀座</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">おしゃれなレストランで素敵なディナーを楽しみましょう。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">参加者：2/4人</span>
+                            <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600">
+                                参加する
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

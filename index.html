@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Match - あなたの運命の出会いがここに</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            touch-action: manipulation;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+        }
+        .hero-pattern {
+            background-image: url('https://source.unsplash.com/1920x1080/?love,couple');
+            background-size: cover;
+            background-position: center;
+        }
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            -webkit-overflow-scrolling: touch;
+        }
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            menu.classList.toggle('active');
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+    </script>
+</head>
+<body class="bg-pink-50">
+    <!-- ナビゲーションバー -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold text-pink-500">Love Match</a>
+                </div>
+                <!-- PC用メニュー -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#features" class="text-gray-600 hover:text-pink-500">特徴</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-pink-500">料金</a>
+                    <a href="#about" class="text-gray-600 hover:text-pink-500">会社概要</a>
+                    <a href="login.html" class="text-gray-600 hover:text-pink-500">ログイン</a>
+                    <a href="register.html" class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition duration-300">
+                        会員登録
+                    </a>
+                </div>
+                <!-- モバイル用メニューボタン -->
+                <div class="md:hidden flex items-center">
+                    <button class="menu-button text-gray-500 hover:text-pink-500 focus:outline-none" onclick="toggleMenu()">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- モバイル用メニュー -->
+        <div class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 md:hidden">
+            <div class="flex justify-end p-4">
+                <button onclick="toggleMenu()" class="text-gray-500 hover:text-pink-500 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex flex-col px-4 py-2 space-y-2">
+                <a href="#features" class="text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">特徴</a>
+                <a href="#pricing" class="text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">料金</a>
+                <a href="#about" class="text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">会社概要</a>
+                <div class="border-t pt-2">
+                    <a href="login.html" class="block text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">ログイン</a>
+                    <a href="register.html" class="block bg-pink-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-600 mt-2">会員登録</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <div class="hero-pattern min-h-screen flex items-center justify-center pt-16">
+        <div class="bg-white/80 backdrop-blur-md p-8 rounded-xl max-w-3xl mx-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-pink-500 mb-6">
+                運命の出会いがここにある
+            </h1>
+            <p class="text-xl text-gray-700 mb-8">
+                Love Matchは、あなたにぴったりの素敵な出会いをお届けします。<br>
+                AI マッチングで理想のパートナーを見つけましょう。
+            </p>
+            <button onclick="window.location.href='register.html'" class="bg-pink-500 text-white text-xl px-8 py-4 rounded-full hover:bg-pink-600 transition duration-300 shadow-lg">
+                無料で始める
+            </button>
+        </div>
+    </div>
+
+    <!-- 特徴セクション -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">Love Match の特徴</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center">
+                    <div class="bg-pink-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">AIマッチング</h3>
+                    <p class="text-gray-600">最新のAI技術で、あなたにぴったりの相手をご紹介</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-pink-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">安心・安全</h3>
+                    <p class="text-gray-600">24時間365日の監視体制で安全な出会いを提供</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-pink-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">充実したサポート</h3>
+                    <p class="text-gray-600">専門のカウンセラーが24時間対応でサポート</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 料金プランセクション -->
+    <section id="pricing" class="py-20 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">料金プラン</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-pink-500 mb-4">女性会員</h3>
+                        <div class="text-5xl font-bold text-gray-800 mb-6">¥0<span class="text-xl">/月</span></div>
+                        <ul class="text-left space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                すべての機能が無料で利用可能
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                プロフィール作成
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                メッセージの送受信無制限
+                            </li>
+                        </ul>
+                        <button onclick="window.location.href='register.html?gender=female'" 
+                            class="w-full bg-pink-500 text-white py-3 rounded-full hover:bg-pink-600 transition duration-300">
+                            女性会員として登録
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-blue-500 mb-4">男性会員</h3>
+                        <div class="text-5xl font-bold text-gray-800 mb-6">¥1,000<span class="text-xl">/月</span></div>
+                        <ul class="text-left space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                すべての機能が利用可能
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                AIマッチング優先検索
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                メッセージの送受信無制限
+                            </li>
+                        </ul>
+                        <button onclick="window.location.href='register.html?gender=male'" 
+                            class="w-full bg-blue-500 text-white py-3 rounded-full hover:bg-blue-600 transition duration-300">
+                            男性会員として登録
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 会社概要セクション -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">会社概要</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-6">
+                    <div class="border-b pb-4">
+                        <h3 class="text-lg font-bold text-gray-800">会社名</h3>
+                        <p class="text-gray-600">Love Match株式会社</p>
+                    </div>
+                    <div class="border-b pb-4">
+                        <h3 class="text-lg font-bold text-gray-800">所在地</h3>
+                        <p class="text-gray-600">〒100-0001 東京都千代田区千代田1-1-1</p>
+                    </div>
+                    <div class="border-b pb-4">
+                        <h3 class="text-lg font-bold text-gray-800">設立</h3>
+                        <p class="text-gray-600">2024年4月1日</p>
+                    </div>
+                    <div class="border-b pb-4">
+                        <h3 class="text-lg font-bold text-gray-800">事業内容</h3>
+                        <p class="text-gray-600">マッチングアプリの運営・開発</p>
+                    </div>
+                    <div class="border-b pb-4">
+                        <h3 class="text-lg font-bold text-gray-800">お問い合わせ</h3>
+                        <p class="text-gray-600">support@lovematch.example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Love Match</h4>
+                    <p class="text-gray-400">あなたの運命の出会いをサポート</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">リンク</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white">特徴</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white">料金</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white">会社概要</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">サポート</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">ヘルプセンター</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">お問い合わせ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">プライバシーポリシー</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">フォローする</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm3 8h-1.35c-.538 0-.65.221-.65.778V10h2l-.209 2H13v7h-3v-7H8v-2h2V7.692C10 5.923 10.931 5 13.029 5H15v3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.897 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.897-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2024 Love Match. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

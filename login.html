@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - Love Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+        }
+    </style>
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            // デモ版：どんな入力でもログイン可能
+            window.location.href = 'dashboard.html';
+            return false;
+        }
+    </script>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="max-w-md mx-auto px-4 py-16">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center mb-8">
+                <a href="index.html" class="text-2xl font-bold text-pink-500">Love Match</a>
+                <h1 class="text-3xl font-bold text-gray-800 mt-4">ログイン</h1>
+                <p class="text-gray-600 mt-2">アカウントにログイン</p>
+            </div>
+
+            <form onsubmit="return handleLogin(event)" class="space-y-6">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="email">
+                        メールアドレス
+                    </label>
+                    <input type="email" id="email" name="email"
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                        placeholder="example@email.com">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="password">
+                        パスワード
+                    </label>
+                    <input type="password" id="password" name="password"
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                        placeholder="パスワードを入力">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="text-pink-500">
+                        <span class="ml-2 text-gray-700">ログイン状態を保持</span>
+                    </label>
+                    <a href="#" class="text-pink-500 hover:underline">
+                        パスワードをお忘れの方
+                    </a>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-pink-500 text-white py-3 rounded-full hover:bg-pink-600 transition duration-300 font-bold">
+                    ログイン
+                </button>
+
+                <div class="text-center text-gray-600">
+                    アカウントをお持ちでない方は
+                    <a href="register.html" class="text-pink-500 hover:underline">無料会員登録</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員登録 - Love Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+        }
+    </style>
+    <script>
+        function handleRegister(event) {
+            event.preventDefault();
+            // デモ版：どんな入力でも登録可能
+            window.location.href = 'dashboard.html';
+            return false;
+        }
+
+        // URLパラメータから性別を取得して自動選択
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const gender = urlParams.get('gender');
+            if (gender === 'male' || gender === 'female') {
+                document.querySelector(`input[value=${gender}]`).checked = true;
+            }
+        }
+    </script>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-16">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center mb-8">
+                <a href="index.html" class="text-2xl font-bold text-pink-500">Love Match</a>
+                <h1 class="text-3xl font-bold text-gray-800 mt-4">無料会員登録</h1>
+                <p class="text-gray-600 mt-2">素敵な出会いを見つけましょう</p>
+            </div>
+
+            <form onsubmit="return handleRegister(event)" class="space-y-6">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="gender">
+                        性別
+                    </label>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="gender" value="female" class="text-pink-500" required>
+                            <span class="ml-2">女性</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="gender" value="male" class="text-pink-500" required>
+                            <span class="ml-2">男性</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="email">
+                        メールアドレス
+                    </label>
+                    <input type="email" id="email" name="email" required
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                        placeholder="example@email.com">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="password">
+                        パスワード
+                    </label>
+                    <input type="password" id="password" name="password" required
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                        placeholder="8文字以上の英数字">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="nickname">
+                        ニックネーム
+                    </label>
+                    <input type="text" id="nickname" name="nickname" required
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
+                        placeholder="表示名">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2" for="birthdate">
+                        生年月日
+                    </label>
+                    <input type="date" id="birthdate" name="birthdate" required
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" name="terms" required
+                        class="text-pink-500">
+                    <label class="ml-2 text-gray-700" for="terms">
+                        <a href="#" class="text-pink-500 hover:underline">利用規約</a>と
+                        <a href="#" class="text-pink-500 hover:underline">プライバシーポリシー</a>に同意します
+                    </label>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-pink-500 text-white py-3 rounded-full hover:bg-pink-600 transition duration-300 font-bold">
+                    登録する
+                </button>
+
+                <div class="text-center text-gray-600">
+                    すでにアカウントをお持ちの方は
+                    <a href="login.html" class="text-pink-500 hover:underline">ログイン</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 
