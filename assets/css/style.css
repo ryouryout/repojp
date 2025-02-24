@@ -1,0 +1,443 @@
+/* Love Match - Main Stylesheet */
+
+/* Base Styles */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    touch-action: manipulation;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Gradient Backgrounds */
+.gradient-bg {
+    background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+}
+
+.gradient-bg-dark {
+    background: linear-gradient(135deg, #4B5563 0%, #1F2937 100%);
+}
+
+/* Card Styles */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Matching Card Styles */
+.matching-card {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 600px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.matching-card.swiped-left {
+    transform: translateX(-150%) rotate(-20deg);
+    opacity: 0;
+}
+
+.matching-card.swiped-right {
+    transform: translateX(150%) rotate(20deg);
+    opacity: 0;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+}
+
+.action-buttons button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.action-buttons button:hover {
+    transform: scale(1.1);
+}
+
+/* Navigation Styles */
+.nav-link {
+    padding: 0.75rem 1rem;
+    display: block;
+    width: 100%;
+    text-align: left;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.nav-link:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #EC4899;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover:after, .nav-link.active:after {
+    width: 100%;
+    left: 0;
+}
+
+.nav-link:active {
+    background-color: rgba(236, 72, 153, 0.1);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+/* Message Styles */
+.message-list {
+    height: calc(100vh - 16rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.message-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.message-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 3px;
+}
+
+.message-preview {
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.message-preview:hover, .message-preview.active {
+    background-color: #FDF2F8;
+    border-left-color: #EC4899;
+}
+
+.message-bubble {
+    max-width: 80%;
+    word-wrap: break-word;
+    border-radius: 18px;
+    padding: 10px 15px;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.message-bubble:hover {
+    transform: translateY(-2px);
+}
+
+.message-bubble.sent {
+    background-color: #EC4899;
+    color: white;
+    border-bottom-right-radius: 4px;
+    margin-left: auto;
+}
+
+.message-bubble.received {
+    background-color: #F3F4F6;
+    color: #1F2937;
+    border-bottom-left-radius: 4px;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: #f3f4f6;
+    border-radius: 20px;
+}
+
+.typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background: #9ca3af;
+    border-radius: 50%;
+    margin: 0 2px;
+    animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(236, 72, 153, 0.2);
+    border-radius: 50%;
+    border-top-color: #EC4899;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+    background-color: #1F2937;
+    color: #F9FAFB;
+}
+
+.dark-mode .bg-white {
+    background-color: #111827 !important;
+}
+
+.dark-mode .text-gray-600 {
+    color: #D1D5DB !important;
+}
+
+.dark-mode .text-gray-700 {
+    color: #E5E7EB !important;
+}
+
+.dark-mode .text-gray-800 {
+    color: #F3F4F6 !important;
+}
+
+.dark-mode .bg-gray-50 {
+    background-color: #1F2937 !important;
+}
+
+.dark-mode .bg-gray-100 {
+    background-color: #374151 !important;
+}
+
+.dark-mode .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark-mode .message-preview:hover, .dark-mode .message-preview.active {
+    background-color: #374151;
+}
+
+.dark-mode .message-bubble.received {
+    background-color: #374151;
+    color: #F9FAFB;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .grid {
+        gap: 1rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .nav-link {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    
+    .message-list {
+        height: calc(100vh - 8rem);
+    }
+    
+    .mobile-view {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
+        z-index: 40;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .dark-mode .mobile-view {
+        background: #111827;
+    }
+    
+    .mobile-view.active {
+        transform: translateX(0);
+    }
+    
+    .matching-card {
+        height: 500px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.5s ease-in-out;
+}
+
+/* Image Lazy Loading */
+.lazy-load {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lazy-load.loaded {
+    opacity: 1;
+}
+
+/* Page Transitions */
+.page-transition {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page-transition.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Form Styles */
+.form-input {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #EC4899;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+}
+
+.form-input.error {
+    border-color: #EF4444;
+}
+
+.form-error {
+    color: #EF4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+/* Button Styles */
+.btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.btn:active:after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Hero Pattern */
+.hero-pattern {
+    background-image: url('https://source.unsplash.com/1920x1080/?love,couple');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.hero-pattern:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+} 

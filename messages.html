@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Love Matchのメッセージページ - マッチングした相手とチャットを楽しもう">
+    <meta name="theme-color" content="#ec4899">
     <title>メッセージ - Love Match</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -38,6 +43,9 @@
         .message-preview:hover, .message-preview.active {
             background-color: #FDF2F8;
         }
+        .dark .message-preview:hover, .dark .message-preview.active {
+            background-color: #831843;
+        }
         .message-bubble {
             max-width: 80%;
             word-wrap: break-word;
@@ -55,6 +63,9 @@
             background: #f3f4f6;
             border-radius: 20px;
         }
+        .dark .typing-indicator {
+            background: #374151;
+        }
         .typing-indicator span {
             width: 6px;
             height: 6px;
@@ -62,6 +73,9 @@
             border-radius: 50%;
             margin: 0 2px;
             animation: typing 1s infinite;
+        }
+        .dark .typing-indicator span {
+            background: #d1d5db;
         }
         .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
@@ -88,42 +102,53 @@
                 transform: translateX(100%);
                 transition: transform 0.3s ease;
             }
+            .dark .mobile-view {
+                background: #1f2937;
+            }
             .mobile-view.active {
                 transform: translateX(0);
             }
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900 dark:text-white page-transition">
     <!-- ナビゲーションバー -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
+    <nav class="bg-white dark:bg-gray-800 shadow-lg fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="dashboard.html" class="text-2xl font-bold text-pink-500">Love Match</a>
+                    <a href="dashboard.html" class="text-2xl font-bold text-pink-500 dark:text-pink-400">Love Match</a>
                 </div>
                 <!-- PC用メニュー -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="matching.html" class="text-gray-600 hover:text-pink-500 px-3 py-2 rounded-md text-sm font-medium">マッチング</a>
-                    <a href="meet-today.html" class="text-gray-600 hover:text-pink-500 px-3 py-2 rounded-md text-sm font-medium">今日会える</a>
-                    <a href="messages.html" class="text-gray-600 hover:text-pink-500 px-3 py-2 rounded-md text-sm font-medium">メッセージ</a>
-                    <a href="create-event.html" class="text-gray-600 hover:text-pink-500 px-3 py-2 rounded-md text-sm font-medium">イベント作成</a>
+                    <a href="dashboard.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium">ダッシュボード</a>
+                    <a href="matching.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium">マッチング</a>
+                    <a href="messages.html" class="nav-link text-pink-500 dark:text-pink-400 px-3 py-2 rounded-md text-sm font-medium">メッセージ</a>
+                    <a href="profile-edit.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium">プロフィール</a>
+                    <button id="darkModeToggle" class="text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </button>
                     <div class="relative group">
-                        <button class="flex items-center space-x-2 text-gray-600 hover:text-pink-500 px-3 py-2 rounded-md text-sm font-medium">
-                            <img src="https://source.unsplash.com/100x100/?portrait" alt="プロフィール" class="w-8 h-8 rounded-full">
+                        <button class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 px-3 py-2 rounded-md text-sm font-medium">
+                            <img src="https://source.unsplash.com/100x100/?portrait" alt="プロフィール" class="w-8 h-8 rounded-full" loading="lazy">
                             <span>マイページ</span>
                         </button>
-                        <div class="absolute right-0 w-48 mt-2 py-2 bg-white rounded-md shadow-xl hidden group-hover:block">
-                            <a href="profile-edit.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-500">プロフィール編集</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-500">設定</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-500">有料会員登録</a>
-                            <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-500">ログアウト</a>
+                        <div class="absolute right-0 w-48 mt-2 py-2 bg-white dark:bg-gray-800 rounded-md shadow-xl hidden group-hover:block">
+                            <a href="profile-edit.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900 hover:text-pink-500 dark:hover:text-pink-400">プロフィール編集</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900 hover:text-pink-500 dark:hover:text-pink-400">設定</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900 hover:text-pink-500 dark:hover:text-pink-400">有料会員登録</a>
+                            <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900 hover:text-pink-500 dark:hover:text-pink-400">ログアウト</a>
                         </div>
                     </div>
                 </div>
                 <!-- モバイル用メニューボタン -->
                 <div class="md:hidden flex items-center">
-                    <button class="menu-button text-gray-500 hover:text-pink-500 focus:outline-none" onclick="toggleMenu()">
+                    <button class="menu-button text-gray-500 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 focus:outline-none" onclick="toggleMenu()">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
@@ -133,48 +158,80 @@
         </div>
     </nav>
 
+    <!-- モバイルメニュー -->
+    <div class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 z-50 shadow-lg md:hidden">
+        <div class="flex justify-end p-4">
+            <button class="text-gray-500 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 focus:outline-none" onclick="toggleMenu()">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="flex flex-col">
+            <a href="dashboard.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">ダッシュボード</a>
+            <a href="matching.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">マッチング</a>
+            <a href="messages.html" class="nav-link text-pink-500 dark:text-pink-400">メッセージ</a>
+            <a href="profile-edit.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">プロフィール編集</a>
+            <a href="#" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">設定</a>
+            <a href="#" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">有料会員登録</a>
+            <button id="mobileDarkModeToggle" class="nav-link text-left text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <span class="dark:hidden">ダークモード</span>
+                    <span class="hidden dark:block">ライトモード</span>
+                </div>
+            </button>
+            <a href="index.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">ログアウト</a>
+        </div>
+    </div>
+
     <!-- メインコンテンツ -->
     <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
         <!-- キャラクター選択画面 -->
         <div id="character-select" class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- さくら -->
-            <div class="character-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="selectCharacter('sakura')">
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80" alt="さくら" class="w-full h-64 object-cover">
+            <div class="character-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="selectCharacter('sakura')">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80" alt="さくら" class="w-full h-64 object-cover" loading="lazy">
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-2">さくら（24歳）</h3>
-                    <p class="text-gray-600 mb-4">カフェ巡りと読書が大好きな大学院生。休日は美術館に行ったり、友達とおしゃべりを楽しんでいます。</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">カフェ巡りと読書が大好きな大学院生。休日は美術館に行ったり、友達とおしゃべりを楽しんでいます。</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">カフェ巡り</span>
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">読書</span>
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">アート</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">カフェ巡り</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">読書</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">アート</span>
                     </div>
                 </div>
             </div>
 
             <!-- みき -->
-            <div class="character-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="selectCharacter('miki')">
-                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80" alt="みき" class="w-full h-64 object-cover">
+            <div class="character-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="selectCharacter('miki')">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80" alt="みき" class="w-full h-64 object-cover" loading="lazy">
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-2">みき（26歳）</h3>
-                    <p class="text-gray-600 mb-4">写真家として活動中。音楽フェスやライブに行くのが趣味で、休日はカメラを持って街歩きをしています。</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">写真家として活動中。音楽フェスやライブに行くのが趣味で、休日はカメラを持って街歩きをしています。</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">写真</span>
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">音楽</span>
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">旅行</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">写真</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">音楽</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">旅行</span>
                     </div>
                 </div>
             </div>
 
             <!-- ゆき -->
-            <div class="character-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="selectCharacter('yuki')">
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" alt="ゆき" class="w-full h-64 object-cover">
+            <div class="character-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="selectCharacter('yuki')">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" alt="ゆき" class="w-full h-64 object-cover" loading="lazy">
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-2">ゆき（23歳）</h3>
-                    <p class="text-gray-600 mb-4">スポーツジムのインストラクター。健康的な生活が大好きで、休日は友達とピクニックやヨガを楽しんでいます。</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">スポーツジムのインストラクター。健康的な生活が大好きで、休日は友達とピクニックやヨガを楽しんでいます。</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">スポーツ</span>
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">ヨガ</span>
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">料理</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">スポーツ</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">ヨガ</span>
+                        <span class="bg-pink-100 dark:bg-pink-900 text-pink-600 dark:text-pink-300 px-3 py-1 rounded-full text-sm">料理</span>
                     </div>
                 </div>
             </div>
@@ -182,11 +239,11 @@
 
         <!-- チャット画面 -->
         <div id="chat-view" class="hidden">
-            <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <!-- チャットヘッダー -->
-                <div class="p-4 border-b flex items-center justify-between">
+                <div class="p-4 border-b dark:border-gray-700 flex items-center justify-between">
                     <div class="flex items-center space-x-4">
-                        <button onclick="backToSelection()" class="text-gray-600 hover:text-pink-500">
+                        <button onclick="backToSelection()" class="text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                             </svg>
@@ -194,23 +251,23 @@
                         <img id="chat-profile-img" src="" alt="" class="w-10 h-10 rounded-full object-cover">
                         <div>
                             <h2 id="chat-profile-name" class="font-bold"></h2>
-                            <p class="text-sm text-gray-600">オンライン</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">オンライン</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- メッセージエリア -->
-                <div id="messages-container" class="h-[600px] overflow-y-auto p-4 bg-gray-50">
+                <div id="messages-container" class="h-[600px] overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
                     <div id="messages" class="space-y-4"></div>
                 </div>
 
                 <!-- メッセージ入力 -->
-                <div class="p-4 border-t">
+                <div class="p-4 border-t dark:border-gray-700">
                     <form id="message-form" class="flex space-x-2" onsubmit="sendMessage(event)">
                         <input type="text" id="message-input" 
-                            class="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:border-pink-500"
+                            class="flex-1 px-4 py-2 border dark:border-gray-600 rounded-full focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:text-white"
                             placeholder="メッセージを入力...">
-                        <button type="submit" class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600">
+                        <button type="submit" class="btn-primary bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-700">
                             送信
                         </button>
                     </form>

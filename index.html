@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Match - あなたの運命の出会いがここに</title>
+    <meta name="description" content="Love Matchは、AIマッチングであなたにぴったりの素敵な出会いをお届けします。">
+    <meta name="theme-color" content="#EC4899">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/images/icon-192x192.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -36,7 +41,7 @@
         }
     </script>
 </head>
-<body class="bg-pink-50">
+<body class="bg-pink-50 page-transition">
     <!-- ナビゲーションバー -->
     <nav class="bg-white shadow-lg fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-4">
@@ -46,17 +51,23 @@
                 </div>
                 <!-- PC用メニュー -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="#features" class="text-gray-600 hover:text-pink-500">特徴</a>
-                    <a href="#pricing" class="text-gray-600 hover:text-pink-500">料金</a>
-                    <a href="#about" class="text-gray-600 hover:text-pink-500">会社概要</a>
-                    <a href="login.html" class="text-gray-600 hover:text-pink-500">ログイン</a>
-                    <a href="register.html" class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition duration-300">
+                    <a href="#features" class="nav-link text-gray-600">特徴</a>
+                    <a href="#pricing" class="nav-link text-gray-600">料金</a>
+                    <a href="#about" class="nav-link text-gray-600">会社概要</a>
+                    <a href="login.html" class="nav-link text-gray-600">ログイン</a>
+                    <a href="register.html" class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition duration-300 btn">
                         会員登録
                     </a>
+                    <!-- ダークモードトグル追加 -->
+                    <label class="relative inline-flex items-center cursor-pointer ml-4">
+                        <input type="checkbox" class="sr-only peer dark-mode-toggle">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-500"></div>
+                        <span class="ml-2 text-sm font-medium text-gray-600">🌙</span>
+                    </label>
                 </div>
                 <!-- モバイル用メニューボタン -->
                 <div class="md:hidden flex items-center">
-                    <button class="menu-button text-gray-500 hover:text-pink-500 focus:outline-none" onclick="toggleMenu()">
+                    <button class="menu-toggle text-gray-500 hover:text-pink-500 focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
@@ -67,19 +78,27 @@
         <!-- モバイル用メニュー -->
         <div class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 md:hidden">
             <div class="flex justify-end p-4">
-                <button onclick="toggleMenu()" class="text-gray-500 hover:text-pink-500 focus:outline-none">
+                <button class="menu-toggle text-gray-500 hover:text-pink-500 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
             <div class="flex flex-col px-4 py-2 space-y-2">
-                <a href="#features" class="text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">特徴</a>
-                <a href="#pricing" class="text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">料金</a>
-                <a href="#about" class="text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">会社概要</a>
+                <a href="#features" class="nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">特徴</a>
+                <a href="#pricing" class="nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">料金</a>
+                <a href="#about" class="nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">会社概要</a>
                 <div class="border-t pt-2">
-                    <a href="login.html" class="block text-gray-600 hover:text-pink-500 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">ログイン</a>
-                    <a href="register.html" class="block bg-pink-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-600 mt-2">会員登録</a>
+                    <a href="login.html" class="block nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">ログイン</a>
+                    <a href="register.html" class="block bg-pink-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-600 mt-2 btn">会員登録</a>
+                </div>
+                <!-- モバイル用ダークモードトグル -->
+                <div class="flex items-center px-4 py-2">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer dark-mode-toggle">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-500"></div>
+                        <span class="ml-2 text-sm font-medium text-gray-600">ダークモード</span>
+                    </label>
                 </div>
             </div>
         </div>
@@ -87,7 +106,7 @@
 
     <!-- ヒーローセクション -->
     <div class="hero-pattern min-h-screen flex items-center justify-center pt-16">
-        <div class="bg-white/80 backdrop-blur-md p-8 rounded-xl max-w-3xl mx-4 text-center">
+        <div class="bg-white/80 backdrop-blur-md p-8 rounded-xl max-w-3xl mx-4 text-center slide-up">
             <h1 class="text-4xl md:text-6xl font-bold text-pink-500 mb-6">
                 運命の出会いがここにある
             </h1>
@@ -95,7 +114,7 @@
                 Love Matchは、あなたにぴったりの素敵な出会いをお届けします。<br>
                 AI マッチングで理想のパートナーを見つけましょう。
             </p>
-            <button onclick="window.location.href='register.html'" class="bg-pink-500 text-white text-xl px-8 py-4 rounded-full hover:bg-pink-600 transition duration-300 shadow-lg">
+            <button onclick="window.location.href='register.html'" class="bg-pink-500 text-white text-xl px-8 py-4 rounded-full hover:bg-pink-600 transition duration-300 shadow-lg btn">
                 無料で始める
             </button>
         </div>
@@ -106,7 +125,7 @@
         <div class="max-w-7xl mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">Love Match の特徴</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div class="text-center">
+                <div class="text-center card">
                     <div class="bg-pink-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-10 h-10 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -115,7 +134,7 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-4">AIマッチング</h3>
                     <p class="text-gray-600">最新のAI技術で、あなたにぴったりの相手をご紹介</p>
                 </div>
-                <div class="text-center">
+                <div class="text-center card">
                     <div class="bg-pink-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-10 h-10 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -124,7 +143,7 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-4">安心・安全</h3>
                     <p class="text-gray-600">24時間365日の監視体制で安全な出会いを提供</p>
                 </div>
-                <div class="text-center">
+                <div class="text-center card">
                     <div class="bg-pink-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-10 h-10 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
@@ -142,7 +161,7 @@
         <div class="max-w-7xl mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">料金プラン</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-                <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition duration-300 card">
                     <div class="text-center">
                         <h3 class="text-2xl font-bold text-pink-500 mb-4">女性会員</h3>
                         <div class="text-5xl font-bold text-gray-800 mb-6">¥0<span class="text-xl">/月</span></div>
@@ -167,12 +186,12 @@
                             </li>
                         </ul>
                         <button onclick="window.location.href='register.html?gender=female'" 
-                            class="w-full bg-pink-500 text-white py-3 rounded-full hover:bg-pink-600 transition duration-300">
+                            class="w-full bg-pink-500 text-white py-3 rounded-full hover:bg-pink-600 transition duration-300 btn">
                             女性会員として登録
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition duration-300">
+                <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-105 transition duration-300 card">
                     <div class="text-center">
                         <h3 class="text-2xl font-bold text-blue-500 mb-4">男性会員</h3>
                         <div class="text-5xl font-bold text-gray-800 mb-6">¥1,000<span class="text-xl">/月</span></div>
@@ -197,7 +216,7 @@
                             </li>
                         </ul>
                         <button onclick="window.location.href='register.html?gender=male'" 
-                            class="w-full bg-blue-500 text-white py-3 rounded-full hover:bg-blue-600 transition duration-300">
+                            class="w-full bg-blue-500 text-white py-3 rounded-full hover:bg-blue-600 transition duration-300 btn">
                             男性会員として登録
                         </button>
                     </div>
@@ -287,5 +306,8 @@
             </div>
         </div>
     </footer>
+
+    <!-- スクリプト -->
+    <script src="assets/js/main.js"></script>
 </body>
 </html> 
