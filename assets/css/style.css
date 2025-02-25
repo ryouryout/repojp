@@ -1,31 +1,74 @@
 /* Love Match - Main Stylesheet */
 
 /* Base Styles */
+:root {
+    --primary-color: #ec4899;
+    --primary-light: #fdf2f8;
+    --primary-dark: #be185d;
+    --secondary-color: #8b5cf6;
+    --secondary-light: #ede9fe;
+    --secondary-dark: #6d28d9;
+    --text-color: #1f2937;
+    --text-color-light: #6b7280;
+    --bg-color: #f9fafb;
+    --bg-color-card: #ffffff;
+    --border-color: #e5e7eb;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --gradient-start: #fff0f3;
+    --gradient-end: #ffb6c1;
+}
+
+/* ダークモードのカラー変数を大幅に改善 - 明るさとコントラストを強化 */
+.dark {
+    --primary-color: #f472b6;
+    --primary-light: #9d174d; /* 少し明るく */
+    --primary-dark: #fbcfe8;
+    --secondary-color: #a78bfa;
+    --secondary-light: #7c3aed; /* 少し明るく */
+    --secondary-dark: #ddd6fe;
+    --text-color: #f9fafb; /* より明るいテキスト色 */
+    --text-color-light: #f3f4f6; /* さらに明るいライトテキスト */
+    --bg-color: #263548; /* より明るい背景色 */
+    --bg-color-card: #3e4c63; /* より明るいカード背景 */
+    --border-color: #6b7280; /* より明確なボーダー */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --gradient-start: #64748b; /* より明るいグラデーション開始点 */
+    --gradient-end: #94a3b8; /* さらに明るいグラデーション終点 */
+}
+
 body {
     font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg-color);
     touch-action: manipulation;
     transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Gradient Backgrounds */
 .gradient-bg {
-    background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
 }
 
 .gradient-bg-dark {
-    background: linear-gradient(135deg, #4B5563 0%, #1F2937 100%);
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%); /* より明るいグラデーション */
 }
 
 /* Card Styles */
 .card {
+    background-color: var(--bg-color-card);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 12px;
-    overflow: hidden;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px var(--shadow-color);
 }
 
 /* Matching Card Styles */
@@ -33,11 +76,12 @@ body {
     position: relative;
     width: 100%;
     max-width: 400px;
-    height: 600px;
-    border-radius: 20px;
+    margin: 0 auto;
+    background-color: var(--bg-color-card);
+    border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 15px var(--shadow-color);
+    transition: all 0.3s ease;
 }
 
 .matching-card.swiped-left {
@@ -82,39 +126,19 @@ body {
 
 /* Navigation Styles */
 .nav-link {
-    padding: 0.75rem 1rem;
-    display: block;
-    width: 100%;
-    text-align: left;
-    transition: all 0.2s ease;
-    position: relative;
+    color: var(--text-color-light);
+    transition: color 0.3s ease;
 }
 
-.nav-link:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: #EC4899;
-    transition: width 0.3s ease, left 0.3s ease;
-}
-
-.nav-link:hover:after, .nav-link.active:after {
-    width: 100%;
-    left: 0;
-}
-
-.nav-link:active {
-    background-color: rgba(236, 72, 153, 0.1);
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-color);
 }
 
 /* Mobile Menu */
 .mobile-menu {
+    background-color: var(--bg-color-card);
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    -webkit-overflow-scrolling: touch;
 }
 
 .mobile-menu.active {
@@ -126,6 +150,7 @@ body {
     height: calc(100vh - 16rem);
     overflow-y: auto;
     scrollbar-width: thin;
+    scrollbar-color: var(--primary-light) transparent;
 }
 
 .message-list::-webkit-scrollbar {
@@ -133,48 +158,47 @@ body {
 }
 
 .message-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: transparent;
 }
 
 .message-list::-webkit-scrollbar-thumb {
-    background: #ddd;
+    background-color: var(--primary-light);
     border-radius: 3px;
 }
 
 .message-preview {
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
+    background-color: var(--bg-color-card);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.3s ease;
 }
 
 .message-preview:hover, .message-preview.active {
-    background-color: #FDF2F8;
-    border-left-color: #EC4899;
+    background-color: var(--primary-light);
 }
 
 .message-bubble {
     max-width: 80%;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
     word-wrap: break-word;
-    border-radius: 18px;
-    padding: 10px 15px;
-    position: relative;
-    transition: transform 0.2s ease;
-}
-
-.message-bubble:hover {
-    transform: translateY(-2px);
 }
 
 .message-bubble.sent {
-    background-color: #EC4899;
+    background-color: var(--primary-color);
     color: white;
-    border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 0.25rem;
     margin-left: auto;
 }
 
 .message-bubble.received {
-    background-color: #F3F4F6;
-    color: #1F2937;
-    border-bottom-left-radius: 4px;
+    background-color: var(--bg-color-card);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 0.25rem;
+}
+
+.dark .message-bubble.received {
+    background-color: var(--primary-light);
+    border-color: var(--primary-light);
 }
 
 /* Typing Indicator */
@@ -182,14 +206,15 @@ body {
     display: inline-flex;
     align-items: center;
     padding: 6px 12px;
-    background: #f3f4f6;
+    background-color: var(--bg-color-card);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
 }
 
 .typing-indicator span {
     width: 6px;
     height: 6px;
-    background: #9ca3af;
+    background-color: var(--text-color-light);
     border-radius: 50%;
     margin: 0 2px;
     animation: typing 1s infinite;
@@ -214,11 +239,12 @@ body {
 
 /* Loading Spinner */
 .loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(236, 72, 153, 0.2);
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid rgba(236, 72, 153, 0.3);
     border-radius: 50%;
-    border-top-color: #EC4899;
+    border-top-color: var(--primary-color);
     animation: spin 1s ease-in-out infinite;
 }
 
@@ -228,90 +254,92 @@ body {
     }
 }
 
-/* Dark Mode Styles */
-.dark-mode {
-    background-color: #1F2937;
-    color: #F9FAFB;
+/* Dark Mode Styles - さらに改善版 */
+.dark body {
+    color: var(--text-color);
+    background-color: var(--bg-color);
 }
 
-.dark-mode .bg-white {
+.dark .card, 
+.dark .matching-card,
+.dark .message-preview,
+.dark .mobile-menu {
+    background-color: var(--bg-color-card);
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+/* ナビゲーションリンクの視認性向上 */
+.dark .nav-link {
+    color: var(--text-color);
+}
+
+.dark .nav-link:hover, 
+.dark .nav-link.active {
+    color: var(--primary-color);
+}
+
+/* ヘッダーとフッターのダークモード対応 */
+.dark nav.bg-white {
+    background-color: #1f2937 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dark footer.bg-gray-800 {
     background-color: #111827 !important;
 }
 
-.dark-mode .text-gray-600 {
-    color: #D1D5DB !important;
+/* テキストの視認性向上 */
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-800 {
+    color: var(--text-color) !important;
 }
 
-.dark-mode .text-gray-700 {
-    color: #E5E7EB !important;
+/* カードの背景色と影の調整 */
+.dark .bg-white {
+    background-color: var(--bg-color-card) !important;
 }
 
-.dark-mode .text-gray-800 {
-    color: #F3F4F6 !important;
+/* ボタンの視認性向上 */
+.dark .bg-pink-500 {
+    background-color: #ec4899 !important;
 }
 
-.dark-mode .bg-gray-50 {
-    background-color: #1F2937 !important;
+.dark .hover\:bg-pink-600:hover {
+    background-color: #db2777 !important;
 }
 
-.dark-mode .bg-gray-100 {
-    background-color: #374151 !important;
+/* ダークモードのグラデーション背景 */
+.dark .gradient-bg {
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
 }
 
-.dark-mode .shadow-lg {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
-}
-
-.dark-mode .message-preview:hover, .dark-mode .message-preview.active {
-    background-color: #374151;
-}
-
-.dark-mode .message-bubble.received {
-    background-color: #374151;
-    color: #F9FAFB;
-}
-
-/* Responsive Styles */
+/* モバイル向けのダークモード強化 */
 @media (max-width: 768px) {
-    .grid {
-        gap: 1rem;
+    .dark {
+        --bg-color: #334155; /* モバイル用にさらに明るい背景色 */
+        --bg-color-card: #475569; /* モバイル用にさらに明るいカード背景 */
+        --text-color: #ffffff; /* モバイル用に完全な白色テキスト */
+        --text-color-light: #f3f4f6; /* モバイル用により明るいライトテキスト */
     }
     
-    .card {
-        margin-bottom: 1rem;
+    .dark .text-gray-600,
+    .dark .text-gray-700,
+    .dark .text-gray-800,
+    .dark .text-gray-900 {
+        color: #ffffff !important; /* モバイル用に全てのテキストを白色に */
     }
     
-    .nav-link {
-        padding: 1rem;
-        font-size: 1rem;
+    .dark .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* より強いシャドウ効果 */
     }
     
-    .message-list {
-        height: calc(100vh - 8rem);
+    .dark .nav-link {
+        color: #ffffff; /* ナビリンクを白色に */
     }
     
-    .mobile-view {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: white;
-        z-index: 40;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    }
-    
-    .dark-mode .mobile-view {
-        background: #111827;
-    }
-    
-    .mobile-view.active {
-        transform: translateX(0);
-    }
-    
-    .matching-card {
-        height: 500px;
+    .dark .mobile-menu {
+        background-color: #475569 !important; /* モバイルメニューの背景を明るく */
     }
 }
 
@@ -356,72 +384,88 @@ body {
 
 /* Page Transitions */
 .page-transition {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.page-transition.loaded {
-    opacity: 1;
-    transform: translateY(0);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 /* Form Styles */
 .form-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    background-color: var(--bg-color-card);
+    color: var(--text-color);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-input:focus {
-    border-color: #EC4899;
-    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    outline: none;
 }
 
-.form-input.error {
-    border-color: #EF4444;
+.dark .form-input {
+    background-color: var(--bg-color-card);
+    border-color: var(--border-color);
+    color: var(--text-color);
 }
 
-.form-error {
-    color: #EF4444;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    animation: shake 0.5s ease-in-out;
-}
-
-@keyframes shake {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    10%, 30%, 50%, 70%, 90% {
-        transform: translateX(-5px);
-    }
-    20%, 40%, 60%, 80% {
-        transform: translateX(5px);
-    }
+.dark .form-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 /* Button Styles */
 .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    cursor: pointer;
 }
 
-.btn:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.5s, height 0.5s;
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
 }
 
-.btn:active:after {
-    width: 300px;
-    height: 300px;
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-dark);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.dark .btn-outline {
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.dark .btn-outline:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 /* Hero Pattern */
@@ -440,4 +484,42 @@ body {
     right: 0;
     bottom: 0;
     background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+}
+
+/* Accessibility */
+:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* フォーカス状態の視認性向上 */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.dark a:focus, .dark button:focus, .dark input:focus, .dark select:focus, .dark textarea:focus {
+    outline-color: #f472b6;
+    outline-width: 3px;
+}
+
+/* アクセシビリティ強化 - コントラスト改善 */
+.dark a, .dark button, .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: #ffffff;
+}
+
+.dark p, .dark span, .dark div {
+    color: var(--text-color);
 } 
