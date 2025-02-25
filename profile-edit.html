@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Love Match - プロフィール編集">
+    <meta name="theme-color" content="#FFF0F3">
     <title>プロフィール編集 - Love Match</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -30,312 +35,178 @@
             border-color: #ec4899;
             background-color: #fdf2f8;
         }
+        .dark .image-upload-area {
+            border-color: #4A5568;
+        }
+        .dark .image-upload-area:hover {
+            border-color: #ec4899;
+            background-color: #4A5568;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900 page-transition">
     <!-- ナビゲーションバー（共通） -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
+    <nav class="bg-white shadow-lg fixed w-full z-50 dark:bg-gray-800">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="dashboard.html" class="text-2xl font-bold text-pink-500">Love Match</a>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <a href="dashboard.html" class="text-gray-600 hover:text-pink-500">ダッシュボード</a>
-                    <a href="messages.html" class="text-gray-600 hover:text-pink-500">メッセージ</a>
-                    <a href="matching.html" class="text-gray-600 hover:text-pink-500">マッチング</a>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="dashboard.html" class="nav-link text-gray-600 hover:text-pink-500 dark:text-gray-300 dark:hover:text-pink-400">ダッシュボード</a>
+                    <a href="messages.html" class="nav-link text-gray-600 hover:text-pink-500 dark:text-gray-300 dark:hover:text-pink-400">メッセージ</a>
+                    <a href="matching.html" class="nav-link text-gray-600 hover:text-pink-500 dark:text-gray-300 dark:hover:text-pink-400">マッチング</a>
+                    <button id="darkModeToggle" class="text-gray-600 hover:text-pink-500 dark:text-gray-300 dark:hover:text-pink-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
                 </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuButton" class="text-gray-600 hover:text-pink-500 dark:text-gray-300 dark:hover:text-pink-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- モバイルメニュー -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-800 shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="dashboard.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-pink-400 dark:hover:bg-gray-700">ダッシュボード</a>
+                <a href="messages.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-pink-400 dark:hover:bg-gray-700">メッセージ</a>
+                <a href="matching.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-pink-400 dark:hover:bg-gray-700">マッチング</a>
+                <button id="mobileDarkModeToggle" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-pink-400 dark:hover:bg-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <span class="dark-mode-text">ダークモード</span>
+                </button>
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-pink-400 dark:hover:bg-gray-700">ログアウト</a>
             </div>
         </div>
     </nav>
 
     <!-- メインコンテンツ -->
     <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
-        <div class="bg-white rounded-lg shadow p-6">
-            <h1 class="text-2xl font-bold mb-6">プロフィール編集</h1>
-            <form id="profile-form">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">プロフィール編集</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 dark:bg-gray-800 dark:shadow-gray-900">
+            <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">基本情報</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- プロフィール画像 -->
-                <div class="mb-8">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">プロフィール画像</label>
-                    <div class="flex items-center space-x-6">
-                        <div class="relative group">
-                            <img id="profile-preview" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" alt="現在のプロフィール画像" class="w-32 h-32 rounded-full object-cover">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <label for="profile-upload" class="cursor-pointer text-white">
-                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </label>
-                                <input type="file" id="profile-upload" class="hidden" accept="image/*">
+                <div class="md:col-span-1">
+                    <div class="text-center">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" alt="プロフィール画像" class="image-preview rounded-full mx-auto mb-4 border-4 border-pink-100 dark:border-pink-900">
+                        
+                        <div class="image-upload-area rounded-lg p-4 text-center cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">画像をアップロード</p>
+                            <input type="file" class="hidden" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 基本情報フォーム -->
+                <div class="md:col-span-2">
+                    <form class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="nickname">ニックネーム</label>
+                                <input type="text" id="nickname" name="nickname" value="Sakura" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="age">年齢</label>
+                                <input type="number" id="age" name="age" value="28" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="location">居住地</label>
+                            <select id="location" name="location" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <option value="tokyo">東京都</option>
+                                <option value="kanagawa">神奈川県</option>
+                                <option value="saitama">埼玉県</option>
+                                <option value="chiba">千葉県</option>
+                                <!-- 他の都道府県 -->
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="occupation">職業</label>
+                            <input type="text" id="occupation" name="occupation" value="デザイナー" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 自己紹介 -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 dark:bg-gray-800 dark:shadow-gray-900">
+            <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">自己紹介</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="bio">自己紹介文</label>
+                    <textarea id="bio" name="bio" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">デザイナーとして働いています。休日は美術館巡りや読書をすることが多いです。同じような趣味を持つ方と知り合えたら嬉しいです。</textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="interests">興味・関心</label>
+                    <input type="text" id="interests" name="interests" value="アート, 読書, カフェ巡り, 映画鑑賞" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">カンマ区切りで入力してください</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- マッチング条件 -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 dark:bg-gray-800 dark:shadow-gray-900">
+            <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">マッチング条件</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">希望する年齢層</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1" for="age_min">最小年齢</label>
+                            <input type="number" id="age_min" name="age_min" value="25" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         </div>
                         <div>
-                            <div class="flex flex-col space-y-2">
-                                <button type="button" onclick="document.getElementById('profile-upload').click()" class="bg-white px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-                                    画像を変更
-                                </button>
-                                <button type="button" onclick="removeProfileImage()" class="text-red-600 text-sm hover:text-red-700">
-                                    画像を削除
-                                </button>
-                            </div>
-                            <p class="mt-1 text-xs text-gray-500">推奨: 400x400px以上、JPG, PNG, GIF</p>
+                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1" for="age_max">最大年齢</label>
+                            <input type="number" id="age_max" name="age_max" value="35" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         </div>
                     </div>
                 </div>
-
-                <!-- サブ画像 -->
-                <div class="mb-8">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">サブ画像（最大4枚）</label>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="sub-images-container">
-                        <!-- サブ画像1 -->
-                        <div class="relative group">
-                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80" alt="サブ画像1" class="w-full h-40 object-cover rounded-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <button type="button" class="text-white p-2 hover:text-red-500" onclick="removeSubImage(this)">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- サブ画像2 -->
-                        <div class="relative group">
-                            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80" alt="サブ画像2" class="w-full h-40 object-cover rounded-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <button type="button" class="text-white p-2 hover:text-red-500" onclick="removeSubImage(this)">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- 画像追加エリア -->
-                        <div class="image-upload-area rounded-lg p-4 flex flex-col items-center justify-center text-center cursor-pointer" onclick="document.getElementById('sub-image-upload').click()">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                            <span class="mt-2 text-sm text-gray-500">画像を追加</span>
-                            <input type="file" id="sub-image-upload" class="hidden" accept="image/*" multiple>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 基本情報 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-gray-700 font-bold mb-2" for="nickname">
-                            ニックネーム
-                        </label>
-                        <input type="text" id="nickname" name="nickname" required
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-bold mb-2" for="age">
-                            年齢
-                        </label>
-                        <input type="number" id="age" name="age" required
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-bold mb-2" for="location">
-                            居住地
-                        </label>
-                        <select id="location" name="location" required
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
-                            <option value="">選択してください</option>
-                            <option value="tokyo">東京都</option>
-                            <option value="kanagawa">神奈川県</option>
-                            <option value="saitama">埼玉県</option>
-                            <option value="chiba">千葉県</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-bold mb-2" for="occupation">
-                            職業
-                        </label>
-                        <input type="text" id="occupation" name="occupation" required
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500">
-                    </div>
-                </div>
-
-                <!-- 趣味・興味 -->
+                
                 <div>
-                    <label class="block text-gray-700 font-bold mb-2">
-                        趣味・興味（複数選択可）
-                    </label>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="movie" class="text-pink-500">
-                            <span>映画鑑賞</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="music" class="text-pink-500">
-                            <span>音楽</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="sports" class="text-pink-500">
-                            <span>スポーツ</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="travel" class="text-pink-500">
-                            <span>旅行</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="reading" class="text-pink-500">
-                            <span>読書</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="cooking" class="text-pink-500">
-                            <span>料理</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="art" class="text-pink-500">
-                            <span>アート</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="hobbies[]" value="game" class="text-pink-500">
-                            <span>ゲーム</span>
-                        </label>
-                    </div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">希望する居住地</label>
+                    <select multiple id="preferred_locations" name="preferred_locations" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" size="4">
+                        <option value="tokyo" selected>東京都</option>
+                        <option value="kanagawa" selected>神奈川県</option>
+                        <option value="saitama">埼玉県</option>
+                        <option value="chiba">千葉県</option>
+                        <!-- 他の都道府県 -->
+                    </select>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Ctrlキーを押しながら複数選択できます</p>
                 </div>
-
-                <!-- 自己紹介 -->
-                <div>
-                    <label class="block text-gray-700 font-bold mb-2" for="bio">
-                        自己紹介
-                    </label>
-                    <textarea id="bio" name="bio" rows="5" required
-                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500"
-                        placeholder="あなたのことを教えてください"></textarea>
-                </div>
-
-                <!-- 保存ボタン -->
-                <div class="flex justify-end space-x-4">
-                    <button type="button" class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-100 transition duration-300">
-                        キャンセル
-                    </button>
-                    <button type="submit" class="px-6 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition duration-300">
-                        保存する
-                    </button>
-                </div>
-            </form>
+            </div>
+        </div>
+        
+        <!-- 保存ボタン -->
+        <div class="flex justify-end">
+            <button type="button" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg mr-4 hover:bg-gray-400 transition duration-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                キャンセル
+            </button>
+            <button type="button" class="bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600 transition duration-300">
+                保存する
+            </button>
         </div>
     </div>
-
-    <script>
-        // プロフィール画像のプレビュー
-        document.getElementById('profile-upload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profile-preview').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // プロフィール画像の削除
-        function removeProfileImage() {
-            document.getElementById('profile-preview').src = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80';
-            document.getElementById('profile-upload').value = '';
-        }
-
-        // サブ画像の削除
-        function removeSubImage(button) {
-            button.closest('.relative').remove();
-            updateSubImageUploadArea();
-        }
-
-        // サブ画像のアップロード
-        document.getElementById('sub-image-upload').addEventListener('change', function(e) {
-            const files = e.target.files;
-            const container = document.getElementById('sub-images-container');
-            const uploadArea = container.querySelector('.image-upload-area');
-
-            for (let file of files) {
-                if (container.children.length >= 4) break;
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const newImage = document.createElement('div');
-                    newImage.className = 'relative group';
-                    newImage.innerHTML = `
-                        <img src="${e.target.result}" alt="サブ画像" class="w-full h-40 object-cover rounded-lg">
-                        <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button type="button" class="text-white p-2 hover:text-red-500" onclick="removeSubImage(this)">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </div>
-                    `;
-                    container.insertBefore(newImage, uploadArea);
-                }
-                reader.readAsDataURL(file);
-            }
-
-            updateSubImageUploadArea();
-        });
-
-        // サブ画像のアップロードエリアの表示/非表示
-        function updateSubImageUploadArea() {
-            const container = document.getElementById('sub-images-container');
-            const uploadArea = container.querySelector('.image-upload-area');
-            if (container.children.length >= 4) {
-                uploadArea.style.display = 'none';
-            } else {
-                uploadArea.style.display = 'flex';
-            }
-        }
-
-        // ドラッグ&ドロップ機能
-        const uploadArea = document.querySelector('.image-upload-area');
-        
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight(e) {
-            uploadArea.classList.add('dragging');
-        }
-
-        function unhighlight(e) {
-            uploadArea.classList.remove('dragging');
-        }
-
-        uploadArea.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            document.getElementById('sub-image-upload').files = files;
-            const event = new Event('change');
-            document.getElementById('sub-image-upload').dispatchEvent(event);
-        }
-
-        // フォームの送信
-        document.getElementById('profile-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // ここにフォーム送信の処理を追加
-            alert('プロフィールを更新しました');
-        });
-    </script>
+    
+    <script src="script.js"></script>
 </body>
 </html> 
