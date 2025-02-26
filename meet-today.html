@@ -3,543 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Love Match - 今日会える素敵な出会いを見つけるマッチングサービス">
-    <meta name="theme-color" content="#4F46E5">
-    <title>今日会える - Love Match</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Love Match - 今日の出会いページでは、最適なマッチングをご提案します。特別な出会いを見つけましょう。">
+    <title>今日の出会い | Love Match</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    
-    <!-- ダークモードの初期化スクリプト -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2589/2589175.png">
+    <!-- Webfontsの読み込み -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ダークモード初期化（画面のちらつき防止） -->
     <script>
-        // ページ読み込み前にダークモードを初期化して画面のちらつきを防ぐ
-        (function() {
-            // ローカルストレージからダークモード設定を取得
-            const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-            // システム設定の確認
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            // ダークモードが有効またはシステム設定がダークの場合はダークモードを適用
-            if (isDarkMode || (prefersDark && localStorage.getItem('darkMode') === null)) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-            
-            // モバイル表示向けの調整
-            if (window.innerWidth < 768) {
-                document.documentElement.classList.add('mobile-view');
-            }
-        })();
+        // ローカルストレージやシステム設定からダークモードの設定を読み込む
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled' || 
+                        (localStorage.getItem('darkMode') === null && 
+                         window.matchMedia('(prefers-color-scheme: dark)').matches);
+        
+        // ページロード前にダークモードを適用
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.add('dark-optimized');
+        }
     </script>
-    
-    <style>
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%);
-        }
-        .dark .gradient-bg {
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-        }
-        .user-card {
-            transition: all 0.3s ease;
-            border: 1px solid #f3f4f6;
-        }
-        .user-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #818CF8;
-        }
-        .dark .user-card {
-            background-color: #1E293B;
-            border-color: #334155;
-        }
-        .dark .user-card:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-            border-color: #4F46E5;
-        }
-        .filter-container {
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-        }
-        .dark .filter-container {
-            background-color: #1E293B;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-        }
-        .notice-container {
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-top: 1rem;
-        }
-        .safety-notice {
-            background-color: #EEF2FF;
-            border: 1px solid #C7D2FE;
-        }
-        .dark .safety-notice {
-            background-color: #1E3A8A;
-            border-color: #3B82F6;
-        }
-        .location-notice {
-            background-color: #EFF6FF;
-            border: 1px solid #BFDBFE;
-        }
-        .dark .location-notice {
-            background-color: #172554;
-            border-color: #3B82F6;
-        }
-        .dark .text-gray-800 {
-            color: #F1F5F9;
-        }
-        .dark .text-gray-700 {
-            color: #E2E8F0;
-        }
-        .dark .text-gray-600 {
-            color: #CBD5E0;
-        }
-        .dark .bg-white {
-            background-color: #1E293B;
-        }
-        .dark .border {
-            border-color: #475569;
-        }
-        .dark .bg-gray-50 {
-            background-color: #0F172A;
-        }
-        .dark .text-pink-800 {
-            color: #E2E8F0;
-        }
-        .dark .text-blue-800 {
-            color: #E2E8F0;
-        }
-        .dark .text-pink-700 {
-            color: #CBD5E0;
-        }
-        .dark .text-blue-700 {
-            color: #CBD5E0;
-        }
-        
-        /* カードの画像にグラデーションを追加して暗い写真上のテキストを見やすくする */
-        .user-card .relative::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
-            z-index: 1;
-            pointer-events: none;
-        }
-        .user-card .relative > div {
-            z-index: 2;
-            position: relative;
-        }
-        
-        /* ページネーションの改善 */
-        .pagination {
-            @apply inline-flex rounded-md shadow;
-        }
-        .pagination a {
-            @apply px-4 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50;
-            transition: all 0.3s ease;
-        }
-        .pagination a.active {
-            @apply bg-indigo-600 border-indigo-600 text-white;
-        }
-        .dark .pagination a {
-            @apply bg-gray-800 border-gray-700 text-gray-300 hover:bg-indigo-900;
-        }
-        .dark .pagination a.active {
-            @apply bg-indigo-600 border-indigo-600 text-white;
-        }
-        
-        /* ボタンの改善 */
-        .btn-primary {
-            @apply bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300;
-        }
-        .btn-rounded {
-            @apply bg-indigo-600 text-white px-4 py-2 rounded-full text-sm hover:bg-indigo-700 transition duration-300 flex items-center;
-        }
-        
-        /* セレクトボックスの改善 */
-        .dark select {
-            @apply bg-gray-800 text-white border-gray-700;
-        }
-    </style>
 </head>
-<body class="gradient-bg min-h-screen page-transition dark:text-white">
-    <!-- ナビゲーションバー（共通） -->
-    <nav class="bg-white dark:bg-gray-800 shadow-lg fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="dashboard.html" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 flex items-center">
-                        <i class="fas fa-heart mr-2"></i> Love Match
-                    </a>
+<body class="font-sans bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white transition-colors duration-300">
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-30 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="https://via.placeholder.com/40x40?text=LM" alt="Love Match Logo" class="h-8 w-auto">
+                <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="dashboard.html" class="nav-link">ダッシュボード</a>
+                <a href="matching.html" class="nav-link">マッチング</a>
+                <a href="messages.html" class="nav-link">メッセージ</a>
+                <a href="meet-today.html" class="nav-link active">今日の出会い</a>
+                
+                <div class="relative ml-2">
+                    <input type="checkbox" id="dark-mode-toggle" class="hidden dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="flex items-center cursor-pointer">
+                        <div class="relative">
+                            <div class="block w-10 h-6 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors duration-300"></div>
+                            <div class="dot absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-sun text-yellow-500 text-xs"></i>
+                            </div>
+                            <div class="dot-dark absolute right-1 top-1 w-4 h-4 rounded-full bg-indigo-600 scale-0 transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-moon text-white text-xs"></i>
+                            </div>
+                        </div>
+                    </label>
                 </div>
-                <div class="hidden md:flex items-center space-x-4">
-                    <a href="dashboard.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
-                        <i class="fas fa-chart-line mr-1"></i> ダッシュボード
-                    </a>
-                    <a href="messages.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
-                        <i class="fas fa-envelope mr-1"></i> メッセージ
-                    </a>
-                    <a href="matching.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
-                        <i class="fas fa-user-friends mr-1"></i> マッチング
-                    </a>
-                    <a href="meet-today.html" class="nav-link text-indigo-600 dark:text-indigo-400 font-medium">
-                        <i class="fas fa-clock mr-1"></i> 今日会える
-                    </a>
-                    <button id="darkModeToggle" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
-                        <i class="fas fa-moon"></i>
-                    </button>
+                
+                <a href="profile-edit.html" class="flex items-center space-x-1">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="プロフィール" class="h-8 w-8 rounded-full border-2 border-indigo-500">
+                    <span class="text-sm font-medium">鈴木太郎</span>
+                </a>
+            </nav>
+            
+            <div class="flex items-center md:hidden space-x-4">
+                <div class="relative">
+                    <input type="checkbox" id="mobile-dark-mode-toggle" class="hidden dark-mode-toggle">
+                    <label for="mobile-dark-mode-toggle" class="flex items-center cursor-pointer">
+                        <div class="relative">
+                            <div class="block w-10 h-6 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors duration-300"></div>
+                            <div class="dot absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-sun text-yellow-500 text-xs"></i>
+                            </div>
+                            <div class="dot-dark absolute right-1 top-1 w-4 h-4 rounded-full bg-indigo-600 scale-0 transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-moon text-white text-xs"></i>
+                            </div>
+                        </div>
+                    </label>
                 </div>
-                <div class="md:hidden flex items-center">
-                    <button id="mobileMenuButton" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- モバイルメニュー -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-800 shadow-lg">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="dashboard.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <i class="fas fa-chart-line mr-1"></i> ダッシュボード
-                </a>
-                <a href="messages.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <i class="fas fa-envelope mr-1"></i> メッセージ
-                </a>
-                <a href="matching.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <i class="fas fa-user-friends mr-1"></i> マッチング
-                </a>
-                <a href="meet-today.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50 dark:bg-indigo-900 dark:text-indigo-400">
-                    <i class="fas fa-clock mr-1"></i> 今日会える
-                </a>
-                <button id="mobileDarkModeToggle" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <i class="fas fa-moon mr-1"></i>
-                    <span class="dark-mode-text">ダークモード</span>
+                
+                <button id="menu-button" class="text-gray-700 dark:text-white focus:outline-none" aria-label="メニューを開く" aria-expanded="false">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <i class="fas fa-sign-out-alt mr-1"></i> ログアウト
-                </a>
             </div>
         </div>
-    </nav>
-
-    <!-- フィルター -->
-    <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800 dark:text-white">今日会える人</h1>
-            <button class="btn-rounded">
-                <i class="fas fa-plus mr-1"></i>
-                自分も募集する
+    </header>
+    
+    <div class="mobile-menu fixed top-0 right-0 h-full w-4/5 bg-white dark:bg-gray-800 shadow-lg transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto" aria-hidden="true">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <span class="text-lg font-semibold text-indigo-600 dark:text-indigo-400">メニュー</span>
+            <button id="close-menu-button" class="text-gray-700 dark:text-white focus:outline-none" aria-label="メニューを閉じる">
+                <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-
-        <div class="filter-container dark:bg-gray-800">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="p-4">
+            <div class="flex items-center space-x-2 mb-6">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="プロフィール" class="h-10 w-10 rounded-full border-2 border-indigo-500">
                 <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="distance">
-                        <i class="fas fa-map-marker-alt mr-1"></i> 検索範囲
-                    </label>
-                    <select id="distance" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-                        <option value="1">1km以内</option>
-                        <option value="3">3km以内</option>
-                        <option value="5" selected>5km以内</option>
-                        <option value="10">10km以内</option>
-                        <option value="20">20km以内</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="time">
-                        <i class="fas fa-clock mr-1"></i> 希望時間
-                    </label>
-                    <select id="time" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-                        <option value="now">今すぐ</option>
-                        <option value="1">1時間以内</option>
-                        <option value="3">3時間以内</option>
-                        <option value="today" selected>今日中</option>
-                        <option value="tomorrow">明日</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="activity">
-                        <i class="fas fa-coffee mr-1"></i> アクティビティ
-                    </label>
-                    <select id="activity" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-                        <option value="cafe">カフェ</option>
-                        <option value="meal">食事</option>
-                        <option value="walk">散歩</option>
-                        <option value="shopping">ショッピング</option>
-                        <option value="movie">映画</option>
-                        <option value="any" selected>なんでも</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="gender">
-                        <i class="fas fa-venus-mars mr-1"></i> 性別
-                    </label>
-                    <select id="gender" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-                        <option value="all" selected>すべて</option>
-                        <option value="female">女性</option>
-                        <option value="male">男性</option>
-                    </select>
+                    <div class="text-sm font-medium">鈴木太郎</div>
+                    <a href="profile-edit.html" class="text-xs text-indigo-600 dark:text-indigo-400">プロフィール編集</a>
                 </div>
             </div>
-            <div class="mt-4 flex justify-end">
-                <button class="btn-primary">
-                    <i class="fas fa-search mr-1"></i>
-                    検索
-                </button>
-            </div>
-        </div>
-
-        <!-- ユーザーカード一覧 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- ユーザーカード1 -->
-            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80" alt="カフェで読書する女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
-                        1.2km
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="font-bold">まりこ</h3>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">28歳</span>
-                        </div>
-                        <span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs px-2 py-1 rounded-full">
-                            <i class="fas fa-circle text-xs mr-1 text-green-500"></i> オンライン
-                        </span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <i class="fas fa-map-pin mr-1"></i> 渋谷・原宿エリア
-                    </p>
-                    <p class="text-sm mb-4">今日の夜、カフェでお茶しませんか？美味しいケーキのお店を知っています。</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                            <i class="far fa-clock mr-1"></i> 19:00〜可能
-                        </span>
-                        <button class="btn-rounded">
-                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ユーザーカード2 -->
-            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80" alt="レストランでくつろぐ女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
-                        2.5km
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="font-bold">あやか</h3>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">25歳</span>
-                        </div>
-                        <span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs px-2 py-1 rounded-full">
-                            <i class="fas fa-circle text-xs mr-1 text-green-500"></i> オンライン
-                        </span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <i class="fas fa-map-pin mr-1"></i> 新宿エリア
-                    </p>
-                    <p class="text-sm mb-4">ディナーご一緒しませんか？イタリアンが好きです。おしゃべりしながら楽しい時間を過ごしましょう。</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                            <i class="far fa-clock mr-1"></i> 20:00〜可能
-                        </span>
-                        <button class="btn-rounded">
-                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ユーザーカード3 -->
-            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80" alt="公園でリラックスする女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
-                        3.8km
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="font-bold">ゆきこ</h3>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">24歳</span>
-                        </div>
-                        <span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs px-2 py-1 rounded-full">
-                            <i class="fas fa-circle text-xs mr-1 text-green-500"></i> オンライン
-                        </span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <i class="fas fa-map-pin mr-1"></i> 池袋エリア
-                    </p>
-                    <p class="text-sm mb-4">休日に公園でピクニックはいかがですか？お弁当を持って行きましょう。天気が良さそうです。</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                            <i class="far fa-clock mr-1"></i> 14:00〜可能
-                        </span>
-                        <button class="btn-rounded">
-                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ユーザーカード4 -->
-            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80" alt="カフェでくつろぐ女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
-                        4.1km
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="font-bold">はるか</h3>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">26歳</span>
-                        </div>
-                        <span class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
-                            <i class="fas fa-history text-xs mr-1"></i> 30分前
-                        </span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <i class="fas fa-map-pin mr-1"></i> 六本木エリア
-                    </p>
-                    <p class="text-sm mb-4">美術館に行きたいと思っています。アート好きな方、ご一緒しませんか？</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                            <i class="far fa-clock mr-1"></i> 13:00〜可能
-                        </span>
-                        <button class="btn-rounded">
-                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ユーザーカード5 -->
-            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="笑顔の女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
-                        1.7km
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="font-bold">みほ</h3>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">29歳</span>
-                        </div>
-                        <span class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
-                            <i class="fas fa-history text-xs mr-1"></i> 1時間前
-                        </span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <i class="fas fa-map-pin mr-1"></i> 恵比寿エリア
-                    </p>
-                    <p class="text-sm mb-4">ショッピングに付き合ってくれる方募集中！おしゃれなカフェにも寄りたいです。</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                            <i class="far fa-clock mr-1"></i> 15:00〜可能
-                        </span>
-                        <button class="btn-rounded">
-                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ユーザーカード6 -->
-            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80" alt="笑顔の女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
-                        5.0km
-                    </div>
-                </div>
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center space-x-2">
-                            <h3 class="font-bold">さくら</h3>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">23歳</span>
-                        </div>
-                        <span class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
-                            <i class="fas fa-history text-xs mr-1"></i> 2時間前
-                        </span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <i class="fas fa-map-pin mr-1"></i> 表参道エリア
-                    </p>
-                    <p class="text-sm mb-4">映画を観に行きたいです。最近の話題作について語り合いましょう！</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                            <i class="far fa-clock mr-1"></i> 18:30〜可能
-                        </span>
-                        <button class="btn-rounded">
-                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ページネーション -->
-        <div class="mt-8 flex justify-center">
-            <nav class="pagination">
-                <a href="#" class="rounded-l-md"><i class="fas fa-chevron-left mr-1"></i> 前へ</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#" class="rounded-r-md">次へ <i class="fas fa-chevron-right ml-1"></i></a>
+            <nav class="space-y-4">
+                <a href="dashboard.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
+                    <i class="fas fa-home w-6"></i>
+                    <span>ダッシュボード</span>
+                </a>
+                <a href="matching.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
+                    <i class="fas fa-heart w-6"></i>
+                    <span>マッチング</span>
+                </a>
+                <a href="messages.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
+                    <i class="fas fa-comment w-6"></i>
+                    <span>メッセージ</span>
+                </a>
+                <a href="meet-today.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
+                    <i class="fas fa-calendar-day w-6"></i>
+                    <span>今日の出会い</span>
+                </a>
+                <a href="create-event.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
+                    <i class="fas fa-calendar-plus w-6"></i>
+                    <span>イベント作成</span>
+                </a>
+                <hr class="my-4 border-gray-200 dark:border-gray-700">
+                <a href="#" class="mobile-nav-link flex items-center text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 py-2">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>ログアウト</span>
+                </a>
             </nav>
         </div>
-
-        <!-- 位置情報の注意事項 -->
-        <div class="notice-container location-notice mt-8 dark:bg-blue-900 dark:border-blue-700">
-            <h3 class="font-bold text-blue-800 dark:text-blue-200 mb-2"><i class="fas fa-map-marker-alt mr-1"></i> 位置情報について</h3>
-            <ul class="list-disc list-inside text-sm text-blue-700 dark:text-blue-300 space-y-1">
-                <li>位置情報は自動的に更新されます</li>
-                <li>表示される距離は概算です</li>
-                <li>プライバシー保護のため、正確な位置は表示されません</li>
-                <li>位置情報の共有はいつでも設定から無効にできます</li>
-            </ul>
-        </div>
-
-        <!-- 安全に関する注意事項 -->
-        <div class="notice-container safety-notice mt-4 dark:bg-indigo-900 dark:border-indigo-700">
-            <h3 class="font-bold text-indigo-800 dark:text-indigo-200 mb-2"><i class="fas fa-shield-alt mr-1"></i> 安全にご利用いただくために</h3>
-            <ul class="list-disc list-inside text-sm text-indigo-700 dark:text-indigo-300 space-y-1">
-                <li>初対面の方との待ち合わせは、必ず人通りの多い公共の場所を選びましょう</li>
-                <li>個人情報の交換は慎重に行いましょう</li>
-                <li>不審に感じた場合は、すぐにサポートまでご連絡ください</li>
-                <li>相手の希望や意思を尊重し、相互に楽しい時間を過ごしましょう</li>
-            </ul>
-        </div>
     </div>
+    
+    <main class="container mx-auto px-4 py-6 transition-opacity duration-300">
+        <!-- 今日の出会いページヘッダー -->
+        <div class="mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">今日の出会い</h1>
+            <p class="text-gray-600 dark:text-gray-300">あなたにおすすめの特別な出会いをご紹介します</p>
+        </div>
+        
+        <!-- メインコンテンツ -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- メインの特別な出会い -->
+            <div class="lg:col-span-8">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&h=400&q=80" alt="今日のピックアップイベント" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <div class="text-white">
+                                <h2 class="text-2xl font-bold mb-2">東京湾クルーズパーティー</h2>
+                                <p class="mb-2"><i class="fas fa-calendar-alt mr-2"></i>2023年7月15日（土）18:00〜21:00</p>
+                                <p class="mb-4"><i class="fas fa-map-marker-alt mr-2"></i>東京都港区海岸</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-indigo-600 text-white text-xs font-medium px-2.5 py-1 rounded">パーティー</span>
+                                    <span class="bg-indigo-600 text-white text-xs font-medium px-2.5 py-1 rounded">クルーズ</span>
+                                    <span class="bg-indigo-600 text-white text-xs font-medium px-2.5 py-1 rounded">20代・30代向け</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">東京湾の夜景を眺めながら素敵な出会いを見つけませんか？フリードリンクとビュッフェスタイルのお食事をご用意。DJ演奏や様々なアクティビティもお楽しみいただけます。</p>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">参加予定人数：男性25名・女性25名</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">¥8,500</span>
+                            <button class="btn-primary">参加申し込み</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 今日のマッチング -->
+            <div class="lg:col-span-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-xl font-bold mb-2">今日のマッチング</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">あなたと相性の良い方々です</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="山田花子" class="w-14 h-14 rounded-full object-cover border-2 border-indigo-500">
+                            <div class="ml-3">
+                                <h4 class="font-medium">山田花子 <span class="text-xs text-gray-500 dark:text-gray-400">26歳</span></h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">相性度: <span class="text-indigo-600 dark:text-indigo-400 font-medium">89%</span></p>
+                                <div class="flex mt-1 space-x-1">
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-1.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">旅行</span>
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-1.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">映画</span>
+                                </div>
+                            </div>
+                            <button class="ml-auto text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="佐藤美咲" class="w-14 h-14 rounded-full object-cover border-2 border-indigo-500">
+                            <div class="ml-3">
+                                <h4 class="font-medium">佐藤美咲 <span class="text-xs text-gray-500 dark:text-gray-400">24歳</span></h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">相性度: <span class="text-indigo-600 dark:text-indigo-400 font-medium">82%</span></p>
+                                <div class="flex mt-1 space-x-1">
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-1.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">料理</span>
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-1.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">アート</span>
+                                </div>
+                            </div>
+                            <button class="ml-auto text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="田中結衣" class="w-14 h-14 rounded-full object-cover border-2 border-indigo-500">
+                            <div class="ml-3">
+                                <h4 class="font-medium">田中結衣 <span class="text-xs text-gray-500 dark:text-gray-400">27歳</span></h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">相性度: <span class="text-indigo-600 dark:text-indigo-400 font-medium">78%</span></p>
+                                <div class="flex mt-1 space-x-1">
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-1.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">音楽</span>
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-1.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">スポーツ</span>
+                                </div>
+                            </div>
+                            <button class="ml-auto text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <a href="matching.html" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium">
+                                もっと見る <i class="fas fa-chevron-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- おすすめイベント -->
+        <div class="mt-10">
+            <h2 class="text-xl font-bold mb-6">おすすめイベント</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- イベント1 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400&q=80" alt="カフェでの朝活交流会" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4 bg-indigo-600 text-white text-xs font-medium px-2.5 py-1 rounded">イベント</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-2">カフェでの朝活交流会</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">東京都渋谷区のおしゃれなカフェで朝活＆交流会。モーニングビュッフェとコーヒーをご用意。</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1"><i class="fas fa-calendar-alt mr-1"></i>7月8日(土) 8:00〜10:00</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-users mr-1"></i>参加予定: 12名</p>
+                            </div>
+                            <span class="text-lg font-bold text-indigo-600 dark:text-indigo-400">¥3,500</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- イベント2 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1514222709107-a180c68d72b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400&q=80" alt="ワイン試飲会" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4 bg-indigo-600 text-white text-xs font-medium px-2.5 py-1 rounded">イベント</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-2">ワイン試飲会</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">世界各国のワインを専門家の解説付きで楽しむ大人の出会いイベント。軽食もご用意しています。</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1"><i class="fas fa-calendar-alt mr-1"></i>7月14日(金) 19:00〜21:30</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-users mr-1"></i>参加予定: 18名</p>
+                            </div>
+                            <span class="text-lg font-bold text-indigo-600 dark:text-indigo-400">¥6,000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- イベント3 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400&q=80" alt="アウトドア散策会" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4 bg-indigo-600 text-white text-xs font-medium px-2.5 py-1 rounded">イベント</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-2">アウトドア散策会</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">鎌倉の自然の中を散策しながら、新しい出会いを探しませんか？ランチも一緒にどうぞ。</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1"><i class="fas fa-calendar-alt mr-1"></i>7月16日(日) 10:00〜15:00</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-users mr-1"></i>参加予定: 15名</p>
+                            </div>
+                            <span class="text-lg font-bold text-indigo-600 dark:text-indigo-400">¥4,500</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <a href="create-event.html" class="btn-primary">
+                    <i class="fas fa-plus mr-2"></i>イベントを作成する
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 mt-12 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="https://via.placeholder.com/40x40?text=LM" alt="Love Match Logo" class="h-8 w-auto mr-2">
+                    <span class="text-lg font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-gray-600 dark:text-gray-300">
+                <p>&copy; 2023 Love Match. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
     
     <script src="script.js"></script>
 </body>

@@ -525,4 +525,239 @@ window.addEventListener('resize', function() {
     } else if (window.innerWidth > 768) {
         document.body.classList.remove('mobile-enhanced');
     }
+});
+
+// DOM要素が読み込まれた後に実行
+document.addEventListener('DOMContentLoaded', function() {
+    setupDarkMode();
+    setupMobileMenu();
+    setupAnimations();
+});
+
+/**
+ * ダークモードの設定と切り替え機能
+ */
+function setupDarkMode() {
+    // すべてのダークモードトグルを取得
+    const darkModeToggles = document.querySelectorAll('.dark-mode-toggle');
+    
+    // 現在のダークモード状態を確認
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    
+    // トグル状態を設定
+    darkModeToggles.forEach(toggle => {
+        toggle.checked = isDarkMode;
+    });
+    
+    // クリックイベントリスナーを追加
+    darkModeToggles.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            toggleDarkMode(this.checked);
+        });
+    });
+}
+
+/**
+ * ダークモードの切り替え
+ * @param {boolean} enable - trueならダークモードを有効にする
+ */
+function toggleDarkMode(enable) {
+    if (enable) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add('dark-optimized');
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.remove('dark-optimized');
+        localStorage.setItem('darkMode', 'disabled');
+    }
+    
+    // すべてのトグルを同期
+    const darkModeToggles = document.querySelectorAll('.dark-mode-toggle');
+    darkModeToggles.forEach(toggle => {
+        toggle.checked = enable;
+    });
+}
+
+/**
+ * モバイルメニューの設定
+ */
+function setupMobileMenu() {
+    const menuButton = document.getElementById('menu-button');
+    const closeMenuButton = document.getElementById('close-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    if (!menuButton || !closeMenuButton || !mobileMenu) return;
+    
+    // メニューを開く
+    menuButton.addEventListener('click', function() {
+        mobileMenu.classList.remove('translate-x-full');
+        document.body.classList.add('overflow-hidden');
+        menuButton.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+    });
+    
+    // メニューを閉じる
+    closeMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.add('translate-x-full');
+        document.body.classList.remove('overflow-hidden');
+        menuButton.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+    });
+    
+    // モバイルメニュー内のリンクをクリックした時にメニューを閉じる
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenu.classList.add('translate-x-full');
+            document.body.classList.remove('overflow-hidden');
+            menuButton.setAttribute('aria-expanded', 'false');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+        });
+    });
+}
+
+/**
+ * ページアニメーションの設定
+ */
+function setupAnimations() {
+    // ページ遷移のアニメーション
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            document.body.classList.add('page-visible');
+        }
+    });
+    
+    // ナビゲーションリンクのアクティブ状態を管理
+    highlightCurrentPage();
+    
+    // カードホバーのアニメーション強化
+    setupCardHoverEffects();
+}
+
+/**
+ * 現在のページに対応するナビゲーションリンクをハイライト
+ */
+function highlightCurrentPage() {
+    const currentPath = window.location.pathname;
+    const filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    // デスクトップとモバイルの両方のナビゲーションリンクを取得
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    
+    // デスクトップナビゲーションリンクの更新
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === filename || (filename === '' && href === 'index.html')) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+    
+    // モバイルナビゲーションリンクの更新
+    mobileNavLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === filename || (filename === '' && href === 'index.html')) {
+            link.classList.add('text-indigo-600', 'dark:text-indigo-400');
+            link.classList.remove('text-gray-700', 'dark:text-gray-300', 'hover:text-indigo-600', 'dark:hover:text-indigo-400');
+        }
+    });
+}
+
+/**
+ * カードホバー効果の設定
+ */
+function setupCardHoverEffects() {
+    // カードの要素を選択
+    const cards = document.querySelectorAll('.card, .user-card, .profile-card, .message-preview');
+    
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.classList.add('card-hover');
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.classList.remove('card-hover');
+        });
+    });
+}
+
+/**
+ * メッセージを送信する（メッセージページ用）
+ */
+function sendMessage() {
+    const messageInput = document.querySelector('.message-input');
+    
+    if (!messageInput) return;
+    
+    // メッセージ送信ボタンを取得
+    const sendButton = document.querySelector('.send-button');
+    
+    if (sendButton) {
+        sendButton.addEventListener('click', function() {
+            const message = messageInput.value.trim();
+            if (message !== '') {
+                // 実際のアプリではここでAPIを呼び出してメッセージを送信
+                console.log('Sending message:', message);
+                
+                // メッセージ入力をクリア
+                messageInput.value = '';
+                
+                // メッセージを表示（簡易的な例）
+                const chatContent = document.querySelector('.flex-1.p-4.overflow-y-auto');
+                if (chatContent) {
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'flex items-end justify-end';
+                    newMessage.innerHTML = `
+                        <div class="message-bubble sent max-w-[75%]">
+                            <p>${message}</p>
+                            <span class="message-time">${getCurrentTime()}</span>
+                        </div>
+                    `;
+                    chatContent.appendChild(newMessage);
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                }
+            }
+        });
+        
+        // Enter キーでも送信可能に
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendButton.click();
+            }
+        });
+    }
+}
+
+/**
+ * 現在の時刻を取得する（メッセージのタイムスタンプ用）
+ * @returns {string} 時:分 形式の時刻文字列
+ */
+function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+// モバイルメニューの位置を調整する（スクロール時）
+window.addEventListener('scroll', function() {
+    const mobileMenu = document.querySelector('.mobile-menu');
+    if (mobileMenu && window.innerWidth < 768) {
+        mobileMenu.style.top = '0px';
+    }
+});
+
+// ページが完全にロードされたときに実行する追加の機能
+window.addEventListener('load', function() {
+    // メッセージ機能の初期化（messages.htmlページの場合）
+    if (window.location.pathname.includes('messages.html')) {
+        sendMessage();
+    }
+    
+    // ページトランジションを終了
+    document.body.classList.add('loaded');
 }); 
