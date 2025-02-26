@@ -17,12 +17,12 @@ function initDarkMode() {
         document.documentElement.classList.add('dark-optimized');
         localStorage.setItem('darkMode', 'enabled');
         
-        // モバイル環境での視認性向上
-        enhanceMobileVisibility();
-        
         // トグルボタンの状態を同期
         if (darkModeToggle) darkModeToggle.checked = true;
         if (mobileDarkModeToggle) mobileDarkModeToggle.checked = true;
+        
+        // ダークモード時のUIを最適化
+        optimizeDarkModeUI();
     }
     
     // ダークモード解除関数
@@ -31,12 +31,19 @@ function initDarkMode() {
         document.documentElement.classList.remove('dark-optimized');
         localStorage.setItem('darkMode', 'disabled');
         
-        // モバイル環境での視認性最適化を解除
-        document.body.classList.remove('mobile-enhanced');
-        
         // トグルボタンの状態を同期
         if (darkModeToggle) darkModeToggle.checked = false;
         if (mobileDarkModeToggle) mobileDarkModeToggle.checked = false;
+    }
+    
+    // ダークモードUI最適化
+    function optimizeDarkModeUI() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            if (!card.classList.contains('bg-white') && !card.classList.contains('dark:bg-gray-800')) {
+                card.classList.add('bg-white', 'dark:bg-gray-800');
+            }
+        });
     }
     
     // 初期状態の設定
@@ -110,6 +117,7 @@ function initMobileMenu() {
         menuButton.addEventListener('click', function(e) {
             e.preventDefault();
             mobileMenu.classList.add('active');
+            mobileMenu.style.transform = 'translateX(0)';
             document.body.style.overflow = 'hidden'; // スクロール防止
             
             // アクセシビリティ対応
@@ -148,21 +156,30 @@ function initMobileMenu() {
     });
     
     function closeMenu() {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = ''; // スクロール許可
-        
-        // アクセシビリティ対応
-        if (menuButton) {
-            menuButton.setAttribute('aria-expanded', 'false');
-            menuButton.focus(); // メニューボタンにフォーカスを戻す
+        if (mobileMenu) {
+            mobileMenu.classList.remove('active');
+            mobileMenu.style.transform = 'translateX(100%)';
+            document.body.style.overflow = ''; // スクロール許可
+            
+            // アクセシビリティ対応
+            if (menuButton) {
+                menuButton.setAttribute('aria-expanded', 'false');
+                menuButton.focus(); // メニューボタンにフォーカスを戻す
+            }
+            mobileMenu.setAttribute('aria-hidden', 'true');
         }
-        mobileMenu.setAttribute('aria-hidden', 'true');
     }
 }
 
 // ページ遷移の初期化
 function initPageTransitions() {
     const navLinks = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"])');
+    
+    // ページロード時のアニメーション
+    const main = document.querySelector('main');
+    if (main) {
+        main.classList.add('fade-in');
+    }
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -174,8 +191,10 @@ function initPageTransitions() {
                 const href = link.getAttribute('href');
                 
                 // ページ遷移アニメーション
-                document.querySelector('main').style.opacity = '0';
-                document.querySelector('main').style.transform = 'translateY(10px)';
+                if (main) {
+                    main.style.opacity = '0';
+                    main.style.transform = 'translateY(10px)';
+                }
                 
                 // 現在のダークモード設定を一時保存
                 sessionStorage.setItem('preserveDarkMode', isDarkMode ? 'enabled' : 'disabled');
@@ -188,11 +207,8 @@ function initPageTransitions() {
         });
     });
     
-    // ページロード時のアニメーション
+    // 前のページからダークモード設定を取得して適用
     window.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('main').classList.add('page-transition');
-        
-        // 前のページからダークモード設定を取得して適用
         const preserveDarkMode = sessionStorage.getItem('preserveDarkMode');
         if (preserveDarkMode === 'enabled') {
             document.documentElement.classList.add('dark');
@@ -468,6 +484,20 @@ function initApp() {
     
     // サービスワーカーの登録
     registerServiceWorker();
+    
+    // CSSアニメーション用クラスの追加
+    document.querySelectorAll('.card').forEach(card => {
+        if (!card.classList.contains('transition-all')) {
+            card.classList.add('transition-all');
+        }
+    });
+    
+    // モバイルナビゲーションリンクのスタイル修正
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        if (!link.classList.contains('flex')) {
+            link.classList.add('flex', 'items-center', 'text-gray-700', 'dark:text-gray-300');
+        }
+    });
 }
 
 // DOM読み込み完了時にアプリケーションを初期化

@@ -99,45 +99,40 @@ h3 {
     box-shadow: var(--card-shadow);
     transition: var(--transition-normal);
     overflow: hidden;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 .card:hover {
-    transform: translateY(-5px);
     box-shadow: var(--card-shadow-hover);
+    transform: translateY(-5px);
 }
 
 .card-body {
-    padding: 1.25rem;
-    flex: 1 1 auto;
+    padding: 1.5rem;
 }
 
 .card-header {
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
-    background-color: rgba(0, 0, 0, 0.02);
+    font-weight: 600;
 }
 
 .card-footer {
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.5rem;
     border-top: 1px solid var(--border-color);
     background-color: rgba(0, 0, 0, 0.02);
 }
 
-/* Matching Card Styles */
+/* マッチングカードスタイル */
 .matching-card {
     position: relative;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    background-color: var(--bg-color-card);
-    border-radius: 1rem;
     overflow: hidden;
+    border-radius: 1rem;
     box-shadow: var(--card-shadow);
-    transition: var(--transition-normal);
-    height: 600px;
+    background-color: var(--bg-color-card);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    max-width: 480px;
+    margin: 0 auto;
+    transform-origin: center bottom;
 }
 
 .matching-card.swiped-left {
@@ -152,65 +147,62 @@ h3 {
 
 .card-image {
     width: 100%;
-    height: 65%;
+    height: 360px;
     object-fit: cover;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }
 
 .card-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 20px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    color: white;
+    padding: 1.5rem;
+    background-color: var(--bg-color-card);
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }
 
+/* アクションボタン */
 .action-buttons {
     display: flex;
     justify-content: space-around;
-    padding: 1rem 0;
+    margin-top: 1rem;
 }
 
 .action-buttons button {
     width: 60px;
     height: 60px;
     border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s, background-color 0.2s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    background-color: white;
-    border: none;
-    cursor: pointer;
 }
 
 .action-buttons button:hover {
-    transform: scale(1.1);
+    transform: translateY(-5px);
 }
 
 .action-buttons button.btn-like {
-    color: var(--success-color);
+    background-color: var(--success-color);
 }
 
 .action-buttons button.btn-pass {
-    color: var(--error-color);
+    background-color: var(--error-color);
 }
 
 .action-buttons button.btn-message {
-    color: var(--secondary-color);
+    background-color: var(--primary-color);
 }
 
-/* Navigation Styles */
+/* Navigation Links */
 .nav-link {
-    color: var(--text-color-light);
-    transition: color 0.3s ease;
     position: relative;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -220,28 +212,244 @@ h3 {
 .nav-link:after {
     content: '';
     position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
+    bottom: -4px;
     left: 0;
+    width: 100%;
+    height: 2px;
     background-color: var(--primary-color);
-    transition: width 0.3s ease;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: right;
 }
 
 .nav-link:hover:after, .nav-link.active:after {
-    width: 100%;
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
-/* Mobile Menu */
+/* Mobile Menu - 改善されたモバイルメニュー */
 .mobile-menu {
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 80%;
     background-color: var(--bg-color-card);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 999;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    z-index: 1000;
+    overflow-y: auto;
 }
 
 .mobile-menu.active {
     transform: translateX(0);
+}
+
+/* Mobile Nav Links */
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.mobile-nav-link:hover {
+    color: var(--primary-color);
+}
+
+.mobile-nav-link i {
+    margin-right: 0.75rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    display: none;
+}
+
+.dark-mode-toggle + label {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.dark-mode-toggle + label .dot {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:checked + label .dot {
+    transform: translateX(24px);
+}
+
+.dark-mode-toggle + label .dot-dark {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:checked + label .dot-dark {
+    transform: scale(1);
+}
+
+.dark-mode-toggle + label .block {
+    width: 50px;
+    height: 26px;
+    border-radius: 13px;
+    background-color: #e2e8f0;
+    transition: background-color 0.3s ease;
+}
+
+.dark-mode-toggle:checked + label .block {
+    background-color: var(--secondary-dark);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--button-radius);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Page Transitions */
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ダークモード時のスタイル調整 */
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-800 {
+    color: var(--text-color) !important;
+}
+
+.dark .bg-white {
+    background-color: var(--bg-color-card) !important;
+}
+
+.dark .card {
+    background-color: var(--bg-color-card);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dark-optimized .card {
+    background-color: var(--bg-color-card) !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .mobile-menu {
+        width: 80%;
+    }
+    
+    .card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .hero-pattern {
+        padding: 3rem 1.5rem;
+    }
+    
+    .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* スクロールバーのカスタマイズ */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #4f46e5;
 }
 
 /* Message Styles */

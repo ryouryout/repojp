@@ -6,7 +6,7 @@
     <meta name="description" content="Love Match - あなたの理想のパートナーを見つけるマッチングサービス。スマートなマッチングアルゴリズムを使って、あなたにぴったりの相手と出会いませんか？">
     <title>Love Match - 理想の相手を見つけよう</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" href="assets/images/favicon.png">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2589/2589175.png">
     <!-- Webfontsの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
@@ -22,120 +22,15 @@
         if (isDarkMode) {
             document.documentElement.classList.add('dark');
             document.documentElement.classList.add('dark-optimized');
-            
-            // モバイル環境の場合、追加クラスを適用
-            if (window.innerWidth <= 768) {
-                document.documentElement.classList.add('mobile-dark-enhanced');
-            }
         }
     </script>
-    <style>
-        /* インラインスタイル - 初期状態での表示改善 */
-        .mobile-dark-enhanced .mobile-menu {
-            background-color: #334155 !important;
-        }
-        
-        .mobile-dark-enhanced .mobile-menu a {
-            color: #f3f4f6 !important;
-        }
-        
-        .dark-optimized .card {
-            background-color: #334155 !important;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        .dark-optimized .text-gray-600, 
-        .dark-optimized .text-gray-700, 
-        .dark-optimized .text-gray-800 {
-            color: #f3f4f6 !important;
-        }
-        
-        /* スムーズなページ遷移 */
-        main {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        .page-transition {
-            animation: fadeInUp 0.5s ease forwards;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* モバイルメニューの位置を右側に変更 */
-        .mobile-menu {
-            transform: translateX(100%) !important;
-            right: 0 !important;
-            left: auto !important;
-        }
-        
-        .mobile-menu.active {
-            transform: translateX(0) !important;
-        }
-        
-        /* カードのホバー効果を強化 */
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* スクロールバーのカスタマイズ */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 5px;
-        }
-        
-        .dark ::-webkit-scrollbar-track {
-            background: #1e293b;
-        }
-        
-        .dark ::-webkit-scrollbar-thumb {
-            background: #4f46e5;
-        }
-        
-        /* モバイル向けのテキストサイズ調整 */
-        @media (max-width: 768px) {
-            .mobile-enhanced .text-sm {
-                font-size: 1rem !important;
-            }
-            
-            .mobile-enhanced h2, .mobile-enhanced h3 {
-                color: #f3f4f6 !important;
-            }
-            
-            .dark.mobile-enhanced .text-gray-600,
-            .dark.mobile-enhanced .text-gray-700,
-            .dark.mobile-enhanced .text-gray-800 {
-                color: #f3f4f6 !important;
-            }
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white transition-colors duration-300">
     <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-30 transition-colors duration-300">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="index.html" class="flex items-center space-x-2">
-                <img src="assets/images/logo.svg" alt="Love Match Logo" class="h-8 w-auto">
+                <!-- プレースホルダーロゴに変更 -->
+                <img src="https://via.placeholder.com/40x40?text=LM" alt="Love Match Logo" class="h-8 w-auto">
                 <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
             </a>
             
@@ -161,7 +56,8 @@
                 </div>
                 
                 <a href="profile-edit.html" class="flex items-center space-x-1">
-                    <img src="assets/images/profile-avatar.jpg" alt="プロフィール" class="h-8 w-8 rounded-full border-2 border-indigo-500">
+                    <!-- プレースホルダー画像に変更 -->
+                    <img src="https://via.placeholder.com/40x40?text=User" alt="プロフィール" class="h-8 w-8 rounded-full border-2 border-indigo-500">
                     <span class="text-sm font-medium">鈴木太郎</span>
                 </a>
             </nav>
@@ -198,35 +94,36 @@
         </div>
         <div class="p-4">
             <div class="flex items-center space-x-2 mb-6">
-                <img src="assets/images/profile-avatar.jpg" alt="プロフィール" class="h-10 w-10 rounded-full border-2 border-indigo-500">
+                <!-- プレースホルダー画像に変更 -->
+                <img src="https://via.placeholder.com/40x40?text=User" alt="プロフィール" class="h-10 w-10 rounded-full border-2 border-indigo-500">
                 <div>
                     <div class="text-sm font-medium">鈴木太郎</div>
                     <a href="profile-edit.html" class="text-xs text-indigo-600 dark:text-indigo-400">プロフィール編集</a>
                 </div>
             </div>
             <nav class="space-y-4">
-                <a href="dashboard.html" class="mobile-nav-link">
+                <a href="dashboard.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
                     <i class="fas fa-home w-6"></i>
                     <span>ダッシュボード</span>
                 </a>
-                <a href="matching.html" class="mobile-nav-link">
+                <a href="matching.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
                     <i class="fas fa-heart w-6"></i>
                     <span>マッチング</span>
                 </a>
-                <a href="messages.html" class="mobile-nav-link">
+                <a href="messages.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
                     <i class="fas fa-comment w-6"></i>
                     <span>メッセージ</span>
                 </a>
-                <a href="meet-today.html" class="mobile-nav-link">
+                <a href="meet-today.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
                     <i class="fas fa-calendar-day w-6"></i>
                     <span>今日の出会い</span>
                 </a>
-                <a href="create-event.html" class="mobile-nav-link">
+                <a href="create-event.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
                     <i class="fas fa-calendar-plus w-6"></i>
                     <span>イベント作成</span>
                 </a>
                 <hr class="my-4 border-gray-200 dark:border-gray-700">
-                <a href="#" class="mobile-nav-link text-red-600 dark:text-red-400">
+                <a href="#" class="mobile-nav-link flex items-center text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 py-2">
                     <i class="fas fa-sign-out-alt w-6"></i>
                     <span>ログアウト</span>
                 </a>
@@ -234,7 +131,7 @@
         </div>
     </div>
     
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 transition-opacity duration-300">
         <section class="mb-16 relative overflow-hidden rounded-xl" id="hero">
             <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 opacity-90"></div>
             <div class="relative z-10 p-8 md:p-16 text-white">
@@ -248,7 +145,9 @@
                 </div>
             </div>
             <div class="absolute bottom-0 right-0 w-full md:w-1/2 h-full">
-                <img src="assets/images/hero-image.jpg" alt="カップル" class="object-cover h-full w-full opacity-20 md:opacity-40">
+                <!-- プレースホルダー画像に変更 -->
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60" 
+                     alt="カップル" class="object-cover h-full w-full opacity-20 md:opacity-40">
             </div>
         </section>
         
@@ -259,7 +158,7 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <div class="text-indigo-600 dark:text-indigo-400 mb-4">
                         <i class="fas fa-brain text-4xl"></i>
                     </div>
@@ -267,7 +166,7 @@
                     <p class="text-gray-600 dark:text-gray-300">人工知能が好みやライフスタイルを分析し、相性の良い相手を提案します。</p>
                 </div>
                 
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <div class="text-indigo-600 dark:text-indigo-400 mb-4">
                         <i class="fas fa-shield-alt text-4xl"></i>
                     </div>
@@ -275,7 +174,7 @@
                     <p class="text-gray-600 dark:text-gray-300">厳重な本人確認とプライバシー保護で、安心して利用できる環境を提供します。</p>
                 </div>
                 
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <div class="text-indigo-600 dark:text-indigo-400 mb-4">
                         <i class="fas fa-calendar-alt text-4xl"></i>
                     </div>
@@ -292,9 +191,10 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <div class="flex items-center mb-4">
-                        <img src="assets/images/testimonial-1.jpg" alt="田中さん" class="w-12 h-12 rounded-full object-cover">
+                        <!-- プレースホルダー画像に変更 -->
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="田中さん" class="w-12 h-12 rounded-full object-cover">
                         <div class="ml-4">
                             <h4 class="font-semibold">田中さん（32歳）</h4>
                             <div class="flex text-yellow-500">
@@ -309,9 +209,10 @@
                     <p class="text-gray-600 dark:text-gray-300">"Love Matchを始めて3ヶ月で運命の人と出会えました。AIのマッチングは本当に素晴らしく、共通の趣味や価値観を持った相手を見つけられました。"</p>
                 </div>
                 
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <div class="flex items-center mb-4">
-                        <img src="assets/images/testimonial-2.jpg" alt="佐藤さん" class="w-12 h-12 rounded-full object-cover">
+                        <!-- プレースホルダー画像に変更 -->
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="佐藤さん" class="w-12 h-12 rounded-full object-cover">
                         <div class="ml-4">
                             <h4 class="font-semibold">佐藤さん（28歳）</h4>
                             <div class="flex text-yellow-500">
@@ -335,7 +236,7 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="card p-6 rounded-lg border border-gray-200 dark:border-gray-700 transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all">
                     <div class="text-center mb-6">
                         <h3 class="text-xl font-bold mb-2">ベーシック</h3>
                         <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">無料</div>
@@ -355,10 +256,10 @@
                             <span class="text-gray-600 dark:text-gray-300">メッセージ機能（制限あり）</span>
                         </li>
                     </ul>
-                    <a href="register.html" class="btn-secondary w-full text-center">登録する</a>
+                    <a href="register.html" class="btn-secondary block w-full text-center">登録する</a>
                 </div>
                 
-                <div class="card p-6 rounded-lg border-2 border-indigo-500 dark:border-indigo-400 relative transition-all transform hover:scale-105">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 border-2 border-indigo-500 dark:border-indigo-400 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 relative">
                     <div class="absolute top-0 right-0 bg-indigo-600 text-white px-3 py-1 text-sm font-bold rounded-bl-lg">人気</div>
                     <div class="text-center mb-6">
                         <h3 class="text-xl font-bold mb-2">プレミアム</h3>
@@ -387,10 +288,10 @@
                             <span class="text-gray-600 dark:text-gray-300">イベント参加優先権</span>
                         </li>
                     </ul>
-                    <a href="register.html" class="btn-primary w-full text-center">登録する</a>
+                    <a href="register.html" class="btn-primary block w-full text-center">登録する</a>
                 </div>
                 
-                <div class="card p-6 rounded-lg border border-gray-200 dark:border-gray-700 transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all">
                     <div class="text-center mb-6">
                         <h3 class="text-xl font-bold mb-2">ビジネス</h3>
                         <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">¥5,980<span class="text-base font-normal">/月</span></div>
@@ -414,7 +315,7 @@
                             <span class="text-gray-600 dark:text-gray-300">専属コンシェルジュサービス</span>
                         </li>
                     </ul>
-                    <a href="register.html" class="btn-secondary w-full text-center">登録する</a>
+                    <a href="register.html" class="btn-secondary block w-full text-center">登録する</a>
                 </div>
             </div>
         </section>
@@ -426,17 +327,17 @@
             </div>
             
             <div class="space-y-6 max-w-3xl mx-auto">
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <h3 class="text-lg font-semibold mb-2">登録は無料ですか？</h3>
                     <p class="text-gray-600 dark:text-gray-300">はい、基本登録は完全無料です。プレミアム機能を利用する場合は月額プランへの加入が必要です。</p>
                 </div>
                 
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <h3 class="text-lg font-semibold mb-2">どのようにして相性の良い相手を見つけるのですか？</h3>
                     <p class="text-gray-600 dark:text-gray-300">プロフィール情報や行動パターン、好みなどを分析し、AIが相性の良い相手を提案します。マッチングアルゴリズムは常に学習し、より精度の高い提案を行います。</p>
                 </div>
                 
-                <div class="card p-6 rounded-lg transition-all">
+                <div class="card p-6 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
                     <h3 class="text-lg font-semibold mb-2">安全性はどのように確保されていますか？</h3>
                     <p class="text-gray-600 dark:text-gray-300">全ユーザーに対して本人確認を実施しています。また、24時間365日のモニタリングシステムで不適切な行為を監視し、ユーザーの安全を守っています。</p>
                 </div>
@@ -457,7 +358,8 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
-                        <img src="assets/images/logo.svg" alt="Love Match Logo" class="h-8 w-auto">
+                        <!-- プレースホルダーロゴに変更 -->
+                        <img src="https://via.placeholder.com/40x40?text=LM" alt="Love Match Logo" class="h-8 w-auto">
                         <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
                     </div>
                     <p class="text-gray-600 dark:text-gray-300 mb-4">あなたの理想の相手を見つけるマッチングサービス。</p>
@@ -477,30 +379,30 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">サービス</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="footer-link">マッチング</a></li>
-                        <li><a href="#" class="footer-link">イベント</a></li>
-                        <li><a href="#" class="footer-link">プレミアムプラン</a></li>
-                        <li><a href="#" class="footer-link">ビジネスネットワーキング</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">マッチング</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">イベント</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">プレミアムプラン</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">ビジネスネットワーキング</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-lg font-semibold mb-4">サポート</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="footer-link">よくある質問</a></li>
-                        <li><a href="#" class="footer-link">お問い合わせ</a></li>
-                        <li><a href="#" class="footer-link">安全ガイドライン</a></li>
-                        <li><a href="#" class="footer-link">コミュニティガイドライン</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">よくある質問</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">お問い合わせ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">安全ガイドライン</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">コミュニティガイドライン</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-lg font-semibold mb-4">法的情報</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="footer-link">利用規約</a></li>
-                        <li><a href="#" class="footer-link">プライバシーポリシー</a></li>
-                        <li><a href="#" class="footer-link">特定商取引法に基づく表記</a></li>
-                        <li><a href="#" class="footer-link">資金決済法に基づく表記</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">利用規約</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">プライバシーポリシー</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">特定商取引法に基づく表記</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">資金決済法に基づく表記</a></li>
                     </ul>
                 </div>
             </div>
