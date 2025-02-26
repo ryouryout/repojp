@@ -57,30 +57,25 @@ function initNavigation() {
 }
 
 /**
- * Initialize dark mode functionality
+ * Initialize dark mode functionality - disabled as per client request
  */
 function initDarkMode() {
-    const darkModeToggle = document.querySelector('.dark-mode-toggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    // Dark mode has been disabled as per client request
+    // Ensure all dark mode classes are removed
+    document.documentElement.classList.remove('dark');
+    document.body.classList.remove('dark-mode');
+    document.documentElement.classList.remove('dark-optimized');
     
-    // Check for saved dark mode preference
-    const savedDarkMode = localStorage.getItem('darkMode');
+    // Clear any stored dark mode preferences
+    localStorage.removeItem('darkMode');
     
-    // Apply dark mode if saved or system preference
-    if (savedDarkMode === 'true' || (savedDarkMode === null && prefersDarkScheme.matches)) {
-        document.body.classList.add('dark-mode');
-        if (darkModeToggle) {
-            darkModeToggle.checked = true;
+    // Hide dark mode toggles
+    const darkModeToggles = document.querySelectorAll('.dark-mode-toggle');
+    darkModeToggles.forEach(toggle => {
+        if (toggle.parentElement) {
+            toggle.parentElement.style.display = 'none';
         }
-    }
-    
-    // Dark mode toggle event listener
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('change', () => {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        });
-    }
+    });
 }
 
 /**

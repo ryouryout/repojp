@@ -1,264 +1,128 @@
 <!DOCTYPE html>
-<html lang="ja" class="scroll-smooth">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Love Match - あなたにぴったりのパートナーを見つけるマッチングサービス">
-    <meta name="theme-color" content="#4F46E5">
-    <title>会員登録 - Love Match</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>新規登録 | Love Match</title>
+    <meta name="description" content="Love Matchへの新規登録">
+    <meta name="theme-color" content="#ec4899">
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
-    
-    <!-- ダークモードの初期化スクリプト -->
-    <script>
-        // ページ読み込み前にダークモードを初期化して画面のちらつきを防ぐ
-        (function() {
-            // ローカルストレージからダークモード設定を取得
-            const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-            // システム設定の確認
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            // ダークモードが有効またはシステム設定がダークの場合はダークモードを適用
-            if (isDarkMode || (prefersDark && localStorage.getItem('darkMode') === null)) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-            
-            // モバイル表示向けの調整
-            if (window.innerWidth < 768) {
-                document.documentElement.classList.add('mobile-view');
-            }
-        })();
-    </script>
-    
-    <style>
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%);
-        }
-        .dark .gradient-bg {
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-        }
-        .dark .bg-white {
-            background-color: #1E293B;
-        }
-        .dark .text-gray-800 {
-            color: #F1F5F9;
-        }
-        .dark .text-gray-700 {
-            color: #E2E8F0;
-        }
-        .dark .text-gray-600 {
-            color: #CBD5E0;
-        }
-        .dark .border {
-            border-color: #475569;
-        }
-        
-        /* カードの改善 */
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .dark .card:hover {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* ボタンの改善 */
-        .btn-primary {
-            @apply bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-300 font-bold;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-        .btn-primary:hover::after {
-            animation: ripple 1s ease-out;
-        }
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
-        }
-        
-        /* フォーム入力フィールドの改善 */
-        .form-input {
-            @apply w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 dark:bg-gray-800 dark:text-white;
-            transition: border 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        /* ラジオボタンとチェックボックスの改善 */
-        .form-radio, .form-checkbox {
-            @apply text-indigo-600;
-            cursor: pointer;
-        }
-    </style>
-    
-    <script>
-        function handleRegister(event) {
-            event.preventDefault();
-            
-            // フォームのバリデーション
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const nickname = document.getElementById('nickname').value;
-            const birthdate = document.getElementById('birthdate').value;
-            const terms = document.getElementById('terms').checked;
-            const gender = document.querySelector('input[name="gender"]:checked');
-            
-            if (!email || !password || !nickname || !birthdate || !terms || !gender) {
-                alert('すべての必須項目を入力してください。');
-                return false;
-            }
-            
-            if (password.length < 8) {
-                alert('パスワードは8文字以上で入力してください。');
-                return false;
-            }
-            
-            // 実際のアプリケーションではここでAPI呼び出しを行いますが、
-            // デモ版ではどんな入力でも登録可能としています
-            localStorage.setItem('userLoggedIn', 'true');
-            localStorage.setItem('userNickname', nickname);
-            window.location.href = 'dashboard.html';
-            return false;
-        }
-
-        // URLパラメータから性別を取得して自動選択
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const gender = urlParams.get('gender');
-            if (gender === 'male' || gender === 'female') {
-                document.querySelector(`input[value=${gender}]`).checked = true;
-            }
-        }
-    </script>
+    <script src="assets/js/main.js" defer></script>
 </head>
-<body class="gradient-bg min-h-screen page-transition">
-    <div class="min-h-screen flex items-center justify-center px-4 py-12">
-        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-lg dark:shadow-gray-900 card">
+<body class="gradient-bg min-h-screen flex items-center justify-center">
+    <div class="container mx-auto px-4 py-6 flex items-center justify-center">
+        <div class="card max-w-md w-full p-6 md:p-8">
             <div class="text-center mb-8">
-                <a href="index.html" class="text-2xl font-bold text-indigo-600 flex justify-center items-center">
-                    <i class="fas fa-heart mr-2"></i> Love Match
+                <a href="index.html" class="inline-block">
+                    <i class="fas fa-heart text-3xl text-pink-500"></i>
                 </a>
-                <h1 class="text-3xl font-bold text-gray-800 mt-4">無料会員登録</h1>
-                <p class="text-gray-600 mt-2">素敵な出会いを見つけましょう</p>
+                <h1 class="text-2xl font-bold mt-4">アカウント作成</h1>
+                <p class="text-gray-500 mt-2">あなたの素敵な出会いを始めましょう</p>
             </div>
-
-            <form onsubmit="return handleRegister(event)" class="space-y-6">
-                <div>
-                    <label class="block text-gray-700 font-bold mb-2" for="gender">
-                        <i class="fas fa-user mr-2"></i>性別
-                    </label>
-                    <div class="flex space-x-6">
-                        <label class="flex items-center p-3 border rounded-lg transition-colors hover:bg-indigo-50 dark:hover:bg-gray-700">
-                            <input type="radio" name="gender" value="female" class="form-radio mr-2" required>
-                            <span class="dark:text-gray-300"><i class="fas fa-female mr-2"></i>女性</span>
-                        </label>
-                        <label class="flex items-center p-3 border rounded-lg transition-colors hover:bg-indigo-50 dark:hover:bg-gray-700">
-                            <input type="radio" name="gender" value="male" class="form-radio mr-2" required>
-                            <span class="dark:text-gray-300"><i class="fas fa-male mr-2"></i>男性</span>
-                        </label>
+            
+            <form action="dashboard.html" method="GET">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 font-medium mb-2">お名前</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input type="text" id="name" name="name" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" placeholder="フルネーム" required>
                     </div>
                 </div>
-
-                <div>
-                    <label class="block text-gray-700 font-bold mb-2" for="email">
-                        <i class="fas fa-envelope mr-2"></i>メールアドレス
-                    </label>
-                    <input type="email" id="email" name="email" required
-                        class="form-input"
-                        placeholder="example@email.com">
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-bold mb-2" for="password">
-                        <i class="fas fa-lock mr-2"></i>パスワード
-                    </label>
-                    <input type="password" id="password" name="password" required
-                        class="form-input"
-                        placeholder="8文字以上の英数字">
-                    <div class="text-xs text-gray-500 mt-1 dark:text-gray-400">
-                        <i class="fas fa-info-circle"></i> 8文字以上で、英字と数字を組み合わせるとより安全です
+                
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-medium mb-2">メールアドレス</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" id="email" name="email" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" placeholder="example@mail.com" required>
                     </div>
                 </div>
-
-                <div>
-                    <label class="block text-gray-700 font-bold mb-2" for="nickname">
-                        <i class="fas fa-smile mr-2"></i>ニックネーム
-                    </label>
-                    <input type="text" id="nickname" name="nickname" required
-                        class="form-input"
-                        placeholder="表示名">
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-bold mb-2" for="birthdate">
-                        <i class="fas fa-birthday-cake mr-2"></i>生年月日
-                    </label>
-                    <input type="date" id="birthdate" name="birthdate" required
-                        class="form-input">
-                    <div class="text-xs text-gray-500 mt-1 dark:text-gray-400">
-                        <i class="fas fa-info-circle"></i> 18歳以上の方のみ登録可能です
+                
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 font-medium mb-2">パスワード</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" id="password" name="password" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" placeholder="8文字以上のパスワード" minlength="8" required>
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500" id="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
                 </div>
-
-                <div class="flex items-center p-4 bg-gray-50 rounded-lg dark:bg-gray-800">
-                    <input type="checkbox" id="terms" name="terms" required
-                        class="form-checkbox">
-                    <label class="ml-2 text-gray-700 dark:text-gray-300" for="terms">
-                        <a href="#" class="text-indigo-600 hover:underline">利用規約</a>と
-                        <a href="#" class="text-indigo-600 hover:underline">プライバシーポリシー</a>に同意します
+                
+                <div class="mb-4">
+                    <label for="confirm-password" class="block text-gray-700 font-medium mb-2">パスワード (確認)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" id="confirm-password" name="confirm-password" class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" placeholder="パスワードを再入力" minlength="8" required>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-pink-500" required>
+                        <span class="ml-2 text-gray-700">
+                            <a href="#" class="text-pink-500 hover:underline">利用規約</a>
+                            と
+                            <a href="#" class="text-pink-500 hover:underline">プライバシーポリシー</a>
+                            に同意します
+                        </span>
                     </label>
                 </div>
-
-                <button type="submit" class="w-full btn-primary">
-                    <i class="fas fa-user-plus mr-2"></i>登録する
+                
+                <button type="submit" class="w-full bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 transition-colors">
+                    アカウント作成
                 </button>
-
-                <div class="text-center text-gray-600">
-                    すでにアカウントをお持ちの方は
-                    <a href="login.html" class="text-indigo-600 hover:underline">ログイン</a>
-                </div>
             </form>
             
-            <div class="mt-8 text-center">
-                <button id="darkModeToggle" class="text-gray-600 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 flex items-center justify-center mx-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                    <span class="dark-mode-text">ダークモード切替</span>
-                </button>
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">すでにアカウントをお持ちの場合は <a href="login.html" class="text-pink-500 hover:underline">ログイン</a></p>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-center text-gray-500 mb-4">または以下で登録</p>
+                <div class="flex justify-center space-x-4">
+                    <button class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="flex items-center justify-center w-12 h-12 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="flex items-center justify-center w-12 h-12 rounded-full bg-black text-white hover:bg-gray-800 transition-colors">
+                        <i class="fab fa-apple"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script>
+        // パスワード表示/非表示の切り替え
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    </script>
 </body>
 </html> 
