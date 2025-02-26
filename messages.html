@@ -1,36 +1,28 @@
 <!DOCTYPE html>
-<html lang="ja" class="scroll-smooth">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="Love Match - マッチングした相手とメッセージを交換して、会話を楽しみましょう。リアルタイムチャットで距離を縮めていきます。">
+    <meta name="theme-color" content="#ec4899">
     <title>メッセージ | Love Match</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2589/2589175.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <!-- Webfontsの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- ダークモード初期化（画面のちらつき防止） -->
-    <script>
-        // ローカルストレージやシステム設定からダークモードの設定を読み込む
-        const isDarkMode = localStorage.getItem('darkMode') === 'enabled' || 
-                        (localStorage.getItem('darkMode') === null && 
-                         window.matchMedia('(prefers-color-scheme: dark)').matches);
-        
-        // ページロード前にダークモードを適用
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-            document.documentElement.classList.add('dark-optimized');
-        }
-    </script>
+    <script src="assets/js/main.js" defer></script>
+    <!-- ダークモード初期化スクリプトは削除されました - クライアントリクエストによる -->
 </head>
-<body class="font-sans bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white transition-colors duration-300">
-    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-30 transition-colors duration-300">
+<body class="font-sans bg-gray-100 text-gray-800 transition-colors duration-300">
+    <header class="bg-white shadow-md sticky top-0 z-30 transition-colors duration-300">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="index.html" class="flex items-center space-x-2">
-                <img src="https://via.placeholder.com/40x40?text=LM" alt="Love Match Logo" class="h-8 w-auto">
-                <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
+                <i class="fas fa-heart text-2xl text-pink-500"></i>
+                <span class="text-xl font-bold text-pink-500">Love Match</span>
             </a>
             
             <nav class="hidden md:flex items-center space-x-6">
@@ -39,89 +31,64 @@
                 <a href="messages.html" class="nav-link active">メッセージ</a>
                 <a href="meet-today.html" class="nav-link">今日の出会い</a>
                 
-                <div class="relative ml-2">
-                    <input type="checkbox" id="dark-mode-toggle" class="hidden dark-mode-toggle">
-                    <label for="dark-mode-toggle" class="flex items-center cursor-pointer">
-                        <div class="relative">
-                            <div class="block w-10 h-6 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors duration-300"></div>
-                            <div class="dot absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 flex items-center justify-center">
-                                <i class="fas fa-sun text-yellow-500 text-xs"></i>
-                            </div>
-                            <div class="dot-dark absolute right-1 top-1 w-4 h-4 rounded-full bg-indigo-600 scale-0 transition-transform duration-300 flex items-center justify-center">
-                                <i class="fas fa-moon text-white text-xs"></i>
-                            </div>
-                        </div>
-                    </label>
+                <div class="relative ml-4">
+                    <a href="profile-edit.html">
+                        <img src="assets/images/profile.jpg" alt="プロフィール" class="h-8 w-8 rounded-full object-cover">
+                    </a>
                 </div>
-                
-                <a href="profile-edit.html" class="flex items-center space-x-1">
-                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="プロフィール" class="h-8 w-8 rounded-full border-2 border-indigo-500">
-                    <span class="text-sm font-medium">鈴木太郎</span>
-                </a>
             </nav>
             
-            <div class="flex items-center md:hidden space-x-4">
-                <div class="relative">
-                    <input type="checkbox" id="mobile-dark-mode-toggle" class="hidden dark-mode-toggle">
-                    <label for="mobile-dark-mode-toggle" class="flex items-center cursor-pointer">
-                        <div class="relative">
-                            <div class="block w-10 h-6 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors duration-300"></div>
-                            <div class="dot absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 flex items-center justify-center">
-                                <i class="fas fa-sun text-yellow-500 text-xs"></i>
-                            </div>
-                            <div class="dot-dark absolute right-1 top-1 w-4 h-4 rounded-full bg-indigo-600 scale-0 transition-transform duration-300 flex items-center justify-center">
-                                <i class="fas fa-moon text-white text-xs"></i>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                
-                <button id="menu-button" class="text-gray-700 dark:text-white focus:outline-none" aria-label="メニューを開く" aria-expanded="false">
-                    <i class="fas fa-bars text-xl"></i>
+            <div class="flex items-center md:hidden">
+                <button id="menu-button" class="text-gray-700 focus:outline-none" aria-label="メニューを開く" aria-expanded="false">
+                    <i class="fas fa-bars text-lg"></i>
                 </button>
             </div>
         </div>
     </header>
     
-    <div class="mobile-menu fixed top-0 right-0 h-full w-4/5 bg-white dark:bg-gray-800 shadow-lg transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto" aria-hidden="true">
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-            <span class="text-lg font-semibold text-indigo-600 dark:text-indigo-400">メニュー</span>
-            <button id="close-menu-button" class="text-gray-700 dark:text-white focus:outline-none" aria-label="メニューを閉じる">
-                <i class="fas fa-times text-xl"></i>
+    <!-- モバイルメニュー -->
+    <div class="mobile-menu fixed top-0 right-0 h-full w-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto" aria-hidden="true">
+        <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+            <span class="text-lg font-semibold text-pink-500">メニュー</span>
+            <button id="close-menu-button" class="text-gray-700 focus:outline-none" aria-label="メニューを閉じる">
+                <i class="fas fa-times text-lg"></i>
             </button>
         </div>
+        
         <div class="p-4">
-            <div class="flex items-center space-x-2 mb-6">
-                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="プロフィール" class="h-10 w-10 rounded-full border-2 border-indigo-500">
+            <div class="flex items-center space-x-3 mb-6">
+                <img src="assets/images/profile.jpg" alt="プロフィール" class="h-12 w-12 rounded-full object-cover">
                 <div>
-                    <div class="text-sm font-medium">鈴木太郎</div>
-                    <a href="profile-edit.html" class="text-xs text-indigo-600 dark:text-indigo-400">プロフィール編集</a>
+                    <p class="font-medium">佐藤 美咲</p>
+                    <p class="text-sm text-gray-500">example@mail.com</p>
+                    <a href="profile-edit.html" class="text-xs text-pink-500">プロフィール編集</a>
                 </div>
             </div>
-            <nav class="space-y-4">
-                <a href="dashboard.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
-                    <i class="fas fa-home w-6"></i>
-                    <span>ダッシュボード</span>
+            
+            <nav class="space-y-1">
+                <a href="dashboard.html" class="mobile-nav-link flex items-center text-gray-700 py-2">
+                    <i class="fas fa-home w-5 text-center mr-3"></i>
+                    <span>ホーム</span>
                 </a>
-                <a href="matching.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
-                    <i class="fas fa-heart w-6"></i>
+                <a href="matching.html" class="mobile-nav-link flex items-center text-gray-700 py-2">
+                    <i class="fas fa-user-friends w-5 text-center mr-3"></i>
                     <span>マッチング</span>
                 </a>
-                <a href="messages.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
-                    <i class="fas fa-comment w-6"></i>
+                <a href="messages.html" class="mobile-nav-link active flex items-center text-pink-500 py-2">
+                    <i class="fas fa-envelope w-5 text-center mr-3"></i>
                     <span>メッセージ</span>
                 </a>
-                <a href="meet-today.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
-                    <i class="fas fa-calendar-day w-6"></i>
+                <a href="meet-today.html" class="mobile-nav-link flex items-center text-gray-700 py-2">
+                    <i class="fas fa-calendar-day w-5 text-center mr-3"></i>
                     <span>今日の出会い</span>
                 </a>
-                <a href="create-event.html" class="mobile-nav-link flex items-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2">
-                    <i class="fas fa-calendar-plus w-6"></i>
+                <a href="create-event.html" class="mobile-nav-link flex items-center text-gray-700 py-2">
+                    <i class="fas fa-plus-circle w-5 text-center mr-3"></i>
                     <span>イベント作成</span>
                 </a>
-                <hr class="my-4 border-gray-200 dark:border-gray-700">
-                <a href="#" class="mobile-nav-link flex items-center text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 py-2">
-                    <i class="fas fa-sign-out-alt w-6"></i>
+                <hr class="my-4 border-gray-200">
+                <a href="#" class="mobile-nav-link flex items-center text-red-600 py-2">
+                    <i class="fas fa-sign-out-alt w-5 text-center mr-3"></i>
                     <span>ログアウト</span>
                 </a>
             </nav>
@@ -132,53 +99,53 @@
         <!-- メッセージページヘッダー -->
         <div class="mb-6">
             <h1 class="text-2xl md:text-3xl font-bold mb-2">メッセージ</h1>
-            <p class="text-gray-600 dark:text-gray-300">マッチングした相手とメッセージを交換しましょう</p>
+            <p class="text-gray-600">マッチングした相手とメッセージを交換しましょう</p>
         </div>
         
         <!-- メッセージエリア -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-[calc(100vh-220px)]">
             <!-- メッセージリスト -->
-            <div class="md:col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="md:col-span-1 bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-4 border-b border-gray-200">
                     <div class="relative">
-                        <input type="text" placeholder="検索..." class="w-full py-2 pl-10 pr-4 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white border border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-all">
-                        <i class="fas fa-search absolute left-3 top-3 text-gray-500 dark:text-gray-400"></i>
+                        <input type="text" placeholder="検索..." class="w-full py-2 pl-10 pr-4 rounded-lg bg-gray-100 text-gray-700 border border-transparent focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-500"></i>
                     </div>
                 </div>
                 <div class="message-list overflow-y-auto h-[calc(100%-60px)]">
-                    <div class="message-preview p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer active">
+                    <div class="message-preview p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer active">
                         <div class="flex items-start">
                             <div class="relative mr-3">
                                 <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="山田花子" class="w-12 h-12 rounded-full object-cover">
-                                <div class="absolute bottom-0 right-0 bg-green-500 w-3 h-3 rounded-full border-2 border-white dark:border-gray-800"></div>
+                                <div class="absolute bottom-0 right-0 bg-green-500 w-3 h-3 rounded-full border-2 border-white"></div>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between mb-1">
                                     <h4 class="font-medium truncate">山田花子</h4>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">15分前</span>
+                                    <span class="text-xs text-gray-500">15分前</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm truncate">こんにちは！プロフィールを見て連絡しました。趣味について詳しく教えてください。</p>
+                                <p class="text-gray-600 text-sm truncate">こんにちは！プロフィールを見て連絡しました。趣味について詳しく教えてください。</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="message-preview p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                    <div class="message-preview p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
                         <div class="flex items-start">
                             <div class="relative mr-3">
                                 <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="佐藤美咲" class="w-12 h-12 rounded-full object-cover">
-                                <div class="absolute bottom-0 right-0 bg-green-500 w-3 h-3 rounded-full border-2 border-white dark:border-gray-800"></div>
+                                <div class="absolute bottom-0 right-0 bg-green-500 w-3 h-3 rounded-full border-2 border-white"></div>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between mb-1">
                                     <h4 class="font-medium truncate">佐藤美咲</h4>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">2時間前</span>
+                                    <span class="text-xs text-gray-500">2時間前</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm truncate">週末のイベント、参加される予定ですか？もし良ければ一緒に行きましょう！</p>
+                                <p class="text-gray-600 text-sm truncate">週末のイベント、参加される予定ですか？もし良ければ一緒に行きましょう！</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="message-preview p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                    <div class="message-preview p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
                         <div class="flex items-start">
                             <div class="relative mr-3">
                                 <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="田中結衣" class="w-12 h-12 rounded-full object-cover">
@@ -186,14 +153,14 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between mb-1">
                                     <h4 class="font-medium truncate">田中結衣</h4>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">昨日</span>
+                                    <span class="text-xs text-gray-500">昨日</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm truncate">あのレストラン、とても良かったです！また機会があれば行きましょう。おすすめの場所があれば教えてください。</p>
+                                <p class="text-gray-600 text-sm truncate">あのレストラン、とても良かったです！また機会があれば行きましょう。おすすめの場所があれば教えてください。</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="message-preview p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                    <div class="message-preview p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
                         <div class="flex items-start">
                             <div class="relative mr-3">
                                 <img src="https://randomuser.me/api/portraits/women/57.jpg" alt="伊藤さくら" class="w-12 h-12 rounded-full object-cover">
@@ -201,14 +168,14 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between mb-1">
                                     <h4 class="font-medium truncate">伊藤さくら</h4>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">3日前</span>
+                                    <span class="text-xs text-gray-500">3日前</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm truncate">そうですね、映画館の予定を立てましょう。来週の金曜日はいかがですか？</p>
+                                <p class="text-gray-600 text-sm truncate">そうですね、映画館の予定を立てましょう。来週の金曜日はいかがですか？</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="message-preview p-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                    <div class="message-preview p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
                         <div class="flex items-start">
                             <div class="relative mr-3">
                                 <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="石川つばさ" class="w-12 h-12 rounded-full object-cover">
@@ -216,9 +183,9 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between mb-1">
                                     <h4 class="font-medium truncate">石川つばさ</h4>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">先週</span>
+                                    <span class="text-xs text-gray-500">先週</span>
                                 </div>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm truncate">お久しぶりです！最近元気にしていますか？新しい仕事は順調ですか？</p>
+                                <p class="text-gray-600 text-sm truncate">お久しぶりです！最近元気にしていますか？新しい仕事は順調ですか？</p>
                             </div>
                         </div>
                     </div>
@@ -226,25 +193,25 @@
             </div>
             
             <!-- メッセージ詳細 -->
-            <div class="md:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col">
+            <div class="md:col-span-2 bg-white rounded-lg shadow-lg flex flex-col">
                 <!-- チャットヘッダー -->
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+                <div class="p-4 border-b border-gray-200 flex items-center">
                     <div class="relative mr-3">
                         <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="山田花子" class="w-10 h-10 rounded-full object-cover">
-                        <div class="absolute bottom-0 right-0 bg-green-500 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-gray-800"></div>
+                        <div class="absolute bottom-0 right-0 bg-green-500 w-2.5 h-2.5 rounded-full border-2 border-white"></div>
                     </div>
                     <div>
                         <h3 class="font-medium">山田花子</h3>
                         <p class="text-xs text-green-500">オンライン</p>
                     </div>
                     <div class="ml-auto flex space-x-2">
-                        <button class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        <button class="text-gray-600 hover:text-pink-500 transition-colors">
                             <i class="fas fa-phone"></i>
                         </button>
-                        <button class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        <button class="text-gray-600 hover:text-pink-500 transition-colors">
                             <i class="fas fa-video"></i>
                         </button>
-                        <button class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        <button class="text-gray-600 hover:text-pink-500 transition-colors">
                             <i class="fas fa-info-circle"></i>
                         </button>
                     </div>
@@ -308,9 +275,9 @@
                 </div>
                 
                 <!-- メッセージ入力 -->
-                <div class="border-t border-gray-200 dark:border-gray-700 p-3">
+                <div class="border-t border-gray-200 p-3">
                     <div class="message-input-container">
-                        <button class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        <button class="text-gray-600 hover:text-pink-500 transition-colors">
                             <i class="far fa-image"></i>
                         </button>
                         <input type="text" class="message-input" placeholder="メッセージを入力...">
@@ -323,33 +290,31 @@
         </div>
     </main>
     
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 mt-12 transition-colors duration-300">
+    <footer class="bg-white border-t border-gray-200 py-8 mt-12 transition-colors duration-300">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="flex items-center mb-4 md:mb-0">
-                    <img src="https://via.placeholder.com/40x40?text=LM" alt="Love Match Logo" class="h-8 w-auto mr-2">
-                    <span class="text-lg font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
+                    <i class="fas fa-heart text-2xl text-pink-500 mr-2"></i>
+                    <span class="text-lg font-bold text-pink-500">Love Match</span>
                 </div>
                 
                 <div class="flex space-x-6">
-                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                    <a href="#" class="text-gray-600 hover:text-pink-500 transition-colors duration-300">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                    <a href="#" class="text-gray-600 hover:text-pink-500 transition-colors duration-300">
                         <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+                    <a href="#" class="text-gray-600 hover:text-pink-500 transition-colors duration-300">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
             </div>
             
-            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-gray-600 dark:text-gray-300">
+            <div class="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600">
                 <p>&copy; 2023 Love Match. All rights reserved.</p>
             </div>
         </div>
     </footer>
-    
-    <script src="script.js"></script>
 </body>
 </html> 

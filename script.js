@@ -2,27 +2,18 @@
 
 // ダークモード初期化
 function initDarkMode() {
-    // HTMLおよびlocal storageの設定を確認
-    const isDarkMode = localStorage.getItem('darkMode') === 'enabled' || 
-                       (localStorage.getItem('darkMode') === null && 
-                        window.matchMedia('(prefers-color-scheme: dark)').matches);
+    // 常にダークモードを無効化
+    disableDarkMode();
     
     // ダークモードトグルボタンの選択
     const darkModeToggle = document.getElementById('dark-mode-toggle');
-    const mobileDarkModeToggle = document.getElementById('mobile-dark-mode-toggle');
+    const mobileDarkModeToggle = document.getElementById('mobile-dark-toggle');
     
     // ダークモード適用関数
     function enableDarkMode() {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.add('dark-optimized');
-        localStorage.setItem('darkMode', 'enabled');
-        
-        // トグルボタンの状態を同期
-        if (darkModeToggle) darkModeToggle.checked = true;
-        if (mobileDarkModeToggle) mobileDarkModeToggle.checked = true;
-        
-        // ダークモード時のUIを最適化
-        optimizeDarkModeUI();
+        // ダークモードは無効化されるためこの関数は効果がありませんが、
+        // 互換性のために残しています
+        disableDarkMode();
     }
     
     // ダークモード解除関数
@@ -34,53 +25,38 @@ function initDarkMode() {
         // トグルボタンの状態を同期
         if (darkModeToggle) darkModeToggle.checked = false;
         if (mobileDarkModeToggle) mobileDarkModeToggle.checked = false;
+        
+        // ダークモード関連のクラスをすべて削除
+        const darkElements = document.querySelectorAll('.dark-mode, .dark-bg, .dark-text');
+        darkElements.forEach(el => {
+            el.classList.remove('dark-mode', 'dark-bg', 'dark-text');
+        });
     }
     
     // ダークモードUI最適化
     function optimizeDarkModeUI() {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            if (!card.classList.contains('bg-white') && !card.classList.contains('dark:bg-gray-800')) {
-                card.classList.add('bg-white', 'dark:bg-gray-800');
-            }
-        });
+        // ダークモードを使用しないため、この関数は空にします
     }
     
     // 初期状態の設定
-    if (isDarkMode) {
-        enableDarkMode();
-    } else {
-        disableDarkMode();
-    }
+    disableDarkMode();
     
     // イベントリスナーの設定
     if (darkModeToggle) {
         darkModeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                enableDarkMode();
-            } else {
-                disableDarkMode();
-            }
+            disableDarkMode();
         });
     }
     
     if (mobileDarkModeToggle) {
         mobileDarkModeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                enableDarkMode();
-            } else {
-                disableDarkMode();
-            }
+            disableDarkMode();
         });
     }
     
-    // システムのカラースキーム変更を検知
+    // システムのカラースキーム変更を検知しても、常に無効に保つ
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (e.matches && localStorage.getItem('darkMode') === null) {
-            enableDarkMode();
-        } else if (!e.matches && localStorage.getItem('darkMode') === null) {
-            disableDarkMode();
-        }
+        disableDarkMode();
     });
 }
 
@@ -559,23 +535,18 @@ function setupDarkMode() {
 
 /**
  * ダークモードの切り替え
- * @param {boolean} enable - trueならダークモードを有効にする
+ * @param {boolean} enable - trueならダークモードを有効にするが、常に無効化される
  */
 function toggleDarkMode(enable) {
-    if (enable) {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.add('dark-optimized');
-        localStorage.setItem('darkMode', 'enabled');
-    } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.remove('dark-optimized');
-        localStorage.setItem('darkMode', 'disabled');
-    }
+    // ダークモードを常に無効化
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.remove('dark-optimized');
+    localStorage.setItem('darkMode', 'disabled');
     
-    // すべてのトグルを同期
+    // すべてのトグルを常にオフに設定
     const darkModeToggles = document.querySelectorAll('.dark-mode-toggle');
     darkModeToggles.forEach(toggle => {
-        toggle.checked = enable;
+        toggle.checked = false;
     });
 }
 

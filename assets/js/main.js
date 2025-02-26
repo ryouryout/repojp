@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initializeApp() {
     // Initialize components
     initNavigation();
-    initDarkMode();
+    // ダークモード初期化は削除しました - クライアントリクエストによる
     initLazyLoading();
     initPageTransitions();
     initFormValidation();
@@ -56,27 +56,7 @@ function initNavigation() {
     });
 }
 
-/**
- * Initialize dark mode functionality - disabled as per client request
- */
-function initDarkMode() {
-    // Dark mode has been disabled as per client request
-    // Ensure all dark mode classes are removed
-    document.documentElement.classList.remove('dark');
-    document.body.classList.remove('dark-mode');
-    document.documentElement.classList.remove('dark-optimized');
-    
-    // Clear any stored dark mode preferences
-    localStorage.removeItem('darkMode');
-    
-    // Hide dark mode toggles
-    const darkModeToggles = document.querySelectorAll('.dark-mode-toggle');
-    darkModeToggles.forEach(toggle => {
-        if (toggle.parentElement) {
-            toggle.parentElement.style.display = 'none';
-        }
-    });
-}
+// ダークモード関数は削除しました - クライアントリクエストによる
 
 /**
  * Initialize lazy loading for images
