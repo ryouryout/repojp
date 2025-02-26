@@ -1,193 +1,434 @@
-// Dark mode functionality
+// Love Match - Main JavaScript
+
+// ダークモード初期化
 function initDarkMode() {
-    const darkModeToggles = document.querySelectorAll('.dark-mode-toggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    // HTMLおよびlocal storageの設定を確認
+    const isDarkMode = localStorage.getItem('darkMode') === 'enabled' || 
+                       (localStorage.getItem('darkMode') === null && 
+                        window.matchMedia('(prefers-color-scheme: dark)').matches);
     
-    // モバイルとデスクトップの画面サイズを検出
-    const isMobile = window.innerWidth < 768;
+    // ダークモードトグルボタンの選択
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const mobileDarkModeToggle = document.getElementById('mobile-dark-mode-toggle');
     
-    // モバイル用のデフォルト設定 - デフォルトでライトモード推奨（視認性のため）
-    if (isMobile && localStorage.getItem('darkMode') === null) {
-        localStorage.setItem('darkMode', 'false');
-    }
-    
-    // Check for saved theme preference or use the system preference
-    if (localStorage.getItem('darkMode') === 'true' || 
-        (localStorage.getItem('darkMode') === null && prefersDarkScheme.matches)) {
+    // ダークモード適用関数
+    function enableDarkMode() {
         document.documentElement.classList.add('dark');
-        darkModeToggles.forEach(toggle => toggle.checked = true);
-    } else {
-        document.documentElement.classList.remove('dark');
-        darkModeToggles.forEach(toggle => toggle.checked = false);
+        document.documentElement.classList.add('dark-optimized');
+        localStorage.setItem('darkMode', 'enabled');
+        
+        // モバイル環境での視認性向上
+        enhanceMobileVisibility();
+        
+        // トグルボタンの状態を同期
+        if (darkModeToggle) darkModeToggle.checked = true;
+        if (mobileDarkModeToggle) mobileDarkModeToggle.checked = true;
     }
     
-    // Toggle dark mode with improved transition
-    darkModeToggles.forEach(toggle => {
-        toggle.addEventListener('change', function() {
-            // トグル状態に基づいてアニメーションを適用
-            document.body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
-            
-            if (this.checked) {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('darkMode', 'true');
-                
-                // モバイルでは自動スクロール位置を保持（視覚効果）
-                if (isMobile) {
-                    const scrollPosition = window.pageYOffset;
-                    setTimeout(() => window.scrollTo(0, scrollPosition), 100);
-                }
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('darkMode', 'false');
-            }
-            
-            // アニメーションをリセット
-            setTimeout(() => {
-                document.body.style.transition = '';
-            }, 500);
-        });
-    });
-    
-    // System color scheme change detection with improved handling
-    prefersDarkScheme.addEventListener('change', (e) => {
-        // システム設定の変更はモバイルでは無視（ユーザー優先）
-        if (isMobile) return;
+    // ダークモード解除関数
+    function disableDarkMode() {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.remove('dark-optimized');
+        localStorage.setItem('darkMode', 'disabled');
         
-        if (localStorage.getItem('darkMode') === null) {
-            if (e.matches) {
-                document.documentElement.classList.add('dark');
-                darkModeToggles.forEach(toggle => toggle.checked = true);
-            } else {
-                document.documentElement.classList.remove('dark');
-                darkModeToggles.forEach(toggle => toggle.checked = false);
-            }
-        }
-    });
+        // モバイル環境での視認性最適化を解除
+        document.body.classList.remove('mobile-enhanced');
+        
+        // トグルボタンの状態を同期
+        if (darkModeToggle) darkModeToggle.checked = false;
+        if (mobileDarkModeToggle) mobileDarkModeToggle.checked = false;
+    }
     
-    // ウィンドウリサイズ時にモバイル/デスクトップ検出を更新
-    window.addEventListener('resize', () => {
-        const newIsMobile = window.innerWidth < 768;
-        if (newIsMobile !== isMobile && localStorage.getItem('darkMode') === null) {
-            // モバイルに切り替わった場合、デフォルトでライトモードに
-            if (newIsMobile) {
-                document.documentElement.classList.remove('dark');
-                darkModeToggles.forEach(toggle => toggle.checked = false);
+    // 初期状態の設定
+    if (isDarkMode) {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
+    }
+    
+    // イベントリスナーの設定
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
             }
+        });
+    }
+    
+    if (mobileDarkModeToggle) {
+        mobileDarkModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
+            }
+        });
+    }
+    
+    // システムのカラースキーム変更を検知
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (e.matches && localStorage.getItem('darkMode') === null) {
+            enableDarkMode();
+        } else if (!e.matches && localStorage.getItem('darkMode') === null) {
+            disableDarkMode();
         }
     });
 }
 
-// Mobile menu functionality
+// モバイル環境での視認性向上のための関数
+function enhanceMobileVisibility() {
+    if (window.innerWidth <= 768) {
+        document.body.classList.add('mobile-enhanced');
+        
+        // テキストの色を強調してコントラストを高める
+        const textElements = document.querySelectorAll('.text-gray-600, .text-gray-700, .text-gray-800');
+        textElements.forEach(el => {
+            if (window.getComputedStyle(el).color === 'rgb(75, 85, 99)' || 
+                window.getComputedStyle(el).color === 'rgb(55, 65, 81)' || 
+                window.getComputedStyle(el).color === 'rgb(31, 41, 55)') {
+                el.style.color = '#f3f4f6';
+            }
+        });
+        
+        // モバイルナビゲーションのコントラスト向上
+        const mobileNavLinks = document.querySelectorAll('.mobile-menu a');
+        mobileNavLinks.forEach(link => {
+            link.style.color = '#f3f4f6';
+        });
+    }
+}
+
+// モバイルメニュー初期化
 function initMobileMenu() {
-    const menuToggleButtons = document.querySelectorAll('.menu-toggle');
+    const menuButton = document.getElementById('menu-button');
+    const closeMenuButton = document.getElementById('close-menu-button');
     const mobileMenu = document.querySelector('.mobile-menu');
     
-    if (!mobileMenu || menuToggleButtons.length === 0) return;
-    
-    // Menu button click event
-    menuToggleButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+    if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', function(e) {
             e.preventDefault();
-            mobileMenu.classList.toggle('active');
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden'; // スクロール防止
             
-            // Menu is open, disable scrolling
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            // アクセシビリティ対応
+            menuButton.setAttribute('aria-expanded', 'true');
+            mobileMenu.setAttribute('aria-hidden', 'false');
             
-            // Accessibility attribute toggle
-            const isExpanded = mobileMenu.classList.contains('active');
-            menuToggleButtons.forEach(btn => btn.setAttribute('aria-expanded', isExpanded));
-        });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (mobileMenu.classList.contains('active') && 
-            !mobileMenu.contains(e.target) && 
-            ![...menuToggleButtons].some(btn => btn.contains(e.target))) {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-            menuToggleButtons.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
-        }
-    });
-    
-    // Close menu with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-            menuToggleButtons.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
-        }
-    });
-}
-
-// Page transitions
-function initPageTransitions() {
-    document.addEventListener('DOMContentLoaded', function() {
-        document.body.classList.add('loaded');
-    });
-    
-    // Add transition effect when navigating to a new page
-    document.querySelectorAll('a').forEach(link => {
-        // Only apply to links within the same origin
-        if (link.href && (link.hostname === window.location.hostname)) {
-            link.addEventListener('click', function(e) {
-                // Skip anchor links and JavaScript processing
-                if (
-                    link.href.startsWith('#') || 
-                    link.href.startsWith('javascript:') || 
-                    link.target === '_blank'
-                ) {
-                    return;
-                }
-                
-                e.preventDefault();
-                
-                // Fade out animation
-                document.body.classList.add('page-leaving');
-                
-                // Move to new page after animation completes
+            // 最初のメニュー項目にフォーカスする
+            const firstMenuItem = mobileMenu.querySelector('a');
+            if (firstMenuItem) {
                 setTimeout(() => {
-                    window.location.href = link.href;
-                }, 300); // Adjust animation time to match fade out
-            });
-        }
-    });
-}
-
-// Lazy loading images
-function initLazyLoading() {
-    if ('loading' in HTMLImageElement.prototype) {
-        // Browser supports native lazy loading
-        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-        lazyImages.forEach(img => {
-            if (img.dataset.src) {
-                img.src = img.dataset.src;
+                    firstMenuItem.focus();
+                }, 100);
             }
         });
+    }
+    
+    if (closeMenuButton && mobileMenu) {
+        closeMenuButton.addEventListener('click', function() {
+            closeMenu();
+        });
+    }
+    
+    // メニュー外をクリックした場合や ESC キーでメニューを閉じる
+    document.addEventListener('click', function(e) {
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
+            if (!mobileMenu.contains(e.target) && e.target !== menuButton) {
+                closeMenu();
+            }
+        }
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+    
+    function closeMenu() {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = ''; // スクロール許可
+        
+        // アクセシビリティ対応
+        if (menuButton) {
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.focus(); // メニューボタンにフォーカスを戻す
+        }
+        mobileMenu.setAttribute('aria-hidden', 'true');
+    }
+}
+
+// ページ遷移の初期化
+function initPageTransitions() {
+    const navLinks = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"])');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // ダークモード設定を保持してページ遷移
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            
+            if (link.hostname === window.location.hostname) {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                
+                // ページ遷移アニメーション
+                document.querySelector('main').style.opacity = '0';
+                document.querySelector('main').style.transform = 'translateY(10px)';
+                
+                // 現在のダークモード設定を一時保存
+                sessionStorage.setItem('preserveDarkMode', isDarkMode ? 'enabled' : 'disabled');
+                
+                // アニメーション完了後に遷移
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300);
+            }
+        });
+    });
+    
+    // ページロード時のアニメーション
+    window.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('main').classList.add('page-transition');
+        
+        // 前のページからダークモード設定を取得して適用
+        const preserveDarkMode = sessionStorage.getItem('preserveDarkMode');
+        if (preserveDarkMode === 'enabled') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.add('dark-optimized');
+            
+            // トグルボタンの状態を同期
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const mobileDarkModeToggle = document.getElementById('mobile-dark-mode-toggle');
+            if (darkModeToggle) darkModeToggle.checked = true;
+            if (mobileDarkModeToggle) mobileDarkModeToggle.checked = true;
+        }
+    });
+}
+
+// 画像の遅延読み込み
+function initLazyLoading() {
+    if ('loading' in HTMLImageElement.prototype) {
+        // ブラウザがネイティブの遅延読み込みをサポートしている場合
+        const images = document.querySelectorAll('img[loading="lazy"]');
+        images.forEach(img => {
+            img.src = img.dataset.src;
+            img.classList.add('loaded');
+        });
     } else {
-        // Intersection Observer fallback for browsers that don't support lazy loading
-        const lazyImages = document.querySelectorAll('img[data-src]');
-        
-        if (lazyImages.length === 0) return;
-        
-        const lazyImageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const lazyImage = entry.target;
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImage.classList.remove('lazy');
-                    lazyImageObserver.unobserve(lazyImage);
+        // フォールバック
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+        document.body.appendChild(script);
+    }
+}
+
+// マッチングカードのスワイプ機能
+function initMatchingCards() {
+    const matchingCards = document.querySelectorAll('.matching-card');
+    const likeButtons = document.querySelectorAll('.btn-like');
+    const passButtons = document.querySelectorAll('.btn-pass');
+    const messageButtons = document.querySelectorAll('.btn-message');
+    
+    let currentCardIndex = 0;
+    
+    function showNextCard() {
+        currentCardIndex++;
+        if (currentCardIndex < matchingCards.length) {
+            matchingCards[currentCardIndex].style.display = 'block';
+            matchingCards[currentCardIndex].classList.add('slide-up');
+        } else {
+            // すべてのカードがスワイプされた場合
+            document.querySelector('.no-more-matches')?.classList.remove('hidden');
+        }
+    }
+    
+    if (likeButtons.length > 0 && matchingCards.length > 0) {
+        likeButtons.forEach((button, index) => {
+            button.addEventListener('click', function() {
+                const card = matchingCards[index];
+                card.classList.add('swiped-right');
+                
+                // いいね！のアニメーション
+                const heart = document.createElement('div');
+                heart.classList.add('heart-animation');
+                card.appendChild(heart);
+                
+                setTimeout(() => {
+                    card.style.display = 'none';
+                    card.classList.remove('swiped-right');
+                    heart.remove();
+                    showNextCard();
+                }, 500);
+            });
+        });
+    }
+    
+    if (passButtons.length > 0 && matchingCards.length > 0) {
+        passButtons.forEach((button, index) => {
+            button.addEventListener('click', function() {
+                const card = matchingCards[index];
+                card.classList.add('swiped-left');
+                
+                setTimeout(() => {
+                    card.style.display = 'none';
+                    card.classList.remove('swiped-left');
+                    showNextCard();
+                }, 500);
+            });
+        });
+    }
+    
+    if (messageButtons.length > 0) {
+        messageButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // メッセージモーダルを表示するロジック
+                const messageModal = document.getElementById('message-modal');
+                if (messageModal) {
+                    messageModal.classList.remove('hidden');
+                    document.querySelector('body').style.overflow = 'hidden';
+                    
+                    // フォーカスをモーダル内の最初のフォーカス可能な要素に移動
+                    const firstFocusable = messageModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    if (firstFocusable) {
+                        firstFocusable.focus();
+                    }
                 }
             });
         });
-        
-        lazyImages.forEach(image => {
-            lazyImageObserver.observe(image);
+    }
+    
+    // モーダル閉じるボタン
+    const closeModalButtons = document.querySelectorAll('.close-modal');
+    closeModalButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modal = this.closest('.modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.querySelector('body').style.overflow = '';
+            }
+        });
+    });
+}
+
+// プロフィールの詳細表示
+function initProfileDetails() {
+    const showDetailButtons = document.querySelectorAll('.show-profile-details');
+    const profileModal = document.getElementById('profile-detail-modal');
+    
+    if (showDetailButtons.length > 0 && profileModal) {
+        showDetailButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // プロフィール情報を取得してモーダルに表示
+                const cardElement = this.closest('.matching-card');
+                if (cardElement) {
+                    const name = cardElement.querySelector('.card-name')?.textContent;
+                    const age = cardElement.querySelector('.card-age')?.textContent;
+                    const location = cardElement.querySelector('.card-location')?.textContent;
+                    const image = cardElement.querySelector('.card-image')?.src;
+                    const bio = cardElement.querySelector('.card-bio')?.textContent;
+                    
+                    // モーダルに情報を設定
+                    profileModal.querySelector('.profile-name').textContent = name || '';
+                    profileModal.querySelector('.profile-age').textContent = age || '';
+                    profileModal.querySelector('.profile-location').textContent = location || '';
+                    profileModal.querySelector('.profile-image').src = image || '';
+                    profileModal.querySelector('.profile-bio').textContent = bio || '';
+                    
+                    // モーダルを表示
+                    profileModal.classList.remove('hidden');
+                    document.querySelector('body').style.overflow = 'hidden';
+                }
+            });
         });
     }
 }
 
-// Register service worker for offline functionality
+// フォーム入力の検証
+function initFormValidation() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // 必須フィールドのチェック
+            const requiredInputs = form.querySelectorAll('[required]');
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('border-red-500');
+                    
+                    // エラーメッセージの表示
+                    let errorMessage = input.nextElementSibling;
+                    if (!errorMessage || !errorMessage.classList.contains('error-message')) {
+                        errorMessage = document.createElement('p');
+                        errorMessage.classList.add('error-message', 'text-red-500', 'text-sm', 'mt-1');
+                        errorMessage.textContent = '入力してください';
+                        input.insertAdjacentElement('afterend', errorMessage);
+                    }
+                } else {
+                    input.classList.remove('border-red-500');
+                    
+                    // エラーメッセージの削除
+                    const errorMessage = input.nextElementSibling;
+                    if (errorMessage && errorMessage.classList.contains('error-message')) {
+                        errorMessage.remove();
+                    }
+                }
+            });
+            
+            // メールアドレスの検証
+            const emailInputs = form.querySelectorAll('input[type="email"]');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            emailInputs.forEach(input => {
+                if (input.value.trim() && !emailRegex.test(input.value.trim())) {
+                    isValid = false;
+                    input.classList.add('border-red-500');
+                    
+                    // エラーメッセージの表示
+                    let errorMessage = input.nextElementSibling;
+                    if (!errorMessage || !errorMessage.classList.contains('error-message')) {
+                        errorMessage = document.createElement('p');
+                        errorMessage.classList.add('error-message', 'text-red-500', 'text-sm', 'mt-1');
+                        errorMessage.textContent = '有効なメールアドレスを入力してください';
+                        input.insertAdjacentElement('afterend', errorMessage);
+                    } else {
+                        errorMessage.textContent = '有効なメールアドレスを入力してください';
+                    }
+                }
+            });
+            
+            // パスワードの検証
+            const passwordInputs = form.querySelectorAll('input[type="password"]');
+            passwordInputs.forEach(input => {
+                if (input.dataset.minLength && input.value.length < parseInt(input.dataset.minLength)) {
+                    isValid = false;
+                    input.classList.add('border-red-500');
+                    
+                    // エラーメッセージの表示
+                    let errorMessage = input.nextElementSibling;
+                    if (!errorMessage || !errorMessage.classList.contains('error-message')) {
+                        errorMessage = document.createElement('p');
+                        errorMessage.classList.add('error-message', 'text-red-500', 'text-sm', 'mt-1');
+                        errorMessage.textContent = `パスワードは${input.dataset.minLength}文字以上で入力してください`;
+                        input.insertAdjacentElement('afterend', errorMessage);
+                    } else {
+                        errorMessage.textContent = `パスワードは${input.dataset.minLength}文字以上で入力してください`;
+                    }
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    });
+}
+
+// サービスワーカーの登録
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
@@ -202,19 +443,56 @@ function registerServiceWorker() {
     }
 }
 
-// Initialize all functionality
+// アプリケーションの初期化
 function initApp() {
+    // ダークモードの初期化
     initDarkMode();
-    initMobileMenu();
-    initPageTransitions();
-    initLazyLoading();
-    registerServiceWorker();
     
-    // Animation initialization
-    document.querySelectorAll('.slide-up').forEach((element, index) => {
-        element.style.animationDelay = (index * 0.1) + 's';
-    });
+    // モバイルメニューの初期化
+    initMobileMenu();
+    
+    // ページ遷移の初期化
+    initPageTransitions();
+    
+    // 遅延読み込みの初期化
+    initLazyLoading();
+    
+    // マッチングカードの初期化
+    initMatchingCards();
+    
+    // プロフィール詳細機能の初期化
+    initProfileDetails();
+    
+    // フォーム検証の初期化
+    initFormValidation();
+    
+    // サービスワーカーの登録
+    registerServiceWorker();
 }
 
-// Run initialization
-document.addEventListener('DOMContentLoaded', initApp); 
+// DOM読み込み完了時にアプリケーションを初期化
+document.addEventListener('DOMContentLoaded', initApp);
+
+// ページの読み込み完了時に実行
+window.addEventListener('load', function() {
+    // ローディングスピナーがあれば非表示にする
+    const loadingSpinner = document.querySelector('.loading-spinner-container');
+    if (loadingSpinner) {
+        loadingSpinner.style.display = 'none';
+    }
+    
+    // モバイル環境でダークモードなら視認性を向上
+    if (document.documentElement.classList.contains('dark') && window.innerWidth <= 768) {
+        enhanceMobileVisibility();
+    }
+});
+
+// リサイズ時の処理
+window.addEventListener('resize', function() {
+    // モバイル環境でダークモードなら視認性を向上
+    if (document.documentElement.classList.contains('dark') && window.innerWidth <= 768) {
+        enhanceMobileVisibility();
+    } else if (window.innerWidth > 768) {
+        document.body.classList.remove('mobile-enhanced');
+    }
+}); 

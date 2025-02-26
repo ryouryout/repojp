@@ -19,34 +19,44 @@
     --error-color: #ef4444;
     --gradient-start: #fff0f3;
     --gradient-end: #ffb6c1;
+    --border-radius: 0.5rem;
+    --button-radius: 0.375rem;
+    --card-shadow: 0 4px 6px var(--shadow-color);
+    --card-shadow-hover: 0 10px 15px var(--shadow-color);
+    --transition-normal: all 0.3s ease;
+    --font-main: 'Noto Sans JP', sans-serif;
 }
 
-/* ダークモードのカラー変数を大幅に改善 - 明るさとコントラストを強化 */
+/* ダークモードのカラー変数をさらに改善 - スマホでの視認性を向上 */
 .dark {
     --primary-color: #f472b6;
-    --primary-light: #9d174d; /* 少し明るく */
+    --primary-light: #831843;
     --primary-dark: #fbcfe8;
     --secondary-color: #a78bfa;
-    --secondary-light: #7c3aed; /* 少し明るく */
+    --secondary-light: #5b21b6;
     --secondary-dark: #ddd6fe;
-    --text-color: #f9fafb; /* より明るいテキスト色 */
-    --text-color-light: #f3f4f6; /* さらに明るいライトテキスト */
-    --bg-color: #263548; /* より明るい背景色 */
-    --bg-color-card: #3e4c63; /* より明るいカード背景 */
-    --border-color: #6b7280; /* より明確なボーダー */
+    --text-color: #f3f4f6; /* 明るいテキスト色 */
+    --text-color-light: #e5e7eb; /* 明るいライトテキスト */
+    --bg-color: #334155; /* より明るい背景色に変更 */
+    --bg-color-card: #475569; /* より明るいカード背景 */
+    --border-color: #64748b; /* より明確なボーダー */
     --shadow-color: rgba(0, 0, 0, 0.3);
-    --gradient-start: #64748b; /* より明るいグラデーション開始点 */
-    --gradient-end: #94a3b8; /* さらに明るいグラデーション終点 */
+    --gradient-start: #64748b;
+    --gradient-end: #94a3b8; /* より明るいグラデーション終点 */
+    --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    --card-shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.6);
 }
 
 body {
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: var(--font-main);
     color: var(--text-color);
     background-color: var(--bg-color);
     touch-action: manipulation;
     transition: background-color 0.3s ease, color 0.3s ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
 }
 
 /* Gradient Backgrounds */
@@ -55,20 +65,65 @@ body {
 }
 
 .gradient-bg-dark {
-    background: linear-gradient(135deg, #64748b 0%, #475569 100%); /* より明るいグラデーション */
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
 }
 
-/* Card Styles */
+/* Scroll Behavior - スムーズなスクロール */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Typography - 強化された文字設定 */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+h3 {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+}
+
+/* Card Styles - 洗練されたカードスタイル */
 .card {
     background-color: var(--bg-color-card);
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px var(--shadow-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-normal);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px var(--shadow-color);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-body {
+    padding: 1.25rem;
+    flex: 1 1 auto;
+}
+
+.card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.card-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border-color);
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 /* Matching Card Styles */
@@ -80,8 +135,9 @@ body {
     background-color: var(--bg-color-card);
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 10px 15px var(--shadow-color);
-    transition: all 0.3s ease;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-normal);
+    height: 600px;
 }
 
 .matching-card.swiped-left {
@@ -96,8 +152,10 @@ body {
 
 .card-image {
     width: 100%;
-    height: 100%;
+    height: 65%;
     object-fit: cover;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
 
 .card-info {
@@ -108,6 +166,14 @@ body {
     padding: 20px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
     color: white;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
 }
 
 .action-buttons button {
@@ -118,20 +184,52 @@ body {
     align-items: center;
     justify-content: center;
     transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border: none;
+    cursor: pointer;
 }
 
 .action-buttons button:hover {
     transform: scale(1.1);
 }
 
+.action-buttons button.btn-like {
+    color: var(--success-color);
+}
+
+.action-buttons button.btn-pass {
+    color: var(--error-color);
+}
+
+.action-buttons button.btn-message {
+    color: var(--secondary-color);
+}
+
 /* Navigation Styles */
 .nav-link {
     color: var(--text-color-light);
     transition: color 0.3s ease;
+    position: relative;
 }
 
 .nav-link:hover, .nav-link.active {
     color: var(--primary-color);
+}
+
+.nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover:after, .nav-link.active:after {
+    width: 100%;
 }
 
 /* Mobile Menu */
@@ -139,6 +237,7 @@ body {
     background-color: var(--bg-color-card);
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
+    z-index: 1000;
 }
 
 .mobile-menu.active {
@@ -181,6 +280,7 @@ body {
     padding: 0.75rem 1rem;
     border-radius: 1rem;
     word-wrap: break-word;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .message-bubble.sent {
@@ -201,6 +301,61 @@ body {
     border-color: var(--primary-light);
 }
 
+.message-time {
+    font-size: 0.75rem;
+    color: var(--text-color-light);
+    margin-top: 0.25rem;
+}
+
+.message-input-container {
+    position: relative;
+    border-radius: 1.5rem;
+    background-color: var(--bg-color-card);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.message-input-container:focus-within {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+}
+
+.message-input {
+    border: none;
+    border-radius: 1.5rem;
+    padding: 0.75rem 4rem 0.75rem 1.25rem;
+    width: 100%;
+    background: transparent;
+}
+
+.message-input:focus {
+    outline: none;
+}
+
+.send-button {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.send-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-50%) scale(1.05);
+}
+
 /* Typing Indicator */
 .typing-indicator {
     display: inline-flex;
@@ -209,6 +364,7 @@ body {
     background-color: var(--bg-color-card);
     border: 1px solid var(--border-color);
     border-radius: 20px;
+    margin: 0.5rem 0;
 }
 
 .typing-indicator span {
@@ -254,7 +410,7 @@ body {
     }
 }
 
-/* Dark Mode Styles - さらに改善版 */
+/* Dark Mode Styles - さらに改善 */
 .dark body {
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -265,7 +421,7 @@ body {
 .dark .message-preview,
 .dark .mobile-menu {
     background-color: var(--bg-color-card);
-    box-shadow: 0 4px 6px var(--shadow-color);
+    box-shadow: var(--card-shadow);
 }
 
 /* ナビゲーションリンクの視認性向上 */
@@ -278,21 +434,26 @@ body {
     color: var(--primary-color);
 }
 
-/* ヘッダーとフッターのダークモード対応 */
+/* ダークモード時のコンテンツをより明るく */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: white;
+}
+
+/* ヘッダーとフッターのダークモード対応を明るく */
 .dark nav.bg-white {
-    background-color: #1f2937 !important;
+    background-color: #475569 !important;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .dark footer.bg-gray-800 {
-    background-color: #111827 !important;
+    background-color: #1e293b !important;
 }
 
-/* テキストの視認性向上 */
+/* テキストの視認性向上 - より明るくして見やすく */
 .dark .text-gray-600,
 .dark .text-gray-700,
 .dark .text-gray-800 {
-    color: var(--text-color) !important;
+    color: #e2e8f0 !important;
 }
 
 /* カードの背景色と影の調整 */
@@ -314,32 +475,176 @@ body {
     background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
 }
 
-/* モバイル向けのダークモード強化 */
+/* Button Styles - 洗練されたボタン */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    border-radius: var(--button-radius);
+    transition: var(--transition-normal);
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.5;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-rounded {
+    border-radius: 9999px;
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon svg {
+    margin-right: 0.5rem;
+}
+
+.btn-icon-only {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.dark .btn-outline {
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.dark .btn-outline:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
+    .grid {
+        gap: 1rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .nav-link {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    
+    .message-list {
+        height: calc(100vh - 8rem);
+    }
+    
+    .mobile-view {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--bg-color-card);
+        z-index: 40;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .mobile-view.active {
+        transform: translateX(0);
+    }
+    
+    .matching-card {
+        height: 500px;
+    }
+    
     .dark {
-        --bg-color: #334155; /* モバイル用にさらに明るい背景色 */
-        --bg-color-card: #475569; /* モバイル用にさらに明るいカード背景 */
-        --text-color: #ffffff; /* モバイル用に完全な白色テキスト */
-        --text-color-light: #f3f4f6; /* モバイル用により明るいライトテキスト */
+        --bg-color: #475569; /* モバイルではさらに明るい背景色 */
+        --bg-color-card: #64748b; /* モバイルではさらに明るいカード背景 */
     }
     
-    .dark .text-gray-600,
-    .dark .text-gray-700,
-    .dark .text-gray-800,
+    .dark .text-gray-700, 
+    .dark .text-gray-800, 
     .dark .text-gray-900 {
-        color: #ffffff !important; /* モバイル用に全てのテキストを白色に */
+        color: white !important;
     }
     
-    .dark .card {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* より強いシャドウ効果 */
+    .dark .nav-link, 
+    .dark .text-gray-600 {
+        color: #f8fafc !important;
     }
     
-    .dark .nav-link {
-        color: #ffffff; /* ナビリンクを白色に */
-    }
-    
+    /* モバイルメニューの背景をより明るく */
     .dark .mobile-menu {
-        background-color: #475569 !important; /* モバイルメニューの背景を明るく */
+        background-color: #64748b !important;
+    }
+    
+    /* カードのコントラスト向上 */
+    .dark .card {
+        border: 1px solid #94a3b8;
+    }
+    
+    /* フォントサイズを調整してモバイルで読みやすく */
+    body {
+        font-size: 16px;
+    }
+    
+    .btn {
+        padding: 0.625rem 1.25rem;
     }
 }
 
@@ -372,6 +677,37 @@ body {
     animation: slideUp 0.5s ease-in-out;
 }
 
+@keyframes slideIn {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
 /* Image Lazy Loading */
 .lazy-load {
     opacity: 0;
@@ -390,15 +726,54 @@ body {
 /* Form Styles */
 .form-input {
     width: 100%;
-    padding: 0.5rem 0.75rem;
+    padding: 0.625rem 0.875rem;
     border: 1px solid var(--border-color);
-    border-radius: 0.375rem;
+    border-radius: var(--button-radius);
     background-color: var(--bg-color-card);
     color: var(--text-color);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .form-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    outline: none;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-text {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+}
+
+.form-select {
+    display: block;
+    width: 100%;
+    padding: 0.625rem 2.5rem 0.625rem 0.875rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--button-radius);
+    background-color: var(--bg-color-card);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    color: var(--text-color);
+    appearance: none;
+}
+
+.form-select:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px var(--primary-light);
     outline: none;
@@ -415,57 +790,26 @@ body {
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-/* Button Styles */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    border-radius: 0.375rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-dark);
-}
-
-.btn-secondary {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.btn-secondary:hover {
-    background-color: var(--secondary-dark);
-}
-
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-}
-
-.btn-outline:hover {
-    background-color: var(--primary-light);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-.dark .btn-outline {
+.dark .form-select {
+    background-color: var(--bg-color-card);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f3f4f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
     color: var(--text-color);
     border-color: var(--border-color);
 }
 
-.dark .btn-outline:hover {
-    background-color: var(--primary-light);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+/* ダークモード時の入力フォームを明るく */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark textarea,
+.dark select {
+    background-color: #64748b;
+    color: white;
+    border-color: #94a3b8;
+}
+
+.dark input::placeholder {
+    color: #cbd5e1;
 }
 
 /* Hero Pattern */
@@ -484,6 +828,117 @@ body {
     right: 0;
     bottom: 0;
     background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+}
+
+/* Avatar Styles */
+.avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    font-weight: 500;
+    overflow: hidden;
+}
+
+.avatar-sm {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.875rem;
+}
+
+.avatar-md {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.avatar-lg {
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.25rem;
+}
+
+.avatar-xl {
+    width: 6rem;
+    height: 6rem;
+    font-size: 1.5rem;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 50%;
+    border: 2px solid var(--bg-color-card);
+}
+
+.avatar-status-online {
+    background-color: var(--success-color);
+}
+
+.avatar-status-offline {
+    background-color: var(--text-color-light);
+}
+
+.avatar-status-busy {
+    background-color: var(--error-color);
+}
+
+/* Badge Styles */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 0.25rem;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.badge-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.badge-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.badge-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.badge-warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.badge-danger {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.badge-light {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.badge-pill {
+    border-radius: 9999px;
 }
 
 /* Accessibility */
@@ -511,15 +966,55 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
 }
 
 .dark a:focus, .dark button:focus, .dark input:focus, .dark select:focus, .dark textarea:focus {
-    outline-color: #f472b6;
-    outline-width: 3px;
+    outline-color: var(--primary-color);
 }
 
-/* アクセシビリティ強化 - コントラスト改善 */
-.dark a, .dark button, .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-    color: #ffffff;
+/* Grid System Enhancement */
+.grid-cols-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
 }
 
-.dark p, .dark span, .dark div {
-    color: var(--text-color);
+/* ダークモード最適化関連クラス */
+.dark-optimized .card {
+    background-color: var(--bg-color-card);
+    border: 1px solid var(--border-color);
+}
+
+.dark-optimized-menu {
+    background-color: var(--bg-color-card) !important;
+    border-left: 2px solid var(--primary-color);
+}
+
+.mobile-enhanced .text-gray-700,
+.mobile-enhanced .text-gray-800 {
+    color: white !important;
+}
+
+/* ダークモードトグルボタンのスタイル改善 */
+.dark .dot {
+    transform: translateX(16px) !important;
+    background-color: var(--primary-color) !important;
+}
+
+#mobile-dark-mode-toggle:checked ~ .dot {
+    transform: translateX(12px) !important;
+}
+
+/* スマホでの視認性向上のための追加スタイル */
+@media (max-width: 768px) {
+    .dark .text-gray-700,
+    .dark .text-gray-800,
+    .dark .text-gray-900 {
+        color: white !important;
+    }
+    
+    .dark .bg-white {
+        background-color: #475569 !important;
+    }
+    
+    .dark .gradient-bg {
+        background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+    }
 } 

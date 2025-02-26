@@ -1,259 +1,497 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ダッシュボード - Love Match</title>
-    <meta name="description" content="Love Matchのダッシュボードでマッチングやメッセージを管理しましょう。">
-    <meta name="theme-color" content="#EC4899">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="assets/images/icon-192x192.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Love Match - ダッシュボードでマッチング状況や最新情報をチェック。あなたの出会いを管理するパーソナルスペース。">
+    <title>ダッシュボード | Love Match</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            touch-action: manipulation;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
-        }
-        .card {
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        @media (max-width: 768px) {
-            .grid {
-                gap: 1rem;
+    <link rel="icon" href="assets/images/favicon.png">
+    <!-- Webfontsの読み込み -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ダークモード初期化（画面のちらつき防止） -->
+    <script>
+        // ローカルストレージやシステム設定からダークモードの設定を読み込む
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled' || 
+                        (localStorage.getItem('darkMode') === null && 
+                         window.matchMedia('(prefers-color-scheme: dark)').matches);
+        
+        // ページロード前にダークモードを適用
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.add('dark-optimized');
+            
+            // モバイル環境の場合、追加クラスを適用
+            if (window.innerWidth <= 768) {
+                document.documentElement.classList.add('mobile-dark-enhanced');
             }
-            .card {
-                margin-bottom: 1rem;
-            }
         }
-    </style>
+    </script>
 </head>
-<body class="bg-gray-50 page-transition">
-    <!-- ナビゲーションバー -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="index.html" class="text-2xl font-bold text-pink-500">Love Match</a>
-                </div>
-                <!-- PC用メニュー -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <a href="dashboard.html" class="nav-link text-gray-600 active">ダッシュボード</a>
-                    <a href="messages.html" class="nav-link text-gray-600">メッセージ</a>
-                    <a href="matching.html" class="nav-link text-gray-600">マッチング</a>
-                    <a href="profile-edit.html" class="nav-link text-gray-600">プロフィール</a>
-                    <!-- ダークモードトグル -->
-                    <label class="relative inline-flex items-center cursor-pointer ml-4">
-                        <input type="checkbox" class="sr-only peer dark-mode-toggle">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-500"></div>
-                        <span class="ml-2 text-sm font-medium text-gray-600">🌙</span>
+<body class="font-sans bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white transition-colors duration-300">
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-30 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="assets/images/logo.svg" alt="Love Match Logo" class="h-8 w-auto">
+                <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="dashboard.html" class="nav-link active">ダッシュボード</a>
+                <a href="matching.html" class="nav-link">マッチング</a>
+                <a href="messages.html" class="nav-link">メッセージ</a>
+                <a href="meet-today.html" class="nav-link">今日の出会い</a>
+                
+                <div class="relative ml-2">
+                    <input type="checkbox" id="dark-mode-toggle" class="hidden dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="flex items-center cursor-pointer">
+                        <div class="relative">
+                            <div class="block w-10 h-6 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors duration-300"></div>
+                            <div class="dot absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-sun text-yellow-500 text-xs"></i>
+                            </div>
+                            <div class="dot-dark absolute right-1 top-1 w-4 h-4 rounded-full bg-indigo-600 scale-0 transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-moon text-white text-xs"></i>
+                            </div>
+                        </div>
                     </label>
                 </div>
-                <!-- モバイル用メニューボタン -->
-                <div class="md:hidden flex items-center">
-                    <button class="menu-toggle text-gray-500 hover:text-pink-500 focus:outline-none">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        </svg>
-                    </button>
+                
+                <a href="profile-edit.html" class="flex items-center space-x-1">
+                    <img src="assets/images/profile-avatar.jpg" alt="プロフィール" class="h-8 w-8 rounded-full border-2 border-indigo-500">
+                    <span class="text-sm font-medium">鈴木太郎</span>
+                </a>
+            </nav>
+            
+            <div class="flex items-center md:hidden space-x-4">
+                <div class="relative">
+                    <input type="checkbox" id="mobile-dark-mode-toggle" class="hidden dark-mode-toggle">
+                    <label for="mobile-dark-mode-toggle" class="flex items-center cursor-pointer">
+                        <div class="relative">
+                            <div class="block w-10 h-6 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors duration-300"></div>
+                            <div class="dot absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-sun text-yellow-500 text-xs"></i>
+                            </div>
+                            <div class="dot-dark absolute right-1 top-1 w-4 h-4 rounded-full bg-indigo-600 scale-0 transition-transform duration-300 flex items-center justify-center">
+                                <i class="fas fa-moon text-white text-xs"></i>
+                            </div>
+                        </div>
+                    </label>
                 </div>
-            </div>
-        </div>
-        <!-- モバイル用メニュー -->
-        <div class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 md:hidden">
-            <div class="flex justify-end p-4">
-                <button class="menu-toggle text-gray-500 hover:text-pink-500 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
+                
+                <button id="menu-button" class="text-gray-700 dark:text-white focus:outline-none" aria-label="メニューを開く" aria-expanded="false">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
-            <div class="flex flex-col px-4 py-2 space-y-2">
-                <a href="dashboard.html" class="nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50 active">ダッシュボード</a>
-                <a href="messages.html" class="nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">メッセージ</a>
-                <a href="matching.html" class="nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">マッチング</a>
-                <a href="profile-edit.html" class="nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">プロフィール</a>
-                <div class="border-t pt-2">
-                    <a href="index.html" class="block nav-link text-gray-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-pink-50">ログアウト</a>
+        </div>
+    </header>
+    
+    <div class="mobile-menu fixed top-0 right-0 h-full w-4/5 bg-white dark:bg-gray-800 shadow-lg transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto" aria-hidden="true">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <span class="text-lg font-semibold text-indigo-600 dark:text-indigo-400">メニュー</span>
+            <button id="close-menu-button" class="text-gray-700 dark:text-white focus:outline-none" aria-label="メニューを閉じる">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="p-4">
+            <div class="flex items-center space-x-2 mb-6">
+                <img src="assets/images/profile-avatar.jpg" alt="プロフィール" class="h-10 w-10 rounded-full border-2 border-indigo-500">
+                <div>
+                    <div class="text-sm font-medium">鈴木太郎</div>
+                    <a href="profile-edit.html" class="text-xs text-indigo-600 dark:text-indigo-400">プロフィール編集</a>
                 </div>
-                <!-- モバイル用ダークモードトグル -->
-                <div class="flex items-center px-4 py-2">
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" class="sr-only peer dark-mode-toggle">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-500"></div>
-                        <span class="ml-2 text-sm font-medium text-gray-600">ダークモード</span>
-                    </label>
+            </div>
+            <nav class="space-y-4">
+                <a href="dashboard.html" class="mobile-nav-link active">
+                    <i class="fas fa-home w-6"></i>
+                    <span>ダッシュボード</span>
+                </a>
+                <a href="matching.html" class="mobile-nav-link">
+                    <i class="fas fa-heart w-6"></i>
+                    <span>マッチング</span>
+                </a>
+                <a href="messages.html" class="mobile-nav-link">
+                    <i class="fas fa-comment w-6"></i>
+                    <span>メッセージ</span>
+                </a>
+                <a href="meet-today.html" class="mobile-nav-link">
+                    <i class="fas fa-calendar-day w-6"></i>
+                    <span>今日の出会い</span>
+                </a>
+                <a href="create-event.html" class="mobile-nav-link">
+                    <i class="fas fa-calendar-plus w-6"></i>
+                    <span>イベント作成</span>
+                </a>
+                <hr class="my-4 border-gray-200 dark:border-gray-700">
+                <a href="#" class="mobile-nav-link text-red-600 dark:text-red-400">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>ログアウト</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+    
+    <main class="container mx-auto px-4 py-8">
+        <div class="md:flex md:justify-between items-center mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold mb-4 md:mb-0">ダッシュボード</h1>
+            <div class="flex space-x-2">
+                <button class="btn-secondary">
+                    <i class="fas fa-sync-alt mr-2"></i>更新
+                </button>
+                <button class="btn-primary">
+                    <i class="fas fa-bell mr-2"></i>通知設定
+                </button>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="card p-6 rounded-lg transition-all">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-lg">プロフィールステータス</h3>
+                    <div class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-2 py-1 rounded text-xs font-medium">アクティブ</div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">プロフィール完成度</span>
+                            <span class="font-medium">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-indigo-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">写真</span>
+                            <span class="font-medium">3/6</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-indigo-600 h-2 rounded-full" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <a href="profile-edit.html" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium inline-flex items-center">
+                        <span>プロフィールを完成させる</span>
+                        <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card p-6 rounded-lg transition-all">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-lg">マッチング状況</h3>
+                    <div class="text-indigo-600 dark:text-indigo-400">
+                        <i class="fas fa-heart text-xl"></i>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-300">新しいマッチング</span>
+                        <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 px-2 py-1 rounded-full text-xs font-medium">3</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-300">いいね！を送った</span>
+                        <span class="font-medium">12</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-300">いいね！を受け取った</span>
+                        <span class="font-medium">8</span>
+                    </div>
+                    <a href="matching.html" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium inline-flex items-center">
+                        <span>マッチングを見る</span>
+                        <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card p-6 rounded-lg transition-all">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-lg">メッセージ</h3>
+                    <div class="text-indigo-600 dark:text-indigo-400">
+                        <i class="fas fa-comment text-xl"></i>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-300">未読メッセージ</span>
+                        <span class="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 px-2 py-1 rounded-full text-xs font-medium">5</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-300">アクティブな会話</span>
+                        <span class="font-medium">7</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-300">新しい会話</span>
+                        <span class="font-medium">2</span>
+                    </div>
+                    <a href="messages.html" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium inline-flex items-center">
+                        <span>メッセージを見る</span>
+                        <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                    </a>
                 </div>
             </div>
         </div>
-    </nav>
-
-    <!-- メインコンテンツ -->
-    <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
-        <!-- プロフィールサマリー -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8 card">
-            <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" alt="プロフィール" class="w-32 h-32 rounded-full object-cover lazy-load" data-src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80">
-                <div class="flex-1">
-                    <h1 class="text-2xl font-bold mb-2">ようこそ、ゆきさん</h1>
-                    <p class="text-gray-600 mb-4">プロフィールの完成度: 85%</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">写真追加済み</span>
-                        <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">自己紹介完了</span>
-                        <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">興味・趣味を追加しよう</span>
+        
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4">あなたにぴったりのマッチング</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="card p-4 rounded-lg transition-all">
+                    <img src="assets/images/profile-1.jpg" alt="佐藤 愛" class="w-full h-48 object-cover rounded mb-3">
+                    <h3 class="font-semibold">佐藤 愛, 28</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">東京 • 5km</p>
+                    <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <i class="fas fa-briefcase mr-1"></i>
+                        <span>マーケティング</span>
+                    </div>
+                    <div class="mt-3 flex justify-between">
+                        <button class="w-1/2 mr-1 py-1 px-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors duration-300">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="w-1/2 ml-1 py-1 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded transition-colors duration-300">
+                            <i class="fas fa-heart"></i>
+                        </button>
                     </div>
                 </div>
-                <a href="profile-edit.html" class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition duration-300 btn">
-                    プロフィールを編集
+                
+                <div class="card p-4 rounded-lg transition-all">
+                    <img src="assets/images/profile-2.jpg" alt="田中 美咲" class="w-full h-48 object-cover rounded mb-3">
+                    <h3 class="font-semibold">田中 美咲, 26</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">東京 • 3km</p>
+                    <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <i class="fas fa-briefcase mr-1"></i>
+                        <span>看護師</span>
+                    </div>
+                    <div class="mt-3 flex justify-between">
+                        <button class="w-1/2 mr-1 py-1 px-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors duration-300">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="w-1/2 ml-1 py-1 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded transition-colors duration-300">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card p-4 rounded-lg transition-all">
+                    <img src="assets/images/profile-3.jpg" alt="山本 結衣" class="w-full h-48 object-cover rounded mb-3">
+                    <h3 class="font-semibold">山本 結衣, 29</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">東京 • 7km</p>
+                    <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <i class="fas fa-briefcase mr-1"></i>
+                        <span>デザイナー</span>
+                    </div>
+                    <div class="mt-3 flex justify-between">
+                        <button class="w-1/2 mr-1 py-1 px-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors duration-300">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="w-1/2 ml-1 py-1 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded transition-colors duration-300">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card p-4 rounded-lg transition-all">
+                    <img src="assets/images/profile-4.jpg" alt="高橋 さくら" class="w-full h-48 object-cover rounded mb-3">
+                    <h3 class="font-semibold">高橋 さくら, 27</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">東京 • 4km</p>
+                    <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                        <i class="fas fa-briefcase mr-1"></i>
+                        <span>教師</span>
+                    </div>
+                    <div class="mt-3 flex justify-between">
+                        <button class="w-1/2 mr-1 py-1 px-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors duration-300">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="w-1/2 ml-1 py-1 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded transition-colors duration-300">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="matching.html" class="btn-secondary inline-flex items-center">
+                    <span>もっと見る</span>
+                    <i class="fas fa-chevron-right ml-2"></i>
                 </a>
             </div>
         </div>
-
-        <!-- アクティビティグリッド -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <!-- 新しいマッチング -->
-            <div class="bg-white rounded-lg shadow-lg p-6 card">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold">新しいマッチング</h2>
-                    <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">3人</span>
-                </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="card p-6 rounded-lg transition-all">
+                <h2 class="text-xl font-bold mb-4">最近のアクティビティ</h2>
                 <div class="space-y-4">
-                    <div class="flex items-center space-x-3">
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80" alt="さくら" class="w-12 h-12 rounded-full object-cover lazy-load" data-src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80">
-                        <div class="flex-1">
-                            <h3 class="font-bold">さくら</h3>
-                            <p class="text-sm text-gray-600">趣味：カフェ巡り、読書</p>
+                    <div class="flex items-start">
+                        <div class="bg-indigo-100 dark:bg-indigo-900 rounded-full p-2 mr-3">
+                            <i class="fas fa-heart text-indigo-600 dark:text-indigo-400"></i>
                         </div>
-                        <a href="messages.html" class="text-pink-500 hover:text-pink-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                        </a>
+                        <div>
+                            <p class="text-gray-800 dark:text-gray-200">田中 美咲さんがあなたにいいね！を送りました</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">2時間前</p>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80" alt="みき" class="w-12 h-12 rounded-full object-cover lazy-load" data-src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80">
-                        <div class="flex-1">
-                            <h3 class="font-bold">みき</h3>
-                            <p class="text-sm text-gray-600">趣味：映画鑑賞、アート</p>
+                    <div class="flex items-start">
+                        <div class="bg-green-100 dark:bg-green-900 rounded-full p-2 mr-3">
+                            <i class="fas fa-handshake text-green-600 dark:text-green-400"></i>
                         </div>
-                        <a href="messages.html" class="text-pink-500 hover:text-pink-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                        </a>
+                        <div>
+                            <p class="text-gray-800 dark:text-gray-200">佐藤 愛さんとマッチングしました</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">6時間前</p>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80" alt="はるか" class="w-12 h-12 rounded-full object-cover lazy-load" data-src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80">
-                        <div class="flex-1">
-                            <h3 class="font-bold">はるか</h3>
-                            <p class="text-sm text-gray-600">趣味：旅行、スポーツ</p>
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 dark:bg-blue-900 rounded-full p-2 mr-3">
+                            <i class="fas fa-comment text-blue-600 dark:text-blue-400"></i>
                         </div>
-                        <a href="messages.html" class="text-pink-500 hover:text-pink-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                        </a>
+                        <div>
+                            <p class="text-gray-800 dark:text-gray-200">山本 結衣さんからメッセージが届きました</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">昨日</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 今日のイベント -->
-            <div class="bg-white rounded-lg shadow-lg p-6 card">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold">今日のイベント</h2>
-                    <a href="create-event.html" class="text-pink-500 hover:text-pink-600">イベントを作成</a>
-                </div>
-                <div class="space-y-4">
-                    <div class="border rounded-lg p-4">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80" alt="カフェ会" class="w-full h-32 object-cover rounded-lg mb-4 lazy-load" data-src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80">
-                        <h3 class="font-bold mb-2">渋谷でカフェ会</h3>
-                        <div class="flex items-center space-x-2 text-sm text-gray-600">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>19:00〜</span>
+                    <div class="flex items-start">
+                        <div class="bg-purple-100 dark:bg-purple-900 rounded-full p-2 mr-3">
+                            <i class="fas fa-eye text-purple-600 dark:text-purple-400"></i>
                         </div>
-                        <div class="flex items-center space-x-2 text-sm text-gray-600">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <span>渋谷</span>
+                        <div>
+                            <p class="text-gray-800 dark:text-gray-200">5人があなたのプロフィールを閲覧しました</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">昨日</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- おすすめのユーザー -->
-            <div class="bg-white rounded-lg shadow-lg p-6 card">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-bold">おすすめのユーザー</h2>
-                    <a href="matching.html" class="text-pink-500 hover:text-pink-600">もっと見る</a>
-                </div>
+            
+            <div class="card p-6 rounded-lg transition-all">
+                <h2 class="text-xl font-bold mb-4">今後のイベント</h2>
                 <div class="space-y-4">
-                    <div class="flex items-center space-x-3">
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80" alt="なな" class="w-16 h-16 rounded-full object-cover lazy-load" data-src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80">
-                        <div class="flex-1">
-                            <h3 class="font-bold">なな</h3>
-                            <p class="text-sm text-gray-600">趣味が似ています</p>
-                            <div class="flex space-x-2 mt-2">
-                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">カフェ巡り</span>
-                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">音楽</span>
-                            </div>
+                    <div class="border-l-4 border-indigo-500 pl-3 py-1">
+                        <h3 class="font-semibold">東京ガーデンカフェ交流会</h3>
+                        <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm mb-1">
+                            <i class="far fa-calendar mr-1"></i>
+                            <span>6月15日 (土) 14:00-16:00</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>渋谷ガーデンカフェ</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm mt-1">
+                            <i class="fas fa-users mr-1"></i>
+                            <span>参加者: 12/20</span>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80" alt="れい" class="w-16 h-16 rounded-full object-cover lazy-load" data-src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80">
-                        <div class="flex-1">
-                            <h3 class="font-bold">れい</h3>
-                            <p class="text-sm text-gray-600">近くにいます</p>
-                            <div class="flex space-x-2 mt-2">
-                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">映画</span>
-                                <span class="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs">旅行</span>
-                            </div>
+                    
+                    <div class="border-l-4 border-indigo-500 pl-3 py-1">
+                        <h3 class="font-semibold">趣味で繋がるボードゲーム会</h3>
+                        <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm mb-1">
+                            <i class="far fa-calendar mr-1"></i>
+                            <span>6月22日 (土) 18:00-21:00</span>
                         </div>
+                        <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>新宿ボードゲームカフェ</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 dark:text-gray-300 text-sm mt-1">
+                            <i class="fas fa-users mr-1"></i>
+                            <span>参加者: 8/16</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a href="meet-today.html" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium inline-flex items-center">
+                            <span>すべてのイベントを見る</span>
+                            <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- 最近のアクティビティ -->
-        <div class="bg-white rounded-lg shadow-lg p-6 card">
-            <h2 class="text-lg font-bold mb-4">最近のアクティビティ</h2>
-            <div class="space-y-4">
-                <div class="flex items-center space-x-4">
-                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
-                    <div class="flex-1">
-                        <p class="text-gray-600">さくらさんがあなたにいいねを送りました</p>
-                        <p class="text-sm text-gray-500">2時間前</p>
-                    </div>
+        
+        <div class="card p-6 rounded-lg transition-all mb-8">
+            <h2 class="text-xl font-bold mb-4">あなたの統計</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div class="text-indigo-600 dark:text-indigo-400 text-2xl font-bold">78%</div>
+                    <div class="text-gray-600 dark:text-gray-300 text-sm">返信率</div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
-                    <div class="flex-1">
-                        <p class="text-gray-600">みきさんとマッチングしました</p>
-                        <p class="text-sm text-gray-500">4時間前</p>
-                    </div>
+                <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div class="text-indigo-600 dark:text-indigo-400 text-2xl font-bold">24</div>
+                    <div class="text-gray-600 dark:text-gray-300 text-sm">マッチング数</div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
-                    <div class="flex-1">
-                        <p class="text-gray-600">カフェ会のイベントに3人が参加しました</p>
-                        <p class="text-sm text-gray-500">6時間前</p>
-                    </div>
+                <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div class="text-indigo-600 dark:text-indigo-400 text-2xl font-bold">5</div>
+                    <div class="text-gray-600 dark:text-gray-300 text-sm">今週の閲覧数</div>
+                </div>
+                <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div class="text-indigo-600 dark:text-indigo-400 text-2xl font-bold">3</div>
+                    <div class="text-gray-600 dark:text-gray-300 text-sm">参加予定イベント</div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- スクリプト -->
-    <script src="assets/js/main.js"></script>
+        
+        <div class="bg-indigo-50 dark:bg-indigo-900/30 rounded-lg p-6 text-center">
+            <h2 class="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-2">もっと出会いの可能性を広げましょう</h2>
+            <p class="text-indigo-700 dark:text-indigo-400 mb-4">プレミアムプランにアップグレードして、より多くの機能を利用できます。</p>
+            <button class="btn-primary">プレミアムを試す</button>
+        </div>
+    </main>
+    
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 mt-12 transition-colors duration-300">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="assets/images/logo.svg" alt="Love Match Logo" class="h-8 w-auto">
+                        <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">Love Match</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">あなたの理想の相手を見つけるマッチングサービス。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors duration-300">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">サービス</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="footer-link">マッチング</a></li>
+                        <li><a href="#" class="footer-link">イベント</a></li>
+                        <li><a href="#" class="footer-link">プレミアムプラン</a></li>
+                        <li><a href="#" class="footer-link">ビジネスネットワーキング</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">サポート</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="footer-link">よくある質問</a></li>
+                        <li><a href="#" class="footer-link">お問い合わせ</a></li>
+                        <li><a href="#" class="footer-link">安全ガイドライン</a></li>
+                        <li><a href="#" class="footer-link">コミュニティガイドライン</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">法的情報</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="footer-link">利用規約</a></li>
+                        <li><a href="#" class="footer-link">プライバシーポリシー</a></li>
+                        <li><a href="#" class="footer-link">特定商取引法に基づく表記</a></li>
+                        <li><a href="#" class="footer-link">資金決済法に基づく表記</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-gray-600 dark:text-gray-300">
+                <p>&copy; 2023 Love Match. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
 </body>
 </html> 

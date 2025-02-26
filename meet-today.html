@@ -1,22 +1,50 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Love Match - 今日会える素敵な出会いを見つけるマッチングサービス">
-    <meta name="theme-color" content="#FFF0F3">
+    <meta name="theme-color" content="#4F46E5">
     <title>今日会える - Love Match</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/styles.css">
+    
+    <!-- ダークモードの初期化スクリプト -->
+    <script>
+        // ページ読み込み前にダークモードを初期化して画面のちらつきを防ぐ
+        (function() {
+            // ローカルストレージからダークモード設定を取得
+            const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+            // システム設定の確認
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // ダークモードが有効またはシステム設定がダークの場合はダークモードを適用
+            if (isDarkMode || (prefersDark && localStorage.getItem('darkMode') === null)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            
+            // モバイル表示向けの調整
+            if (window.innerWidth < 768) {
+                document.documentElement.classList.add('mobile-view');
+            }
+        })();
+    </script>
+    
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #FFF0F3 0%, #FFB6C1 100%);
+            background: linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%);
+        }
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
         }
         .user-card {
             transition: all 0.3s ease;
@@ -25,7 +53,15 @@
         .user-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #FFC0CB;
+            border-color: #818CF8;
+        }
+        .dark .user-card {
+            background-color: #1E293B;
+            border-color: #334155;
+        }
+        .dark .user-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            border-color: #4F46E5;
         }
         .filter-container {
             background-color: white;
@@ -35,42 +71,140 @@
             margin-top: 2rem;
             margin-bottom: 2rem;
         }
+        .dark .filter-container {
+            background-color: #1E293B;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
         .notice-container {
             border-radius: 0.5rem;
             padding: 1rem;
             margin-top: 1rem;
         }
         .safety-notice {
-            background-color: #FFF5F7;
-            border: 1px solid #FECDD3;
+            background-color: #EEF2FF;
+            border: 1px solid #C7D2FE;
+        }
+        .dark .safety-notice {
+            background-color: #1E3A8A;
+            border-color: #3B82F6;
         }
         .location-notice {
             background-color: #EFF6FF;
             border: 1px solid #BFDBFE;
         }
+        .dark .location-notice {
+            background-color: #172554;
+            border-color: #3B82F6;
+        }
+        .dark .text-gray-800 {
+            color: #F1F5F9;
+        }
+        .dark .text-gray-700 {
+            color: #E2E8F0;
+        }
+        .dark .text-gray-600 {
+            color: #CBD5E0;
+        }
+        .dark .bg-white {
+            background-color: #1E293B;
+        }
+        .dark .border {
+            border-color: #475569;
+        }
+        .dark .bg-gray-50 {
+            background-color: #0F172A;
+        }
+        .dark .text-pink-800 {
+            color: #E2E8F0;
+        }
+        .dark .text-blue-800 {
+            color: #E2E8F0;
+        }
+        .dark .text-pink-700 {
+            color: #CBD5E0;
+        }
+        .dark .text-blue-700 {
+            color: #CBD5E0;
+        }
+        
+        /* カードの画像にグラデーションを追加して暗い写真上のテキストを見やすくする */
+        .user-card .relative::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .user-card .relative > div {
+            z-index: 2;
+            position: relative;
+        }
+        
+        /* ページネーションの改善 */
+        .pagination {
+            @apply inline-flex rounded-md shadow;
+        }
+        .pagination a {
+            @apply px-4 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50;
+            transition: all 0.3s ease;
+        }
+        .pagination a.active {
+            @apply bg-indigo-600 border-indigo-600 text-white;
+        }
+        .dark .pagination a {
+            @apply bg-gray-800 border-gray-700 text-gray-300 hover:bg-indigo-900;
+        }
+        .dark .pagination a.active {
+            @apply bg-indigo-600 border-indigo-600 text-white;
+        }
+        
+        /* ボタンの改善 */
+        .btn-primary {
+            @apply bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300;
+        }
+        .btn-rounded {
+            @apply bg-indigo-600 text-white px-4 py-2 rounded-full text-sm hover:bg-indigo-700 transition duration-300 flex items-center;
+        }
+        
+        /* セレクトボックスの改善 */
+        .dark select {
+            @apply bg-gray-800 text-white border-gray-700;
+        }
     </style>
 </head>
-<body class="bg-gray-50 page-transition">
+<body class="gradient-bg min-h-screen page-transition dark:text-white">
     <!-- ナビゲーションバー（共通） -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
+    <nav class="bg-white dark:bg-gray-800 shadow-lg fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="dashboard.html" class="text-2xl font-bold text-pink-500">Love Match</a>
+                    <a href="dashboard.html" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 flex items-center">
+                        <i class="fas fa-heart mr-2"></i> Love Match
+                    </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="dashboard.html" class="nav-link text-gray-600 hover:text-pink-500">ダッシュボード</a>
-                    <a href="messages.html" class="nav-link text-gray-600 hover:text-pink-500">メッセージ</a>
-                    <a href="matching.html" class="nav-link text-gray-600 hover:text-pink-500">マッチング</a>
-                    <a href="meet-today.html" class="nav-link text-pink-500 font-medium">今日会える</a>
-                    <button id="darkModeToggle" class="text-gray-600 hover:text-pink-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                        </svg>
+                    <a href="dashboard.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
+                        <i class="fas fa-chart-line mr-1"></i> ダッシュボード
+                    </a>
+                    <a href="messages.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
+                        <i class="fas fa-envelope mr-1"></i> メッセージ
+                    </a>
+                    <a href="matching.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
+                        <i class="fas fa-user-friends mr-1"></i> マッチング
+                    </a>
+                    <a href="meet-today.html" class="nav-link text-indigo-600 dark:text-indigo-400 font-medium">
+                        <i class="fas fa-clock mr-1"></i> 今日会える
+                    </a>
+                    <button id="darkModeToggle" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
+                        <i class="fas fa-moon"></i>
                     </button>
                 </div>
                 <div class="md:hidden flex items-center">
-                    <button id="mobileMenuButton" class="text-gray-600 hover:text-pink-500">
+                    <button id="mobileMenuButton" class="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -79,19 +213,27 @@
             </div>
         </div>
         <!-- モバイルメニュー -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg">
+        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-800 shadow-lg">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="dashboard.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100">ダッシュボード</a>
-                <a href="messages.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100">メッセージ</a>
-                <a href="matching.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100">マッチング</a>
-                <a href="meet-today.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-pink-500 bg-pink-50">今日会える</a>
-                <button id="mobileDarkModeToggle" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
+                <a href="dashboard.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-chart-line mr-1"></i> ダッシュボード
+                </a>
+                <a href="messages.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-envelope mr-1"></i> メッセージ
+                </a>
+                <a href="matching.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-user-friends mr-1"></i> マッチング
+                </a>
+                <a href="meet-today.html" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50 dark:bg-indigo-900 dark:text-indigo-400">
+                    <i class="fas fa-clock mr-1"></i> 今日会える
+                </a>
+                <button id="mobileDarkModeToggle" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-moon mr-1"></i>
                     <span class="dark-mode-text">ダークモード</span>
                 </button>
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-100">ログアウト</a>
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-sign-out-alt mr-1"></i> ログアウト
+                </a>
             </div>
         </div>
     </nav>
@@ -99,22 +241,20 @@
     <!-- フィルター -->
     <div class="max-w-7xl mx-auto px-4 py-8 pt-20">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">今日会える人</h1>
-            <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition duration-300 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-white">今日会える人</h1>
+            <button class="btn-rounded">
+                <i class="fas fa-plus mr-1"></i>
                 自分も募集する
             </button>
         </div>
 
-        <div class="filter-container">
+        <div class="filter-container dark:bg-gray-800">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
-                    <label class="block text-gray-700 font-medium mb-2" for="distance">
-                        検索範囲
+                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="distance">
+                        <i class="fas fa-map-marker-alt mr-1"></i> 検索範囲
                     </label>
-                    <select id="distance" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 bg-white">
+                    <select id="distance" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                         <option value="1">1km以内</option>
                         <option value="3">3km以内</option>
                         <option value="5" selected>5km以内</option>
@@ -123,10 +263,10 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-medium mb-2" for="time">
-                        希望時間
+                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="time">
+                        <i class="fas fa-clock mr-1"></i> 希望時間
                     </label>
-                    <select id="time" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 bg-white">
+                    <select id="time" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                         <option value="now">今すぐ</option>
                         <option value="1">1時間以内</option>
                         <option value="3">3時間以内</option>
@@ -135,10 +275,10 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-medium mb-2" for="activity">
-                        アクティビティ
+                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="activity">
+                        <i class="fas fa-coffee mr-1"></i> アクティビティ
                     </label>
-                    <select id="activity" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 bg-white">
+                    <select id="activity" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                         <option value="cafe">カフェ</option>
                         <option value="meal">食事</option>
                         <option value="walk">散歩</option>
@@ -148,10 +288,10 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-medium mb-2" for="gender">
-                        性別
+                    <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="gender">
+                        <i class="fas fa-venus-mars mr-1"></i> 性別
                     </label>
-                    <select id="gender" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 bg-white">
+                    <select id="gender" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-indigo-500 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                         <option value="all" selected>すべて</option>
                         <option value="female">女性</option>
                         <option value="male">男性</option>
@@ -159,10 +299,8 @@
                 </div>
             </div>
             <div class="mt-4 flex justify-end">
-                <button class="bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600 transition duration-300 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+                <button class="btn-primary">
+                    <i class="fas fa-search mr-1"></i>
                     検索
                 </button>
             </div>
@@ -171,10 +309,10 @@
         <!-- ユーザーカード一覧 -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- ユーザーカード1 -->
-            <div class="user-card bg-white rounded-lg overflow-hidden">
+            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
                 <div class="relative">
                     <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80" alt="カフェで読書する女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full">
+                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
                         1.2km
                     </div>
                 </div>
@@ -182,26 +320,32 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <h3 class="font-bold">まりこ</h3>
-                            <span class="text-sm text-gray-600">28歳</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">28歳</span>
                         </div>
-                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">オンライン</span>
+                        <span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs px-2 py-1 rounded-full">
+                            <i class="fas fa-circle text-xs mr-1 text-green-500"></i> オンライン
+                        </span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-2">渋谷・原宿エリア</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <i class="fas fa-map-pin mr-1"></i> 渋谷・原宿エリア
+                    </p>
                     <p class="text-sm mb-4">今日の夜、カフェでお茶しませんか？美味しいケーキのお店を知っています。</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-pink-500 font-medium">19:00〜可能</span>
-                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition duration-300">
-                            メッセージを送る
+                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                            <i class="far fa-clock mr-1"></i> 19:00〜可能
+                        </span>
+                        <button class="btn-rounded">
+                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- ユーザーカード2 -->
-            <div class="user-card bg-white rounded-lg overflow-hidden">
+            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
                 <div class="relative">
                     <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80" alt="レストランでくつろぐ女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full">
+                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
                         2.5km
                     </div>
                 </div>
@@ -209,26 +353,32 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <h3 class="font-bold">あやか</h3>
-                            <span class="text-sm text-gray-600">25歳</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">25歳</span>
                         </div>
-                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">オンライン</span>
+                        <span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs px-2 py-1 rounded-full">
+                            <i class="fas fa-circle text-xs mr-1 text-green-500"></i> オンライン
+                        </span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-2">新宿エリア</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <i class="fas fa-map-pin mr-1"></i> 新宿エリア
+                    </p>
                     <p class="text-sm mb-4">ディナーご一緒しませんか？イタリアンが好きです。おしゃべりしながら楽しい時間を過ごしましょう。</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-pink-500 font-medium">20:00〜可能</span>
-                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition duration-300">
-                            メッセージを送る
+                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                            <i class="far fa-clock mr-1"></i> 20:00〜可能
+                        </span>
+                        <button class="btn-rounded">
+                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- ユーザーカード3 -->
-            <div class="user-card bg-white rounded-lg overflow-hidden">
+            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
                 <div class="relative">
                     <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80" alt="公園でリラックスする女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full">
+                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
                         3.8km
                     </div>
                 </div>
@@ -236,26 +386,32 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <h3 class="font-bold">ゆきこ</h3>
-                            <span class="text-sm text-gray-600">24歳</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">24歳</span>
                         </div>
-                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">オンライン</span>
+                        <span class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs px-2 py-1 rounded-full">
+                            <i class="fas fa-circle text-xs mr-1 text-green-500"></i> オンライン
+                        </span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-2">池袋エリア</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <i class="fas fa-map-pin mr-1"></i> 池袋エリア
+                    </p>
                     <p class="text-sm mb-4">休日に公園でピクニックはいかがですか？お弁当を持って行きましょう。天気が良さそうです。</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-pink-500 font-medium">14:00〜可能</span>
-                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition duration-300">
-                            メッセージを送る
+                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                            <i class="far fa-clock mr-1"></i> 14:00〜可能
+                        </span>
+                        <button class="btn-rounded">
+                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- ユーザーカード4 -->
-            <div class="user-card bg-white rounded-lg overflow-hidden">
+            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
                 <div class="relative">
                     <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80" alt="カフェでくつろぐ女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full">
+                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
                         4.1km
                     </div>
                 </div>
@@ -263,26 +419,32 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <h3 class="font-bold">はるか</h3>
-                            <span class="text-sm text-gray-600">26歳</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">26歳</span>
                         </div>
-                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">30分前</span>
+                        <span class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
+                            <i class="fas fa-history text-xs mr-1"></i> 30分前
+                        </span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-2">六本木エリア</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <i class="fas fa-map-pin mr-1"></i> 六本木エリア
+                    </p>
                     <p class="text-sm mb-4">美術館に行きたいと思っています。アート好きな方、ご一緒しませんか？</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-pink-500 font-medium">13:00〜可能</span>
-                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition duration-300">
-                            メッセージを送る
+                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                            <i class="far fa-clock mr-1"></i> 13:00〜可能
+                        </span>
+                        <button class="btn-rounded">
+                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- ユーザーカード5 -->
-            <div class="user-card bg-white rounded-lg overflow-hidden">
+            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
                 <div class="relative">
                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="笑顔の女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full">
+                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
                         1.7km
                     </div>
                 </div>
@@ -290,26 +452,32 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <h3 class="font-bold">みほ</h3>
-                            <span class="text-sm text-gray-600">29歳</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">29歳</span>
                         </div>
-                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">1時間前</span>
+                        <span class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
+                            <i class="fas fa-history text-xs mr-1"></i> 1時間前
+                        </span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-2">恵比寿エリア</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <i class="fas fa-map-pin mr-1"></i> 恵比寿エリア
+                    </p>
                     <p class="text-sm mb-4">ショッピングに付き合ってくれる方募集中！おしゃれなカフェにも寄りたいです。</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-pink-500 font-medium">15:00〜可能</span>
-                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition duration-300">
-                            メッセージを送る
+                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                            <i class="far fa-clock mr-1"></i> 15:00〜可能
+                        </span>
+                        <button class="btn-rounded">
+                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- ユーザーカード6 -->
-            <div class="user-card bg-white rounded-lg overflow-hidden">
+            <div class="user-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
                 <div class="relative">
                     <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80" alt="笑顔の女性" class="w-full h-48 object-cover lazy-load">
-                    <div class="absolute top-2 right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full">
+                    <div class="absolute top-2 right-2 bg-indigo-600 text-white text-xs px-2 py-1 rounded-full z-10">
                         5.0km
                     </div>
                 </div>
@@ -317,16 +485,22 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <h3 class="font-bold">さくら</h3>
-                            <span class="text-sm text-gray-600">23歳</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">23歳</span>
                         </div>
-                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">2時間前</span>
+                        <span class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
+                            <i class="fas fa-history text-xs mr-1"></i> 2時間前
+                        </span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-2">表参道エリア</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <i class="fas fa-map-pin mr-1"></i> 表参道エリア
+                    </p>
                     <p class="text-sm mb-4">映画を観に行きたいです。最近の話題作について語り合いましょう！</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-pink-500 font-medium">18:30〜可能</span>
-                        <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition duration-300">
-                            メッセージを送る
+                        <span class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                            <i class="far fa-clock mr-1"></i> 18:30〜可能
+                        </span>
+                        <button class="btn-rounded">
+                            <i class="fas fa-paper-plane mr-1"></i> メッセージを送る
                         </button>
                     </div>
                 </div>
@@ -335,19 +509,19 @@
 
         <!-- ページネーション -->
         <div class="mt-8 flex justify-center">
-            <nav class="inline-flex rounded-md shadow">
-                <a href="#" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-l-md hover:bg-gray-50">前へ</a>
-                <a href="#" class="px-4 py-2 bg-pink-500 border border-pink-500 text-white">1</a>
-                <a href="#" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">2</a>
-                <a href="#" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">3</a>
-                <a href="#" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-r-md hover:bg-gray-50">次へ</a>
+            <nav class="pagination">
+                <a href="#" class="rounded-l-md"><i class="fas fa-chevron-left mr-1"></i> 前へ</a>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#" class="rounded-r-md">次へ <i class="fas fa-chevron-right ml-1"></i></a>
             </nav>
         </div>
 
         <!-- 位置情報の注意事項 -->
-        <div class="notice-container location-notice mt-8">
-            <h3 class="font-bold text-blue-800 mb-2">位置情報について</h3>
-            <ul class="list-disc list-inside text-sm text-blue-700 space-y-1">
+        <div class="notice-container location-notice mt-8 dark:bg-blue-900 dark:border-blue-700">
+            <h3 class="font-bold text-blue-800 dark:text-blue-200 mb-2"><i class="fas fa-map-marker-alt mr-1"></i> 位置情報について</h3>
+            <ul class="list-disc list-inside text-sm text-blue-700 dark:text-blue-300 space-y-1">
                 <li>位置情報は自動的に更新されます</li>
                 <li>表示される距離は概算です</li>
                 <li>プライバシー保護のため、正確な位置は表示されません</li>
@@ -356,9 +530,9 @@
         </div>
 
         <!-- 安全に関する注意事項 -->
-        <div class="notice-container safety-notice mt-4">
-            <h3 class="font-bold text-pink-800 mb-2">安全にご利用いただくために</h3>
-            <ul class="list-disc list-inside text-sm text-pink-700 space-y-1">
+        <div class="notice-container safety-notice mt-4 dark:bg-indigo-900 dark:border-indigo-700">
+            <h3 class="font-bold text-indigo-800 dark:text-indigo-200 mb-2"><i class="fas fa-shield-alt mr-1"></i> 安全にご利用いただくために</h3>
+            <ul class="list-disc list-inside text-sm text-indigo-700 dark:text-indigo-300 space-y-1">
                 <li>初対面の方との待ち合わせは、必ず人通りの多い公共の場所を選びましょう</li>
                 <li>個人情報の交換は慎重に行いましょう</li>
                 <li>不審に感じた場合は、すぐにサポートまでご連絡ください</li>
