@@ -1,35 +1,13 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Love Match - Page Not Found</title>
+  <title>Love Match - リダイレクト中</title>
   <script>
-    // シングルページアプリケーションのために
-    // 404からメインページにリダイレクトするスクリプト
-    (function() {
-      // URLからパスを取得
-      var pathname = window.location.pathname;
-      
-      // ベースパスを取得 (/love-match のように)
-      var segmentCount = 1; // GitHub Pages の場合通常は1
-      var baseUrl = pathname.slice(0, pathname.indexOf('/', 1));
-      
-      // パスからリポジトリ名を除去
-      var path = pathname.slice(baseUrl.length);
-      
-      // HashRouterのフォーマットのURLを構築
-      var redirectUrl = baseUrl + '/#' + path;
-      
-      // 確実にリダイレクトさせるため、パスが存在する場合のみリダイレクト
-      // そうでない場合はアプリのホームページへ
-      if (path && path !== '/') {
-        window.location.replace(redirectUrl);
-      } else {
-        window.location.replace(baseUrl);
-      }
-    })();
+    // 単一ページアプリケーション向けの GitHub Pages 404 解決策
+    sessionStorage.redirect = location.href;
   </script>
+  <meta http-equiv="refresh" content="0;URL='https://ryouryout.github.io/love-match/'">
   <style>
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -61,9 +39,7 @@
   </style>
 </head>
 <body>
-  <h1>ページが見つかりません</h1>
-  <p>お探しのページは存在しないか、移動した可能性があります。</p>
-  <p>まもなくトップページにリダイレクトします。</p>
-  <p>自動的にリダイレクトされない場合は、<a href="https://ryouryout.github.io/love-match">こちらをクリック</a>してください。</p>
+  <h1>リダイレクト中...</h1>
+  <p>自動的にリダイレクトされない場合は、<a href="https://ryouryout.github.io/love-match/">こちらをクリック</a>してください。</p>
 </body>
 </html> 
