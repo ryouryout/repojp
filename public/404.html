@@ -4,7 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Love Match</title>
-  <meta http-equiv="refresh" content="0;URL='https://ryouryout.github.io/love-match/'">
+  <script type="text/javascript">
+    // URLから取得したパスを、HashRouterの形式に変換してリダイレクトするスクリプト
+    (function(l) {
+      // 404.htmlに来たときのパスを取得
+      const path = l.pathname.split('/love-match')[1];
+      
+      // HashRouterで対応するパスを作成（メインパス + ハッシュ + 元のパス）
+      const redirectUrl = '/love-match/#' + (path || '');
+      
+      // 新しいURLへリダイレクト
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + redirectUrl
+      );
+    }(window.location));
+  </script>
   <style>
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
