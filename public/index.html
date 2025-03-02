@@ -17,17 +17,14 @@
     <title>Love Match</title>
     <!-- GitHub Pages での SPA リダイレクト -->
     <script type="text/javascript">
-      // リダイレクトが必要な場合に処理を行う
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
+      // 404ページからリダイレクトされた場合の処理
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect.split('/love-match/')[1] || '/');
         }
-      }(window.location))
+      })();
     </script>
   </head>
   <body>

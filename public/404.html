@@ -2,23 +2,21 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Redirecting...</title>
+  <title>Love Match</title>
   <script>
-    // SPAサイト向けのリダイレクト
-    // URLからパスを取得し、クエリパラメータとしてリダイレクト先に渡す
-    var segmentCount = 1; // love-match リポジトリ名の後のセグメント
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +
-      l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash
-    );
+    // GitHub Pages で単一ページアプリケーション（SPA）のためのリダイレクト
+    sessionStorage.redirect = location.href;
   </script>
+  <meta http-equiv="refresh" content="0;URL='/love-match/'">
 </head>
 <body>
-  <h1>Redirecting...</h1>
-  <a href="/">Click here if you are not redirected.</a>
+  <h1>リダイレクト中...</h1>
+  <p>自動的にリダイレクトされない場合は、<a href="/love-match/">こちらをクリック</a>してください。</p>
+  <script>
+    // リダイレクトのフォールバック
+    (function(){
+      window.location.href = "/love-match/";
+    })();
+  </script>
 </body>
 </html> 
