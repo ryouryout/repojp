@@ -1,8 +1,8 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useContext, type ReactNode } from 'react';
+// import axios from 'axios';
 
 // APIキー
-const API_KEY = 'AIzaSyD8jqgFnk9r9gUavkiNL8qqHIMu9eejhhs';
+// const API_KEY = 'AIzaSyD8jqgFnk9r9gUavkiNL8qqHIMu9eejhhs';
 
 // メッセージの型定義
 interface Message {
@@ -36,7 +36,7 @@ interface GeminiContextType {
 export const GeminiContext = createContext<GeminiContextType | undefined>(undefined);
 
 // Geminiプロバイダーコンポーネント
-const GeminiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const GeminiProvider = ({ children }: { children: ReactNode }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversationState] = useState<Conversation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,13 +53,13 @@ const GeminiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       systemPrompt,
     };
 
-    setConversations(prev => [...prev, newConversation]);
+    setConversations((prev: Conversation[]) => [...prev, newConversation]);
     return newConversationId;
   };
 
   // 現在の会話を設定する
   const setCurrentConversation = (id: string) => {
-    const conversation = conversations.find(conv => conv.id === id);
+    const conversation = conversations.find((conv: Conversation) => conv.id === id);
     if (conversation) {
       setCurrentConversationState(conversation);
     }
@@ -89,8 +89,8 @@ const GeminiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     // 状態を更新
     setCurrentConversationState(updatedConversation);
-    setConversations(prev => 
-      prev.map(conv => conv.id === updatedConversation.id ? updatedConversation : conv)
+    setConversations((prev: Conversation[]) => 
+      prev.map((conv: Conversation) => conv.id === updatedConversation.id ? updatedConversation : conv)
     );
 
     try {
@@ -136,8 +136,8 @@ const GeminiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
       // 状態を更新
       setCurrentConversationState(finalConversation);
-      setConversations(prev => 
-        prev.map(conv => conv.id === finalConversation.id ? finalConversation : conv)
+      setConversations((prev: Conversation[]) => 
+        prev.map((conv: Conversation) => conv.id === finalConversation.id ? finalConversation : conv)
       );
     } catch (error) {
       console.error('Error sending message to Gemini API:', error);
