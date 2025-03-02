@@ -7,7 +7,7 @@ import EventIcon from '@mui/icons-material/Event';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonIcon from '@mui/icons-material/Person';
 
-const Navigation: React.FC = () => {
+const Navigation = (): JSX.Element => {
   const location = useLocation();
   const pathname = location.pathname;
 

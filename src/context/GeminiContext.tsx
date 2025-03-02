@@ -33,7 +33,7 @@ interface GeminiContextType {
 }
 
 // コンテキストの作成
-const GeminiContext = createContext<GeminiContextType | undefined>(undefined);
+export const GeminiContext = createContext<GeminiContextType | undefined>(undefined);
 
 // Geminiプロバイダーコンポーネント
 const GeminiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

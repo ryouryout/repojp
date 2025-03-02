@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -38,7 +38,7 @@ import {
   Info as InfoIcon
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GeminiContext } from '../context/GeminiContext';
+import { useGemini } from '../context/GeminiContext';
 
 // メッセージの型定義
 interface Message {
@@ -61,13 +61,13 @@ interface Profile {
   interests: string[];
 }
 
-const ChatPage: React.FC = () => {
+const ChatPage = (): JSX.Element => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { sendMessage, isLoading } = useContext(GeminiContext);
+  const { sendMessage, isLoading } = useGemini();
   
   // ステート
   const [input, setInput] = useState<string>('');
@@ -199,12 +199,15 @@ const ChatPage: React.FC = () => {
     
     try {
       // Gemini APIを使用して応答を生成
-      const response = await sendMessage(input, profile.name, messages);
+      await sendMessage(input);
+      
+      // モックの応答（実際にはGeminiの応答を使用）
+      const mockResponse = generateMockResponse(input, profile.name);
       
       // AIの応答をメッセージリストに追加
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: response || `すみません、${profile.name}は今応答できません。`,
+        text: mockResponse,
         sender: 'ai',
         timestamp: new Date(),
         isAI: true
@@ -216,6 +219,36 @@ const ChatPage: React.FC = () => {
       setAlertMessage('メッセージの送信中にエラーが発生しました');
       setAlertSeverity('error');
       setShowAlert(true);
+    }
+  };
+  
+  // モック応答を生成（実際にはGemini APIから取得）
+  const generateMockResponse = (userMessage: string, partnerName: string): string => {
+    const greeting = ["こんにちは", "おはよう", "やあ", "ハロー"].some(g => 
+      userMessage.toLowerCase().includes(g.toLowerCase())
+    );
+
+    const question = userMessage.includes("?") || userMessage.includes("？");
+    
+    const aboutSelf = ["あなた", "君", "きみ", "自己紹介"].some(term => 
+      userMessage.toLowerCase().includes(term.toLowerCase())
+    );
+    
+    if (greeting) {
+      return `こんにちは！${partnerName}です。今日はどんな一日でしたか？`;
+    } else if (aboutSelf) {
+      return `私は${partnerName}です。趣味は読書と映画鑑賞です。あなたについてもっと教えてください！`;
+    } else if (question) {
+      return `いい質問ですね！考えさせてください...${userMessage.replace("?", "").replace("？", "")}については、個人的には素敵なことだと思います。あなたはどう思いますか？`;
+    } else {
+      const responses = [
+        `なるほど、それは興味深いですね！もっと詳しく教えてもらえますか？`,
+        `そうなんですね！私もそう思います。他には何か共通の趣味はありますか？`,
+        `それは素敵ですね！私も似たような経験があります。一緒にお話できて嬉しいです。`,
+        `面白いですね！あなたともっとお話したいです。週末は何か予定ありますか？`,
+        `そうなんですね。私はそれについて違う見方をしていました。あなたの意見を聞けて嬉しいです！`
+      ];
+      return responses[Math.floor(Math.random() * responses.length)];
     }
   };
   

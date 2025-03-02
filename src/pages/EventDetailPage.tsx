@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -44,7 +44,7 @@ import {
   Category as CategoryIcon
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 // イベントデータの型定義
 interface EventData {
@@ -69,6 +69,8 @@ interface Participant {
   id: string;
   name: string;
   avatar: string;
+  age: number;
+  bio: string;
 }
 
 // 主催者の型定義
@@ -76,8 +78,17 @@ interface Organizer {
   id: string;
   name: string;
   avatar: string;
-  description: string;
-  eventsCount: number;
+  rating: number;
+  eventsHosted: number;
+  bio: string;
+}
+
+// Userインターフェースを追加
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
 }
 
 // アニメーション設定
@@ -86,26 +97,26 @@ const fadeIn = {
   visible: { opacity: 1, y: 0 }
 };
 
-const EventDetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+const EventDetailPage = (): JSX.Element => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   
   // ステート
   const [event, setEvent] = useState<EventData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [dialogStep, setDialogStep] = useState<number>(1);
-  const [numParticipants, setNumParticipants] = useState<number>(1);
-  const [notes, setNotes] = useState<string>('');
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [activeImage, setActiveImage] = useState<number>(0);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogStep, setDialogStep] = useState(1);
+  const [numParticipants, setNumParticipants] = useState(1);
+  const [notes, setNotes] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'info'>('success');
   
   // モックイベントデータの取得
@@ -129,13 +140,13 @@ const EventDetailPage: React.FC = () => {
           time: '12:00 - 17:00',
           location: '東京都新宿区 新宿御苑',
           participants: [
-            { id: '1', name: '田中さくら', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
-            { id: '2', name: '山田太郎', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
-            { id: '3', name: '伊藤花子', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
-            { id: '4', name: '佐藤健', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
-            { id: '5', name: '高橋美咲', avatar: 'https://randomuser.me/api/portraits/women/22.jpg' },
-            { id: '6', name: '渡辺拓海', avatar: 'https://randomuser.me/api/portraits/men/67.jpg' },
-            { id: '7', name: '鈴木ひかり', avatar: 'https://randomuser.me/api/portraits/women/17.jpg' }
+            { id: '1', name: '田中さくら', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', age: 28, bio: '田中さくらさんは、とても明るい性格です。' },
+            { id: '2', name: '山田太郎', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', age: 35, bio: '山田太郎さんは、仕事がうまいです。' },
+            { id: '3', name: '伊藤花子', avatar: 'https://randomuser.me/api/portraits/women/68.jpg', age: 25, bio: '伊藤花子さんは、おしゃべりです。' },
+            { id: '4', name: '佐藤健', avatar: 'https://randomuser.me/api/portraits/men/45.jpg', age: 30, bio: '佐藤健さんは、おとなしい性格です。' },
+            { id: '5', name: '高橋美咲', avatar: 'https://randomuser.me/api/portraits/women/22.jpg', age: 27, bio: '高橋美咲さんは、おっとりした性格です。' },
+            { id: '6', name: '渡辺拓海', avatar: 'https://randomuser.me/api/portraits/men/67.jpg', age: 33, bio: '渡辺拓海さんは、おっとりした性格です。' },
+            { id: '7', name: '鈴木ひかり', avatar: 'https://randomuser.me/api/portraits/women/17.jpg', age: 29, bio: '鈴木ひかりさんは、おっとりした性格です。' }
           ],
           maxParticipants: 20,
           price: 3000,
@@ -145,8 +156,9 @@ const EventDetailPage: React.FC = () => {
             id: '1',
             name: 'トキメキイベント',
             avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
-            description: 'トキメキイベントは、関東を中心に様々な出会いのイベントを開催しています。素敵な出会いを通じて、新しい恋愛や友情を見つけるお手伝いをしています。',
-            eventsCount: 24
+            rating: 4.5,
+            eventsHosted: 24,
+            bio: 'トキメキイベントの自己紹介文がここに入ります。'
           },
           isFavorite: false
         };
@@ -225,15 +237,13 @@ const EventDetailPage: React.FC = () => {
   };
   
   // 参加者数変更
-  const handleParticipantsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleParticipantChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    if (value > 0 && value <= 5) {
-      setNumParticipants(value);
-    }
+    setNumParticipants(value > 0 ? value : 1);
   };
   
   // メモ変更
-  const handleNotesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNotesChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNotes(e.target.value);
   };
   
@@ -256,7 +266,9 @@ const EventDetailPage: React.FC = () => {
           const newParticipant: Participant = {
             id: Date.now().toString(),
             name: user.name || '匿名ユーザー',
-            avatar: user.profileImage || 'https://randomuser.me/api/portraits/lego/1.jpg'
+            avatar: user.profileImage || 'https://randomuser.me/api/portraits/lego/1.jpg',
+            age: 30,
+            bio: '匿名ユーザーの自己紹介文がここに入ります。'
           };
           
           setEvent({
@@ -275,7 +287,7 @@ const EventDetailPage: React.FC = () => {
   // 参加済みかどうかを確認
   const isAlreadyJoined = () => {
     if (!event || !user) return false;
-    return event.participants.some(p => p.name === user.name);
+    return event.participants.some((p: Participant) => p.id === (user as User).id);
   };
   
   // メイン画像を変更
@@ -348,9 +360,11 @@ const EventDetailPage: React.FC = () => {
             
             {/* 画像サムネイルギャラリー */}
             <Grid container spacing={1} sx={{ mb: 3 }}>
-              {event.images.map((image, index) => (
-                <Grid item xs={4} key={index}>
-                  <Card 
+              <Box sx={{ display: 'flex', gap: 1, mt: 2, flexWrap: 'wrap' }}>
+                {event.images.map((image: string, index: number) => (
+                  <Box
+                    key={index}
+                    onClick={() => handleImageChange(index)}
                     sx={{ 
                       cursor: 'pointer',
                       border: index === activeImage ? `2px solid ${theme.palette.primary.main}` : 'none',
@@ -358,7 +372,6 @@ const EventDetailPage: React.FC = () => {
                       height: 100,
                       overflow: 'hidden'
                     }}
-                    onClick={() => handleImageChange(index)}
                   >
                     <CardMedia
                       component="img"
@@ -367,9 +380,9 @@ const EventDetailPage: React.FC = () => {
                       alt={`${event.title} - イメージ ${index + 1}`}
                       sx={{ objectFit: 'cover' }}
                     />
-                  </Card>
-                </Grid>
-              ))}
+                  </Box>
+                ))}
+              </Box>
             </Grid>
             
             {/* イベントタイトルと説明（モバイル表示時のみ） */}
@@ -379,8 +392,8 @@ const EventDetailPage: React.FC = () => {
                   {event.title}
                 </Typography>
                 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
-                  {event.tags.map((tag) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                  {event.tags.map((tag: string) => (
                     <Chip key={tag} label={tag} size="small" variant="outlined" />
                   ))}
                 </Box>
@@ -511,8 +524,8 @@ const EventDetailPage: React.FC = () => {
                 参加者 ({event.participants.length}人)
               </Typography>
               
-              <Grid container spacing={1}>
-                {event.participants.map((participant) => (
+              <Grid container spacing={1} sx={{ mt: 1 }}>
+                {event.participants.map((participant: Participant) => (
                   <Grid item xs={4} sm={3} md={2} key={participant.id}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                       <Avatar
@@ -539,8 +552,8 @@ const EventDetailPage: React.FC = () => {
                   {event.title}
                 </Typography>
                 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
-                  {event.tags.map((tag) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                  {event.tags.map((tag: string) => (
                     <Chip key={tag} label={tag} size="small" variant="outlined" />
                   ))}
                 </Box>
@@ -587,13 +600,13 @@ const EventDetailPage: React.FC = () => {
                     {event.organizer.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    開催イベント: {event.organizer.eventsCount}件
+                    開催イベント: {event.organizer.eventsHosted}件
                   </Typography>
                 </Box>
               </Box>
               
               <Typography variant="body2" paragraph>
-                {event.organizer.description}
+                {event.organizer.bio}
               </Typography>
             </Paper>
             
@@ -679,7 +692,7 @@ const EventDetailPage: React.FC = () => {
                 label="参加人数"
                 type="number"
                 value={numParticipants}
-                onChange={handleParticipantsChange}
+                onChange={handleParticipantChange}
                 fullWidth
                 margin="normal"
                 InputProps={{ inputProps: { min: 1, max: 5 } }}

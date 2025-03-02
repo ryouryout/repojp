@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 
 // ユーザータイプの定義
 interface User {
@@ -15,6 +15,11 @@ interface AuthContextType {
   logout: () => void;
 }
 
+// プロバイダーコンポーネントの型定義
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
 // デフォルト値の作成
 const defaultAuthContext: AuthContextType = {
   isAuthenticated: false,
@@ -24,18 +29,13 @@ const defaultAuthContext: AuthContextType = {
 };
 
 // コンテキストの作成
-export const AuthContext = createContext<AuthContextType>(defaultAuthContext);
-
-// プロバイダーコンポーネントの型定義
-interface AuthProviderProps {
-  children: ReactNode;
-}
+export const AuthContext = createContext(defaultAuthContext as AuthContextType);
 
 // プロバイダーコンポーネント
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   // 認証状態の管理
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null as User | null);
 
   // ローカルストレージからユーザー情報を取得
   useEffect(() => {
@@ -92,6 +92,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+// カスタムフック
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
 
 export default AuthProvider; 
