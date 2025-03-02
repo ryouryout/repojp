@@ -3,22 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>Love Match - リダイレクト中</title>
-  <!-- 404ファイルから正しいパスへのリダイレクト処理 -->
   <script>
-    // GitHub Pagesの404ハンドリング - 現在のURLを保存してリダイレクト
-    var pathSegmentsToKeep = 1; // /love-match/ を保持
-    var currentPath = location.pathname;
-    
-    // URLをsessionStorageに保存して、index.htmlがロードされたときに使えるようにする
+    // 単一ページアプリケーション向けの GitHub Pages 404 解決策
     sessionStorage.redirect = location.href;
-    
-    // ハッシュルートを使用するため、ルートページにリダイレクト
-    var rootPath = location.protocol + '//' + location.hostname + 
-                  (location.port ? ':' + location.port : '') +
-                  currentPath.split('/').slice(0, pathSegmentsToKeep + 1).join('/') + '/';
-                  
-    // リダイレクト
-    location.replace(rootPath);
   </script>
   <meta http-equiv="refresh" content="0;URL='https://ryouryout.github.io/love-match/'">
   <style>

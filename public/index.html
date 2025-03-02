@@ -18,10 +18,30 @@
       (function(){
         var redirect = sessionStorage.redirect;
         delete sessionStorage.redirect;
-        if (redirect && redirect != location.href) {
-          var hashPath = redirect.substr(redirect.indexOf('/love-match/') + '/love-match/'.length);
-          if (hashPath && hashPath !== '') {
-            history.replaceState(null, null, '/love-match/#/' + hashPath);
+        if (redirect && redirect !== location.href) {
+          // 絶対パスからハッシュルートへの変換
+          var segments = redirect.split('/');
+          var cleanPath = '';
+          var foundBase = false;
+          
+          // love-matchの後のパスを抽出
+          for (var i = 0; i < segments.length; i++) {
+            if (foundBase) {
+              if (segments[i]) {
+                cleanPath += segments[i] + '/';
+              }
+            } else if (segments[i] === 'love-match') {
+              foundBase = true;
+            }
+          }
+          
+          // 末尾のスラッシュを削除
+          if (cleanPath.endsWith('/')) {
+            cleanPath = cleanPath.slice(0, -1);
+          }
+          
+          if (cleanPath) {
+            history.replaceState(null, null, '/love-match/#/' + cleanPath);
           }
         }
       })();
