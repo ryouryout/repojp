@@ -13,35 +13,22 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Love Match</title>
-    <!-- GitHub Pages 404リダイレクト処理 -->
+    <!-- シンプルなリダイレクト処理 -->
     <script>
       (function(){
         var redirect = sessionStorage.redirect;
         delete sessionStorage.redirect;
         if (redirect && redirect !== location.href) {
-          // 絶対パスからハッシュルートへの変換
-          var segments = redirect.split('/');
-          var cleanPath = '';
-          var foundBase = false;
+          // URLのパス部分だけを抽出
+          var path = redirect.replace(/^.*\/\/[^\/]+/, '');
           
-          // love-matchの後のパスを抽出
-          for (var i = 0; i < segments.length; i++) {
-            if (foundBase) {
-              if (segments[i]) {
-                cleanPath += segments[i] + '/';
-              }
-            } else if (segments[i] === 'love-match') {
-              foundBase = true;
+          // HashRouterを使用するためにパスをハッシュ形式に変換
+          if (path.indexOf('/love-match/') === 0) {
+            // /love-match/ の後に続くパスを取得
+            var subPath = path.replace('/love-match/', '');
+            if (subPath) {
+              history.replaceState(null, null, '/love-match/#/' + subPath);
             }
-          }
-          
-          // 末尾のスラッシュを削除
-          if (cleanPath.endsWith('/')) {
-            cleanPath = cleanPath.slice(0, -1);
-          }
-          
-          if (cleanPath) {
-            history.replaceState(null, null, '/love-match/#/' + cleanPath);
           }
         }
       })();
