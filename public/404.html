@@ -3,21 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Love Match</title>
-  <script type="text/javascript">
-    // URLから取得したパスを、HashRouterの形式に変換してリダイレクトするスクリプト
-    (function(l) {
-      // 404.htmlに来たときのパスを取得
-      const path = l.pathname.split('/love-match')[1];
+  <title>Love Match - Page Not Found</title>
+  <script>
+    // シングルページアプリケーションのために
+    // 404からメインページにリダイレクトするスクリプト
+    (function() {
+      // URLからパスを取得
+      var pathname = window.location.pathname;
       
-      // HashRouterで対応するパスを作成（メインパス + ハッシュ + 元のパス）
-      const redirectUrl = '/love-match/#' + (path || '');
+      // ベースパスを取得 (/love-match のように)
+      var segmentCount = 1; // GitHub Pages の場合通常は1
+      var baseUrl = pathname.slice(0, pathname.indexOf('/', 1));
       
-      // 新しいURLへリダイレクト
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + redirectUrl
-      );
-    }(window.location));
+      // パスからリポジトリ名を除去
+      var path = pathname.slice(baseUrl.length);
+      
+      // HashRouterのフォーマットのURLを構築
+      var redirectUrl = baseUrl + '/#' + path;
+      
+      // 確実にリダイレクトさせるため、パスが存在する場合のみリダイレクト
+      // そうでない場合はアプリのホームページへ
+      if (path && path !== '/') {
+        window.location.replace(redirectUrl);
+      } else {
+        window.location.replace(baseUrl);
+      }
+    })();
   </script>
   <style>
     body {
@@ -28,9 +39,10 @@
       line-height: 1.6;
       padding: 0 20px;
       color: #333;
+      background-color: #f8f9fa;
     }
     h1 {
-      color: #e91e63;
+      color: #ff4b91;
       font-size: 2em;
       margin-bottom: 20px;
     }
@@ -39,7 +51,7 @@
       margin-bottom: 30px;
     }
     a {
-      color: #e91e63;
+      color: #ff4b91;
       text-decoration: none;
       border-bottom: 1px solid;
     }
@@ -52,6 +64,6 @@
   <h1>ページが見つかりません</h1>
   <p>お探しのページは存在しないか、移動した可能性があります。</p>
   <p>まもなくトップページにリダイレクトします。</p>
-  <p>自動的にリダイレクトされない場合は、<a href="https://ryouryout.github.io/love-match/">こちらをクリック</a>してください。</p>
+  <p>自動的にリダイレクトされない場合は、<a href="https://ryouryout.github.io/love-match">こちらをクリック</a>してください。</p>
 </body>
 </html> 
