@@ -15,6 +15,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <title>Love Match</title>
+    <!-- GitHub Pages での SPA リダイレクト -->
+    <script type="text/javascript">
+      // リダイレクトが必要な場合に処理を行う
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
   </head>
   <body>
     <noscript>このアプリを実行するには、JavaScriptを有効にする必要があります。</noscript>
